@@ -1,7 +1,7 @@
 # backend: GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
 backend:
   name: github
-  repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın. Örn: yourusername/your-blog-repo
+  repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
   branch: main # Deponuzun ana dalı (genellikle 'main' veya 'master')
 
 # Medya dosyaları (resimler vb.) yüklenirse nereye kaydedileceği.
@@ -18,19 +18,8 @@ collections:
     slug: "{{slug}}" # Dosya adını başlıktan otomatik oluşturur (ör: "ilk-blog-yazim")
     extension: "html" # Dosya uzantısı .html olacak
     format: "frontmatter" # YAML frontmatter kullanacağımızı belirtiyoruz.
-
-    # Yazıların hangi şablona göre oluşturulacağını belirtiyoruz.
-    # Bu, her yazının başına ve sonuna standart HTML yapısını ekler.
-    # 'body' alanı, yukarıda yazdığınız Markdown içeriğin HTML'e çevrilmiş haliyle doldurulur.
-    # Bu kısım, her post sayfasının başlık, menü ve footer gibi sabit kısımlarını oluşturur.
-    # 'title' ve 'date' gibi alanlar, yukarıda girdiğiniz bilgilerle otomatik dolar.
-    # Bu yapıyı olduğu gibi kopyalamak önemlidir.
     path: "{{slug}}.html" # Decap CMS'in dosyaları nasıl kaydedeceğini belirtir.
     
-    # Yazı oluşturulurken kullanılacak şablon (Markdown içeriği buraya yerleşecek)
-    # Bu, blog yazısının HTML yapısını tanımlar.
-    # Decap CMS, Markdown'ı HTML'e çevirip `{{fields.body}}` yerine koyacak.
-    # `{{fields.title}}` ve `{{fields.date | date('DD MMMM YYYY')}}` gibi ifadeler frontmatter'dan gelir.
     frontmatter_delimiter: "---"
     editor:
       preview: false # Canlı önizlemeyi kapatabiliriz, karmaşık HTML için faydalı.
@@ -41,52 +30,14 @@ collections:
       - label: "İçerik"
         name: "body"
         widget: "markdown" # Yazılarınızı kolayca Markdown formatında yazmanızı sağlar.
-        # Bu kısım, Decap CMS'in Markdown içeriğini bir HTML şablonuna nasıl saracağını belirtir.
-        # Decap CMS bu template'i kullanarak Markdown'ı HTML'e çevirip kaydedecektir.
-        output_code_only: false # Tüm HTML yapısını çıktı olarak versin
-        # Decap CMS'in post dosyasını oluştururken kullanacağı ana şablon.
-        # Markdown içeriği `{{fields.body}}` yerine yerleştirilir.
-        # HTML dosyasının başındaki `---` ve sonundaki `---` frontmatter delimiter'larıdır.
-        # Bu, YAML frontmatter'ın doğru şekilde ayrıştırılmasını sağlar.
-        # HTML içeriği doğrudan Markdown'dan çevrildiği için, temel HTML iskeletini burada vermemiz gerekir.
-        # Ancak, Decap CMS'in varsayılan olarak Markdown'ı HTML'e çevirip doğrudan dosya içine yerleştirmesi
-        # için `format: "frontmatter"` yeterlidir. Eğer tam bir HTML dosyası istiyorsak,
-        # bu template'i her yazı için ayrı ayrı oluşturmamız gerekebilir ki bu karmaşık olabilir.
-        # En basit yol, Decap CMS'in sadece Markdown'ı HTML'e çevirip `<article>` içine atmasıdır.
-        # O yüzden, `posts/first-post.html` dosyasını Decap CMS'in kendisinin oluşturduğu bir HTML yapısı gibi
-        # düşünmeliyiz. Aşağıdaki `pages` koleksiyonu ise Decap CMS'in var olan HTML dosyalarını güncellemesi içindir.
 
-  # Ana sayfa ve tüm yazılar sayfası için "Sayfa Yönetimi" koleksiyonu
-  # Bu, Decap CMS'in belirli HTML dosyalarını (index.html, posts.html) güncellemesini sağlar.
   - name: "pages"
     label: "Sayfa Yönetimi"
     files:
       - label: "Ana Sayfa Yazı Listesi"
         name: "index_page"
-        file: "index.html" # Güncellenecek dosya
+        file: "index.html"
         fields:
-          # Bu alanın amacı, Decap CMS'in dinamik olarak blog yazılarını HTML olarak oluşturup
-          # index.html içindeki belirli bir DOM elemanına (<div id="posts-list">) enjekte etmesidir.
-          # Bunun için Decap CMS'in client-side render özelliğini kullanmalıyız.
-          # Ancak saf HTML/CSS/JS projesinde, Decap CMS genellikle dosyayı tamamen yeniden yazar.
-          # Dolayısıyla, buradaki "posts_html" alanının kullanımı, Decap CMS'in varsayılan
-          # davranışıyla biraz çatışabilir.
-          # En iyi yaklaşım, Decap CMS'in yalnızca yeni post HTML dosyaları oluşturmasını sağlamak
-          # ve ardından `index.html` ve `posts.html` içindeki JavaScript'in bu postları
-          # okuyup listelemesidir. Fakat bunu yapmak için sunucuya veya bir derleyiciye ihtiyaç duyarız.
-          # Saf HTML/CSS için en basit yaklaşım, Decap CMS'in bu dosyaları doğrudan güncelleyebileceği
-          # basit HTML alanları sağlamaktır.
-          # Şimdilik bu kısmı yoruma alıyorum, çünkü Decap CMS'in client-side render özelliği
-          # static HTML'de karmaşık olabilir. Bunun yerine, Decap CMS yeni yazıları oluşturdukça
-          # biz manuel olarak `index.html` ve `posts.html`'i güncelleyebiliriz veya
-          # Decap CMS'in `generate_permalink` ve `view_filters` ile daha gelişmiş template
-          # yeteneklerini kullanırız, ki bu da Jekyll benzeri bir yapıya yaklaşır.
-          # En basit ve düz JS ile uyumlu yol: Decap CMS sadece post dosyalarını oluştursun.
-          # index.html ve posts.html, bu dosyaları JS ile okuyup listelesin.
-          # Ancak JS ile statik dosya okuma, tarayıcıda doğrudan çalışmaz (CORS nedeniyle).
-          # Bu durumda, blog yazıları için statik linkleri kullanmak en doğrusudur.
-          # Decap CMS'in ana sayfa ve diğer sayfaları doğrudan güncellemesini sağlamak için
-          # aşağıdaki gibi basit alanlar bırakabiliriz.
           - label: "Ana Sayfa Başlığı"
             name: "homepage_title"
             widget: "string"
