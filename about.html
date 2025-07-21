@@ -52,13 +52,27 @@
 
     <div class="content-wrapper">
         <main class="container content-page">
-            <h2>Hakkımda</h2>
-            <p>Merhaba! Ben Mustafa Günay. Bu blogda, yazılım geliştirme, web teknolojileri ve kişisel projelerim hakkında düşüncelerimi, deneyimlerimi ve öğrendiklerimi paylaşıyorum.</p>
-            <p>Yazılım dünyasındaki yenilikleri takip etmeyi ve öğrendiklerimi başkalarıyla paylaşmayı seviyorum. Özellikle [İlgi Alanlarınız, örn: JavaScript, Python, UI/UX tasarımı] konularına odaklanıyorum.</p>
-            <p>Umarım burada bulduğunuz içerikler size ilham verir veya yeni şeyler öğrenmenize yardımcı olur. Sorularınız veya yorumlarınız olursa çekinmeden iletişime geçebilirsiniz!</p>
+            <h2 id="about-title">Hakkımda</h2>
+            <div id="about-content">
+                <p>Merhaba! Ben Mustafa Günay. Bu blogda, yazılım geliştirme, web teknolojileri ve kişisel projelerim hakkında düşüncelerimi, deneyimlerimi ve öğrendiklerimi paylaşıyorum.</p>
+                <p>Yazılım dünyasındaki yenilikleri takip etmeyi ve öğrendiklerimi başkalarıyla paylaşmayı seviyorum. Özellikle [İlgi Alanlarınız, örn: JavaScript, Python, UI/UX tasarımı] konularına odaklanıyorum.</p>
+                <p>Umarım burada bulduğunuz içerikler size ilham verir veya yeni şeyler öğrenmenize yardımcı olur. Sorularınız veya yorumlarınız olursa çekinmeden iletişime geçebilirsiniz!</p>
+            </div>
+            <div id="profile-picture-container">
+                </div>
         </main>
     </div>
 
     <script src="js/script.js"></script>
+    <script>
+        // Decap CMS'in bu alanları güncellemeyi hedeflediği yerler (sadece placeholder olarak bırakıldı)
+        // Eğer Decap CMS bu alanları doğrudan HTML içine yazmıyorsa,
+        // JS ile fetch API kullanarak admin/config.yml'deki değerleri çekip
+        // burada dinamik olarak göstermeniz gerekebilir.
+        // Ancak bu, statik siteyi karmaşıklaştırır.
+        // En basit yol, Decap CMS'in doğrudan ilgili HTML dosyasını güncellemesidir.
+        // config.yml'de `file` ve `fields` tanımlamaları bunu sağlar.
+        // Bu HTML yapısını Decap CMS'in yazacağı varsayılmaktadır.
+    </script>
 </body>
 </html>
