@@ -17,7 +17,7 @@
 }
 
 body {
-    font-family: 'Space Mono', monospace; /* Hacker temasına uygun font */
+    font-family: 'VT323', monospace; /* Mr. Robot temasına uygun font */
     background-color: var(--main-bg-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -76,49 +76,65 @@ h4 { font-size: 1.4em; }
 }
 
 .welcome-screen .animated-title {
-    font-size: 4em; /* Büyük punto */
+    font-size: 5em; /* Daha büyük punto */
     color: var(--accent-color-primary);
     text-shadow: 0 0 10px rgba(232, 74, 39, 0.6), 0 0 20px rgba(232, 74, 39, 0.4);
     animation: neon-glow 1.5s ease-in-out infinite alternate; /* Animasyon */
-    margin-bottom: 20px;
-    white-space: nowrap; /* Tek satırda kalmasını sağla */
+    margin-bottom: 30px; /* Sloganlarla arayı aç */
+    white-space: nowrap;
     overflow: hidden;
     padding: 0 10px;
 }
 
 .welcome-screen .welcome-message {
-    font-size: 1.5em;
+    font-size: 1.8em; /* Daha büyük slogan fontu */
     color: var(--text-color);
     margin-bottom: 30px;
     opacity: 0; /* Başlangıçta gizli */
-    transition: opacity 0.5s ease-in-out;
+    min-height: 2em; /* Mesajın yerine oturması için minimum yükseklik */
+    text-align: center;
+    padding: 0 20px; /* Yanlarda boşluk bırak */
+    white-space: pre-wrap; /* Satır sonlarını koru */
+    overflow: hidden; /* Daktilo efekti için taşmayı gizle */
+    border-right: .15em solid var(--accent-color-primary); /* Yanıp sönen imleç */
+    animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
 }
 
-.welcome-screen .welcome-message.visible {
-    opacity: 1;
+/* Daktilo efekti ve imleç animasyonları */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
 }
 
-.welcome-screen .enter-button {
-    background-color: var(--accent-color-primary);
-    color: var(--main-bg-color);
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2em;
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--accent-color-primary); }
+}
+
+
+.welcome-screen .skip-button {
+    background-color: transparent;
+    color: var(--accent-color-primary);
+    border: 2px solid var(--accent-color-primary);
+    padding: 12px 25px;
+    font-size: 1.8em; /* Slogan puntouna yakın */
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease, color 0.3s ease;
     opacity: 0; /* Başlangıçta gizli */
+    animation: pulse-border 1.5s infinite alternate ease-in-out; /* Gelgit animasyonu */
 }
 
-.welcome-screen .enter-button.visible {
+.welcome-screen .skip-button.visible {
     opacity: 1;
 }
 
-.welcome-screen .enter-button:hover {
-    background-color: var(--link-hover-color);
+.welcome-screen .skip-button:hover {
+    background-color: var(--accent-color-primary);
+    color: var(--main-bg-color);
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(232, 74, 39, 0.4);
+    box-shadow: 0 0 15px rgba(232, 74, 39, 0.6);
 }
 
 @keyframes neon-glow {
@@ -130,12 +146,23 @@ h4 { font-size: 1.4em; }
     }
 }
 
+@keyframes pulse-border {
+    from {
+        border-color: var(--accent-color-primary);
+        box-shadow: 0 0 5px rgba(232, 74, 39, 0.3);
+    }
+    to {
+        border-color: var(--link-hover-color);
+        box-shadow: 0 0 15px rgba(232, 74, 39, 0.8);
+    }
+}
+
 /* Main Layout (Sidebar ve İçerik) */
 .main-layout {
     display: flex;
     min-height: 100vh;
-    width: 100%; /* İçeriğin tamamını kaplasın */
-    opacity: 0; /* Başlangıçta gizli */
+    width: 100%;
+    opacity: 0;
     transition: opacity 1s ease-in;
 }
 
@@ -159,7 +186,7 @@ h4 { font-size: 1.4em; }
     border-right: 1px solid var(--accent-color-secondary);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    overflow: hidden; /* Yazıların taşmasını gizle */
+    overflow: hidden; /* İçerik taşmasını gizle */
 }
 
 .sidebar:hover {
@@ -189,7 +216,7 @@ h4 { font-size: 1.4em; }
 .sidebar-nav ul {
     list-style: none;
     width: 100%;
-    padding-left: 0; /* Listelerin varsayılan padding'ini kaldır */
+    padding-left: 0;
 }
 
 .sidebar-nav ul li {
@@ -206,29 +233,25 @@ h4 { font-size: 1.4em; }
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    position: relative; /* İkonların pozisyonu için */
 }
 
-.sidebar-nav ul li a:hover {
-    background-color: var(--accent-color-secondary);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(232, 74, 39, 0.4);
-    color: var(--accent-color-primary);
-}
-
+/* Sidebar ikonlarının kapalıyken de tam görünür olması */
 .sidebar-nav ul li a i {
     font-size: 1.4em;
     width: 40px; /* İkonlara sabit bir genişlik ver */
     text-align: center; /* İkonları ortala */
-    margin-right: 0px; /* Başlangıçta yazı gizli olduğu için boşluk 0 */
+    margin-right: 0; /* Başlangıçta boşluk bırakma */
     color: var(--text-color);
-    transition: margin-right 0.3s ease, color 0.3s ease;
-    position: relative; /* Kendi pozisyonunu ayarla */
-    left: 0; /* Tam görünmesini sağla */
+    transition: margin-right 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0; /* İkonların sıkışmasını engelle */
 }
 
 .sidebar:hover .sidebar-nav ul li a i {
     margin-right: 15px; /* Sidebar genişlediğinde boşluk ver */
+}
+
+.sidebar-nav ul li a:hover i {
+    transform: scale(1.1); /* İkon da biraz büyüsün */
 }
 
 .sidebar-nav ul li a .nav-text {
@@ -304,6 +327,19 @@ h4 { font-size: 1.4em; }
 
 main {
     padding: 40px 0;
+}
+
+/* Son Yazılar Alanı */
+.latest-posts {
+    padding-top: 0; /* Başlangıçta gizli olduğu için ilk paddingi kaldır */
+}
+
+.latest-posts h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--accent-color-primary);
+    font-size: 2.5em;
+    text-shadow: 0 0 8px rgba(232, 74, 39, 0.5);
 }
 
 /* Post Card (Anasayfa ve Yazılar listesi) */
@@ -480,71 +516,90 @@ pre code {
 @media (max-width: 768px) {
     body {
         flex-direction: column;
+        padding-top: 70px; /* Sabit mobil sidebar için boşluk */
     }
 
+    /* Mobil Sidebar: Üstte sabit ve kompakt */
     .sidebar {
         width: 100%;
-        height: auto;
-        position: relative;
+        height: 70px; /* Daha kompakt yükseklik */
+        position: fixed; /* Üstte sabit */
+        top: 0;
+        left: 0;
         border-right: none;
         border-bottom: 1px solid var(--accent-color-secondary);
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        padding: 10px 0;
-        align-items: flex-start;
-        overflow: visible; /* Mobil'de taşmayı gizleme */
+        padding: 0; /* Padding'i sıfırla */
+        flex-direction: row; /* Elemanlar yanyana */
+        justify-content: space-between; /* Başlık ve navigasyonu ayır */
+        align-items: center;
+        overflow: hidden; /* Taşmayı gizle */
+        z-index: 1000;
     }
 
     .sidebar:hover {
-        width: 100%;
+        width: 100%; /* Mobil'de genişleme yok */
     }
 
-    .sidebar-header h2,
-    .sidebar-footer {
-        opacity: 1;
-        text-align: center;
-        width: 100%;
-        padding: 0 10px;
+    .sidebar-header {
+        margin-bottom: 0;
+        text-align: left;
+        padding-left: 15px;
+        flex-shrink: 0; /* Küçülmesini engelle */
     }
 
     .sidebar-header h2 {
-        font-size: 1.8em;
+        opacity: 1; /* Mobil'de her zaman görünür */
+        font-size: 1.5em; /* Daha küçük başlık */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sidebar-nav {
+        flex-grow: 1; /* Navigasyon kalan alanı kapla */
+        display: flex;
+        justify-content: flex-end; /* Menüleri sağa hizala */
     }
 
     .sidebar-nav ul {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 10px 0;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 15px;
+        width: auto;
     }
 
     .sidebar-nav ul li {
-        margin: 5px 10px;
+        margin: 0 8px; /* Daha az boşluk */
     }
 
     .sidebar-nav ul li a {
-        flex-direction: column;
-        padding: 10px;
+        flex-direction: column; /* İkon ve yazı alt alta */
+        padding: 8px; /* Daha az padding */
+        min-width: 50px; /* Minimum genişlik ver */
+        text-align: center;
     }
 
     .sidebar-nav ul li a i {
         margin-right: 0;
-        margin-bottom: 5px;
-        font-size: 1.2em;
-        width: auto; /* Mobil'de sabit genişliği kaldır */
+        margin-bottom: 3px; /* İkon ile yazı arasına boşluk */
+        font-size: 1.1em; /* Daha küçük ikon */
+        width: auto;
     }
 
     .sidebar-nav ul li a .nav-text {
-        opacity: 1;
-        font-size: 0.9em;
+        opacity: 1; /* Mobil'de her zaman görünür */
+        font-size: 0.7em; /* Daha küçük yazı */
     }
 
-    .sidebar-footer .github-link .github-text {
-        opacity: 1;
+    .sidebar-footer {
+        display: none; /* Mobil'de footer'ı gizle, veya başka bir yere taşı */
     }
 
     .content-wrapper {
-        margin-left: 0;
-        padding: 20px;
+        margin-left: 0; /* Sidebar üstte olduğu için sol boşluk sıfırla */
+        padding: 20px 0;
     }
 
     .sidebar:hover + .content-wrapper {
@@ -552,12 +607,16 @@ pre code {
     }
 
     .welcome-screen .animated-title {
-        font-size: 2.5em;
+        font-size: 3.5em; /* Mobil'de biraz küçült */
     }
 
     .welcome-screen .welcome-message {
-        font-size: 1.2em;
+        font-size: 1.4em; /* Mobil'de slogan fontunu küçült */
         padding: 0 15px;
-        text-align: center;
+    }
+
+    .welcome-screen .skip-button {
+        font-size: 1.4em; /* Mobil'de butonu küçült */
+        padding: 10px 20px;
     }
 }
