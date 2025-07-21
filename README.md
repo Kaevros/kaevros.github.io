@@ -1,6 +1,6 @@
-# Mustafa Günay'ın Kişisel Blog Şablonu
+# Kişisel Blog Şablonum
 
-Bu, GitHub Pages üzerinde kullanmak üzere tasarlanmış sade, teknik odaklı, gri ve turuncu renk tonlarının hakim olduğu, karanlık temalı bir kişisel blog şablonudur. İçerik yönetimi için [Decap CMS](https://decapcms.org/) entegrasyonuna sahiptir, böylece kod yazmadan blog yazılarınızı ekleyebilirsiniz.
+Bu, GitHub Pages üzerinde kullanmak üzere tasarlanmış sade, teknik odaklı, gri ve turuncu renk tonlarının hakim olduğu, karanlık temalı bir kişisel blog şablonudur. İçerik yönetimi için **Decap CMS** entegrasyonuna sahiptir, böylece kod yazmadan blog yazılarınızı ve site ayarlarınızı yönetebilirsiniz.
 
 ## Renk Paleti
 
@@ -13,12 +13,19 @@ Bu, GitHub Pages üzerinde kullanmak üzere tasarlanmış sade, teknik odaklı, 
 
 * **Sade ve Teknik Tasarım:** Flat tasarım prensipleriyle minimalist bir görünüm.
 * **Karanlık Tema:** Göz yormayan, gri ve turuncu tonlarında karanlık arayüz.
-* **Responsive Tasarım:** Mobil cihazlarda sorunsuz görüntüleme.
-* **Decap CMS Entegrasyonu:** Kod yazmadan tarayıcı üzerinden kolayca blog yazısı ekleme.
-* **Gelişmiş Navigasyon:** Sol tarafta, üzerine gelindiğinde ikonların yanında yazıları gösteren animasyonlu sidebar menüsü.
-* **Animasyonlu Etkileşimler:** Fareyle üzerine gelindiğinde elementlerin renginin canlılaşması ve büyümesi gibi sakin animasyonlar.
+* **Tamamen Duyarlı (Responsive):** Mobil cihazlarda ve farklı ekran boyutlarında sorunsuz görüntüleme. Mobil görünümde sidebar üstte, kompakt ve profesyonel bir bar şeklinde yer alır.
+* **Genişletilmiş Decap CMS Entegrasyonu:**
+    * **Medium Benzeri Yazı Editörü:** Gelişmiş Markdown editörü ile kolayca içerik oluşturma.
+    * **Tamamen Yönetilebilir Sayfalar:** Ana sayfa karşılama ekranı, hakkımda, yazılar ve iletişim sayfalarının içeriğini ve bazı ayarlarını admin panelinden yönetme.
+    * **Görsel ve Animasyon Kontrolü:** Karşılama ekranına arka plan görseli ve metin animasyonları ekleme imkanı.
+* **Gelişmiş Animasyonlu Karşılama Ekranı:**
+    * İlk açılışta büyük, **'Oxanium'** fontunda, havalı neon efektli ve titreşimli "Mustafa Günay" başlığı.
+    * Ortalanmış, daktilo efektiyle yazılan, silinip değişen "hacker" temalı ve etik sloganlar.
+    * Sloganların altında, animasyonlu (gelgit efekti) ve sade bir oynat tuşu (play icon) şeklinde "Geç" butonu.
+* **Gelişmiş Navigasyon:** Sol tarafta, üzerine gelindiğinde ikonların yanında yazıları gösteren animasyonlu sidebar menüsü. **İkonlar kapalıyken de tam görünür ve merkeze yakındır.**
+* **Animasyonlu Etkileşimler:** Fareyle üzerine gelindiğinde elementlerin (post kartları, linkler) renginin canlılaşması ve büyümesi gibi sakin animasyonlar.
+* **Başlangıçta Yazıların Gizlenmesi:** Ana sayfaya ilk girişte sadece karşılama ekranı görünür, blog yazıları karşılama bittikten sonra yüklenir.
 * **Temiz Kod Yapısı:** Ayrı CSS ve JS dosyaları.
-* **Monospace/Sans-serif Font Desteği:** Inter, Fira Code, Roboto Mono gibi modern fontlar için öneriler.
 * **GitHub Profil Entegrasyonu:** Sidebar footer'ında GitHub profil linkiniz.
 
 ## Kurulum ve Kullanım
