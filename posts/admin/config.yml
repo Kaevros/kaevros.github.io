@@ -1,7 +1,6 @@
-# GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
 backend:
   name: github
-  repo: kullaniciadiniz/depo-adiniz # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
+  repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
   branch: main # Veya 'master' kullanıyorsanız onu yazın.
 
 # Medya dosyaları (resimler vb.) yüklenirse nereye kaydedileceği.
