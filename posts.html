@@ -1,71 +1,37 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mustafa Günay - Yazılar</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>Mustafa Günay</h2>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li>
-                    <a href="index.html" class="nav-item" data-tooltip="Ana Sayfa">
-                        <i class="fas fa-home"></i>
-                        <span class="nav-text">Ana Sayfa</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="about.html" class="nav-item" data-tooltip="Hakkımda">
-                        <i class="fas fa-user"></i>
-                        <span class="nav-text">Hakkımda</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="posts.html" class="nav-item" data-tooltip="Yazılar">
-                        <i class="fas fa-newspaper"></i>
-                        <span class="nav-text">Yazılar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="contact.html" class="nav-item" data-tooltip="İletişim">
-                        <i class="fas fa-envelope"></i>
-                        <span class="nav-text">İletişim</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="sidebar-footer">
-            <p>&copy; 2025 Mustafa Günay</p>
-            <a href="https://github.com/Kaevros" target="_blank" class="github-link">
-                <i class="fab fa-github"></i>
-                <span class="github-text">Kaevros</span>
-            </a>
-        </div>
-    </aside>
+# Kişisel Blog Şablonum
 
-    <div class="content-wrapper">
-        <main class="container">
-            <section class="all-posts">
-                <h2>Tüm Yazılar</h2>
-                <div id="all-posts-list">
-                    <article class="post-card">
-                        <h3><a href="posts/first-post.html">İlk Blog Yazım</a></h3>
-                        <p class="post-meta">21 Temmuz 2025</p>
-                        <p>Bu, blogumdaki ilk yazım. Teknik deneyimlerimi ve düşüncelerimi paylaşacağım.</p>
-                        <a href="posts/first-post.html" class="read-more">Devamını Oku</a>
-                    </article>
-                </div>
-            </section>
-        </main>
-    </div>
+Bu, GitHub Pages üzerinde kullanmak üzere tasarlanmış sade, teknik odaklı, gri ve turuncu renk tonlarının hakim olduğu, karanlık temalı bir kişisel blog şablonudur. İçerik yönetimi için **Decap CMS** entegrasyonuna sahiptir, böylece kod yazmadan blog yazılarınızı ve site ayarlarınızı yönetebilirsiniz.
 
-    <script src="js/script.js"></script>
-</body>
-</html>
+## Renk Paleti
+
+* **Ana Renk (Arka Plan):** Grafit Siyah — `#171717`
+* **Vurgu Rengi (Başlıklar, Linkler):** Kızıl Turuncu — `#E84A27`
+* **Destek Renk (Kartlar, Alanlar):** Donuk Gri — `#3A3A3A`
+* **Yazı Rengi:** Açık Gri — `#e0e0e0`
+
+## Özellikler
+
+* **Sade ve Teknik Tasarım:** Flat tasarım prensipleriyle minimalist bir görünüm.
+* **Karanlık Tema:** Göz yormayan, gri ve turuncu tonlarında karanlık arayüz.
+* **Responsive Tasarım:** Mobil cihazlarda sorunsuz görüntüleme.
+* **Genişletilmiş Decap CMS Entegrasyonu:**
+    * **Medium Benzeri Yazı Editörü:** Gelişmiş Markdown editörü ile kolayca içerik oluşturma.
+    * **Tamamen Yönetilebilir Sayfalar:** Ana sayfa karşılama ekranı, hakkımda, yazılar ve iletişim sayfalarının içeriğini ve bazı ayarlarını admin panelinden yönetme.
+    * **Görsel ve Animasyon Kontrolü:** Karşılama ekranına arka plan görseli ve metin animasyonları ekleme imkanı.
+* **Animasyonlu Karşılama Ekranı:** İlk açılışta büyük, animasyonlu "Mustafa Günay" yazısı ve dönen karşılama mesajları. "Hacker" temasına uygun font ve animasyonlar.
+* **Gelişmiş Navigasyon:** Sol tarafta, üzerine gelindiğinde ikonların yanında yazıları gösteren animasyonlu sidebar menüsü. İkonlar her zaman tam görünür.
+* **Animasyonlu Etkileşimler:** Fareyle üzerine gelindiğinde elementlerin (post kartları, linkler) renginin canlılaşması ve büyümesi gibi sakin animasyonlar.
+* **Temiz Kod Yapısı:** Ayrı CSS ve JS dosyaları.
+* **GitHub Profil Entegrasyonu:** Sidebar footer'ında GitHub profil linkiniz.
+
+## Kurulum ve Kullanım
+
+Bu şablonu kendi GitHub Pages blogunuzda kullanmak için aşağıdaki adımları izleyin:
+
+### 1. Depoyu Klonlayın
+
+Öncelikle bu depoyu kendi GitHub hesabınıza çatallayın (fork) veya yerel bilgisayarınıza klonlayın:
+
+```bash
+git clone [https://github.com/Kaevros/kaevros.github.io.git](https://github.com/Kaevros/kaevros.github.io.git)
+cd kaevros.github.io
