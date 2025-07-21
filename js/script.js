@@ -1,6 +1,6 @@
 // script.js
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Blog şablonu yüklendi. Decap CMS entegrasyonu ve sidebar hazır.');
+    console.log('DOM içeriği yüklendi.');
 
     const welcomeScreen = document.getElementById('welcome-screen');
     const blogTitleElement = document.getElementById('blog-title');
@@ -9,113 +9,125 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainLayout = document.querySelector('.main-layout');
     const latestPostsSection = document.getElementById('latest-posts-section'); // "Son Yazılar" bölümü
 
-    let messages = [];
+    let messages = []; // Decap CMS'ten veya varsayılan olarak yüklenecek mesajlar
     let messageIndex = 0;
-    let typingTimeout;
-    let messageDisplayTimeout;
+    let typingInterval; // setInterval yerine bu
+    let messageCycleTimeout; // setTimeout için
 
-    // Dinamik içerikleri Decap CMS'ten yükle (config.yml'den)
-    // Decap CMS, index.html dosyasını güncellerken bu verileri bir JS değişkeni olarak eklemelidir.
-    // Şimdilik varsayılan mesajları kullanacağız.
-    // *** Gerçek entegrasyon için, Decap CMS'in bu verileri HTML içine nasıl yazacağını yapılandırmanız gerekir. ***
-    // Örneğin, config.yml'de 'index.html' için özel bir 'template' veya 'editor_components' kullanabilirsiniz.
-    // Ancak düz HTML/CSS/JS için en basit yol, Decap CMS'in admin panelinde
-    // bu mesajları elle girip, çıkan HTML'deki `<p id="welcome-message">` içine yazdırmasını beklemektir.
-    // Daha dinamik bir yaklaşım için, config.yml'deki 'welcome_messages' listesini
-    // index.html'e JSON olarak gömmek ve JS ile okumak gerekebilir.
-    // Şu anki Decap CMS HTML dosyası güncelleme yapısı, doğrudan HTML içine string veya markdown yazar.
-    // Bu yüzden şimdilik JS tarafında statik varsayılanları kullanacağız veya config.yml'den manuel olarak
-    // HTML'e eklediğiniz bir JSON stringini parse etmeniz gerekecek.
+    // Decap CMS'ten dinamik içerik yükleme (data-attributes'tan)
+    function loadDynamicContentFromHTML() {
+        // index.html'deki data-messages attribute'undan sloganları çek
+        const messagesData = welcomeMessageElement.getAttribute('data-messages');
+        if (messagesData) {
+            try {
+                const parsedMessages = JSON.parse(messagesData);
+                if (Array.isArray(parsedMessages) && parsedMessages.length > 0) {
+                    messages = parsedMessages.map(item => item.message);
+                    console.log('Sloganlar HTML data-attribute üzerinden yüklendi:', messages);
+                    return;
+                }
+            } catch (e) {
+                console.error('data-messages JSON ayrıştırma hatası:', e);
+            }
+        }
+        // Eğer data-messages boşsa veya hata varsa varsayılanları kullan
+        messages = [
+            "Düşünceler kodla buluşuyor. Hoş geldiniz.",
+            "Dijital ayak izlerinizi bırakın, hikayeler yaratın.",
+            "Veri sadece rakam değil, anlamdır. Anlam katın.",
+            "Bugün hangi sorunu çözüyoruz?"
+        ];
+        console.log('Varsayılan sloganlar kullanıldı:', messages);
+    }
 
-    const defaultMessages = [
-        "Sıfırlar ve Birler Arasında Bir Yolculuk...",
-        "Her kod bir hikaye anlatır. Bugün ne yazıyoruz?",
-        "Dijital evrenin derinliklerinde kaybolmaya hazır mısın?",
-        "Bazen her şeyi silip yeniden başlamak gerekir."
-    ];
-    messages = defaultMessages; // Varsayılan mesajları kullan
-
-    // Daktilo efekti fonksiyonu
+    // Daktilo efekti fonksiyonu (daha kararlı hale getirildi)
     function typeWriterEffect(text, element, callback) {
+        let i = 0;
         element.textContent = ''; // Önceki metni temizle
-        element.style.width = '0%'; // Animasyon için başlangıç genişliği
-        element.classList.add('typing-active'); // Animasyonu tetikleyen sınıfı ekle
+        element.style.width = '0%'; // CSS animasyonu için başlangıç genişliği
 
-        clearTimeout(typingTimeout); // Önceki zamanlayıcıları temizle
-        
-        // CSS animasyonu metnin tamamı yüklendiğinde çalışır.
-        // Elementin textContent'ine metnin tamamını ekliyoruz.
+        clearInterval(typingInterval); // Önceki interval'i temizle
+
+        // CSS'teki animasyonu doğrudan tetiklemek için sınıf ekle/kaldır
+        element.classList.remove('typing-active'); // Önceki animasyonu sıfırla
+        element.offsetHeight; // Reflow'u zorla (animasyonu yeniden başlatmak için)
+        element.classList.add('typing-active');
+
+        // Metni hemen ekle, CSS animasyonu görünürlükle oynayacak
         element.textContent = text;
-
-        // Daktilo animasyonu için metin uzunluğuna göre süre hesapla
-        const typingDuration = text.length * 80; // Her harf için 80ms
         element.style.setProperty('--typing-steps', text.length); // CSS animasyonu için custom property
-        element.style.setProperty('--typing-duration', `${typingDuration}ms`); // CSS animasyonu için custom property
+        // Her harf için 80ms, toplam süreyi hesapla
+        const typingDuration = text.length * 80;
+        element.style.setProperty('--typing-duration', `${typingDuration}ms`);
 
-        typingTimeout = setTimeout(() => {
-            element.classList.remove('typing-active'); // Animasyon bitince sınıfı kaldır
-            element.style.borderRight = 'none'; // İmleci gizle
-            clearTimeout(messageDisplayTimeout); // Önceki mesaj döngüsü zamanlayıcısını temizle
-            messageDisplayTimeout = setTimeout(callback, 2000); // 2 saniye sonra callback'i çağır (bir sonraki mesaja geçmek için)
+        // Animasyon bitince imleci gizle ve callback'i çağır
+        typingInterval = setTimeout(() => {
+            element.classList.remove('typing-active');
+            element.style.borderRightColor = 'transparent'; // İmleci gizle
+            if (callback) callback();
         }, typingDuration + 500); // Yazma süresi + kısa bir bekleme
     }
 
     // Mesaj döngüsünü başlatan fonksiyon
     function startMessageCycle() {
         if (messages.length === 0) {
-            messages = defaultMessages;
+            console.warn('Mesaj listesi boş, daktilo animasyonu başlatılamıyor.');
+            // Boşsa bile butonu göster ve ana sayfaya geçişi sağla
+            skipButton.classList.remove('hidden');
+            skipButton.classList.add('visible');
+            return;
         }
 
-        const currentMessage = messages[messageIndex].message || messages[messageIndex]; // Decap CMS yapısına uyumlu
-        welcomeMessageElement.style.opacity = '1'; // Mesaj elementini görünür yap
+        const currentMessage = messages[messageIndex];
+        welcomeMessageElement.style.opacity = '1';
 
         typeWriterEffect(currentMessage, welcomeMessageElement, () => {
             messageIndex = (messageIndex + 1) % messages.length; // Sonraki mesaja geç
-            startMessageCycle(); // Döngüyü tekrar başlat
+            clearTimeout(messageCycleTimeout);
+            messageCycleTimeout = setTimeout(startMessageCycle, 3000); // 3 saniye sonra diğer mesaja geç
         });
+
+        // Tüm sloganlar oynadıktan sonra veya ilk slogan bittikten sonra "Geç" butonunu göster
+        // Burada her slogan başladığında göstermeyi tercih ettim, daha hızlı erişim için.
+        skipButton.classList.remove('hidden');
+        skipButton.classList.add('visible');
     }
 
     // Bloga giriş fonksiyonu
     function enterBlog() {
-        clearTimeout(typingTimeout);
-        clearTimeout(messageDisplayTimeout);
+        console.log('Bloga giriş yapılıyor...');
+        clearInterval(typingInterval);
+        clearTimeout(messageCycleTimeout);
 
         welcomeScreen.classList.add('hidden'); // Karşılama ekranını gizle
         setTimeout(() => {
             welcomeScreen.style.display = 'none'; // Tamamen DOM'dan kaldır
             mainLayout.classList.remove('hidden'); // Ana içeriği göster
             mainLayout.classList.add('visible');
-            latestPostsSection.classList.remove('hidden'); // Son yazılar bölümünü göster
+            latestPostsSection.classList.remove('hidden'); // "Son Yazılar" bölümünü göster
         }, 1000); // Geçiş animasyonu süresi
     }
 
     // "GEÇ >_" butonu tıklama olayı
     if (skipButton) {
         skipButton.addEventListener('click', enterBlog);
+    } else {
+        console.error('Skip butonu bulunamadı!');
     }
 
-    // Sayfa yüklendiğinde karşılama ekranını başlat
+    // Sayfa yüklendiğinde Decap CMS için özel ayarlar (Decap CMS dışındaki sayfalar için)
     const isIndexPage = (window.location.pathname.endsWith('/index.html') || window.location.pathname === '/');
     if (isIndexPage) {
+        loadDynamicContentFromHTML(); // Sloganları HTML'den yükle
         // Blog başlığını Decap CMS'ten veya varsayılan olarak ayarla
-        // Bu kısım, Decap CMS'in index.html'e doğrudan veri yazmasını gerektirir.
-        // Eğer config.yml'deki 'blog_title' değeri HTML'e basılmıyorsa,
-        // manuel olarak buraya yazabilirsiniz ya da JS ile bir fetch işlemi yapmalısınız.
-        // Şimdilik varsayılan olarak "Mustafa Günay" kalacak.
-        blogTitleElement.textContent = "Mustafa Günay"; // Başlığı ayarla
+        blogTitleElement.textContent = "Mustafa Günay"; // Bu başlık HTML'de sabit kaldı, Decap CMS değiştirecek
         document.getElementById('sidebar-blog-title').textContent = "Mustafa Günay"; // Sidebar başlığını ayarla
-
-        // Karşılama mesajlarını Decap CMS'ten veya varsayılan olarak ayarla
-        // Örneğin, index.html'in içinde gizli bir JSON script etiketi oluşturabilirsiniz:
-        // <script type="application/json" id="welcome-data">{"messages": [{"message": "Slogan 1"}, {"message": "Slogan 2"}]}</script>
-        // Sonra burada:
-        // const welcomeDataScript = document.getElementById('welcome-data');
-        // if (welcomeDataScript) {
-        //     const data = JSON.parse(welcomeDataScript.textContent);
-        //     messages = data.messages || defaultMessages;
-        // }
         
-        showWelcomeScreen();
+        // Karşılama ekranını göster ve animasyonları başlat
+        setTimeout(() => {
+            startMessageCycle();
+        }, 1500); // Başlık animasyonu sonrası başlasın
+        
     } else {
         // Diğer sayfalar için karşılama ekranını atla ve ana içeriği direkt göster
         if (welcomeScreen) {
@@ -124,7 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mainLayout) {
             mainLayout.classList.remove('hidden');
             mainLayout.classList.add('visible');
-            latestPostsSection.classList.add('hidden'); // Diğer sayfalarda "Son Yazılar" gizli kalsın
+        }
+        if (latestPostsSection) { // Diğer sayfalarda "Son Yazılar" gizli kalsın
+            latestPostsSection.classList.add('hidden');
         }
         // Diğer sayfalarda sidebar başlığını ayarla
         document.getElementById('sidebar-blog-title').textContent = "Mustafa Günay";
