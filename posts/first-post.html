@@ -1,79 +1,78 @@
+---
+title: "İlk Blog Yazım"
+date: 2025-07-21T18:00:00Z
+---
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İlk Yazım: GitHub Pages ile Statik Site Kurulumu</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <title>İlk Blog Yazım - Blogum</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header>
         <div class="container">
-            <a href="../index.html" class="logo">BLOG ADI</a>
+            <h1><a href="../index.html">BENİM BLOGUM</a></h1>
             <nav>
-                <button class="menu-toggle" aria-label="Menüyü aç/kapat">☰</button>
-                 <ul class="nav-menu">
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="../about.html">About</a></li>
-                    <li><a href="../posts.html">Posts</a></li>
-                    <li><a href="../contact.html">Contact</a></li>
+                <ul>
+                    <li><a href="../index.html">Ana Sayfa</a></li>
+                    <li><a href="../about.html">Hakkımda</a></li>
+                    <li><a href="../posts.html">Yazılar</a></li>
+                    <li><a href="../contact.html">İletişim</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        <div class="container">
-            <article class="post-full">
-                <header class="post-header">
-                    <h1>İlk Yazım: GitHub Pages ile Statik Site Kurulumu</h1>
-                    <p class="post-meta">Yayınlanma Tarihi: 21 Temmuz 2025</p>
-                </header>
+    <main class="container post-detail">
+        <article class="post-content">
+            <h2>İlk Blog Yazım</h2>
+            <p class="post-meta">Yayın Tarihi: 21 Temmuz 2025</p>
 
-                <div class="post-content">
-                    <p>Bu, blogumdaki ilk yazı. Bu şablonu kullanarak nasıl içerik oluşturabileceğinizi göstermek için harika bir örnek. Yazılarınızı Markdown formatında yazıp bir HTML çevirici ile buraya yapıştırabilir veya doğrudan HTML olarak yazabilirsiniz.</p>
-                    
-                    <h2>Alt Başlık (H2)</h2>
-                    <p>Teknik içerikler için en önemli şeylerden biri kod bloklarının okunabilirliğidir. Aşağıda bir kod bloğu örneği görebilirsiniz:</p>
-                    
-                    <pre><code class="language-javascript">// Bu bir JavaScript kod bloğudur.
-function greet(name) {
-  console.log(`Hello, ${name}!`);
-}
+            <p>Bu, blogumdaki ilk deneme yazım. Amacım, teknik konularda öğrendiklerimi ve deneyimlerimi düzenli olarak paylaşmak.</p>
 
-greet('World');</code></pre>
-                    
-                    <p>Ayrıca cümle içinde geçen <code>&lt;inline kod&gt;</code> elemanları da bu şekilde vurgulanır. Bu, değişken adlarını veya kısa komutları belirtmek için idealdir.</p>
+            <h3>Neden Bu Blog?</h3>
+            <p>Bilgiye ulaşımın kolaylaştığı, ancak doğru ve uygulanabilir bilginin bazen kaybolduğu bir çağdayız. Bu blog aracılığıyla, benim için değerli olan bilgileri derleyip toparlayarak hem kendime bir not defteri oluşturmayı hem de benzer konularda merak edenlere faydalı olmayı hedefliyorum.</p>
 
-                    <h3>Daha Küçük Bir Alt Başlık (H3)</h3>
-                    <p>Listeler de teknik yazılarda sıkça kullanılır:</p>
-                    <ul>
-                        <li>HTML: İçerik yapısı</li>
-                        <li>CSS: Stil ve görünüm</li>
-                        <li>JavaScript: İnteraktiflik</li>
-                    </ul>
+            <h4>Neler Bekleyebilirsiniz?</h4>
+            <ul>
+                <li>Web geliştirme (HTML, CSS, JavaScript) ipuçları</li>
+                <li>Frontend ve Backend teknolojileri üzerine düşünceler</li>
+                <li>Küçük projeler ve kod örnekleri</li>
+                <li>Teknoloji dünyasındaki gelişmeler üzerine kişisel yorumlar</li>
+            </ul>
 
-                    <blockquote>Oldukça sade ve dikkat çekicidir.</blockquote>
+            <p>Umarım bu yolculukta bana katılırsınız ve karşılıklı olarak öğreniriz!</p>
 
-                    <p>Okuduğunuz için teşekkürler! Yeni yazılarda görüşmek üzere.</p>
-                </div>
-            </article>
+            <code>
+                <pre>
+                    // Örnek bir kod bloğu
+                    function helloWorld() {
+                        console.log("Merhaba Dünya!");
+                    }
+                    helloWorld();
+                </pre>
+            </code>
+
+            <p>Bu yazının devamı yakında gelecek...</p>
+        </article>
+        <div class="post-navigation">
+            <a href="#" class="prev-post">← Önceki Yazı</a>
+            <a href="#" class="next-post">Sonraki Yazı →</a>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 [Adınız Soyadınız]. Tüm hakları saklıdır.</p>
+            <p>&copy; 2025 Senin Adın. Tüm Hakları Saklıdır.</p>
+            <div class="github-profile">
+                <p>GitHub Profilim: <a href="https://github.com/SENIN_GITHUB_KULLANICI_ADIN" target="_blank">SENIN_GITHUB_KULLANICI_ADIN</a></p>
+            </div>
         </div>
     </footer>
 
     <script src="../js/script.js"></script>
-
 </body>
 </html>

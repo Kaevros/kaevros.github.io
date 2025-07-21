@@ -1,78 +1,341 @@
-/* --- DEĞİŞKENLER (Yeni Renk Paleti) --- */
+/* Genel Ayarlar */
 :root {
-    --bg-color: #171717;         /* Ana Renk: Grafit Siyah */
-    --surface-color: #3A3A3A;    /* Destek Renk: Donuk Gri (Kartlar vb.) */
-    --accent-color: #E84A27;      /* Vurgu Rengi: Kızıl Turuncu */
-    
-    --text-color: #e0e0e0;
-    --muted-color: #888;
-    --border-color: #505050;     /* Yüzeyden biraz daha açık bir sınır rengi */
-    
-    --font-family: 'Fira Code', monospace;
-    --container-width: 800px;
+    --main-bg-color: #171717; /* Grafit Siyah */
+    --text-color: #e0e0e0; /* Açık Gri Yazı */
+    --accent-color-primary: #E84A27; /* Kızıl Turuncu (Vurgu) */
+    --accent-color-secondary: #3A3A3A; /* Donuk Gri (Destek) */
+    --border-color: #3A3A3A; /* Donuk Gri Kenarlıklar */
+    --link-hover-color: #ff6f42; /* Turuncunun daha açık hali */
 }
 
-/* --- GENEL SIFIRLAMA VE TEMEL STİLLER --- */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
-    font-family: var(--font-family);
-    background-color: var(--bg-color);
+    font-family: 'Inter', sans-serif; /* Veya 'Fira Code', 'Roboto Mono' */
+    background-color: var(--main-bg-color);
     color: var(--text-color);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    max-width: var(--container-width);
+    max-width: 960px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-h1, h2, h3 {
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-}
-
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 2rem; }
-h3 { font-size: 1.5rem; }
-
-p {
-    margin-bottom: 1rem;
-}
-
 a {
-    color: var(--accent-color);
+    color: var(--accent-color-primary);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    /* Kızıl turuncunun biraz daha parlak hali */
-    color: #F06C4F; 
+    color: var(--link-hover-color);
 }
 
-/* --- YENİ: Profil Fotoğrafı Stili --- */
-.profile-picture {
-    display: block;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    /* Vurgu rengi ile çerçeve */
-    border: 4px solid var(--accent-color);
-    /* Sayfada ortalamak için */
-    margin: 0 auto 2rem auto;
-    object-fit: cover; /* Resmin orantısını koru */
+/* Başlıklar */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    line-height: 1.2;
 }
 
+h1 { font-size: 2.8em; }
+h2 { font-size: 2.2em; }
+h3 { font-size: 1.8em; }
+h4 { font-size: 1.4em; }
 
-/* --- HEADER VE NAVİGASYON --- */
+/* Header */
 header {
-    background-color: var(--bg-color); /* Zeminle aynı renk */
-    padding: 1rem 0;
-    border-bottom: 1
+    background-color: var(--main-bg-color);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--accent-color-secondary);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    float: left;
+    font-size: 2.2em;
+}
+
+header h1 a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+header nav {
+    float: right;
+    margin-top: 5px;
+}
+
+header nav ul {
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline-block;
+    margin-left: 25px;
+}
+
+header nav ul li a {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.1em;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+}
+
+header nav ul li a:hover {
+    color: var(--accent-color-primary);
+    border-bottom: 2px solid var(--accent-color-primary);
+}
+
+/* Main Content */
+main {
+    padding: 40px 0;
+}
+
+/* Post Card (Anasayfa ve Yazılar listesi) */
+.post-card {
+    background-color: var(--accent-color-secondary); /* Donuk Gri */
+    border-left: 5px solid var(--accent-color-primary);
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.post-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.post-card h3 a {
+    color: var(--text-color);
+    font-size: 1.6em;
+}
+
+.post-card .post-meta {
+    font-size: 0.9em;
+    color: #bbb;
+    margin-bottom: 15px;
+}
+
+.post-card p {
+    margin-bottom: 15px;
+}
+
+.read-more {
+    display: inline-block;
+    background-color: var(--accent-color-primary);
+    color: var(--main-bg-color); /* Yazı rengini arka plan ile kontrast oluşturacak şekilde ayarladık */
+    padding: 10px 15px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+    background-color: var(--link-hover-color);
+}
+
+/* Post Detay Sayfası */
+.post-detail .post-content {
+    background-color: var(--accent-color-secondary);
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.post-detail h2 {
+    color: var(--accent-color-primary); /* Yazı başlığı vurgulu olsun */
+    margin-top: 0;
+    font-size: 2.5em;
+}
+
+.post-detail .post-meta {
+    font-size: 0.95em;
+    color: #bbb;
+    margin-bottom: 25px;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 15px;
+}
+
+.post-detail p {
+    margin-bottom: 1em;
+}
+
+.post-detail ul, .post-detail ol {
+    margin-left: 20px;
+    margin-bottom: 1em;
+}
+
+.post-detail ul li, .post-detail ol li {
+    margin-bottom: 0.5em;
+}
+
+/* Kod Blokları */
+pre {
+    background-color: #0d0d0d;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+code {
+    font-family: 'Fira Code', 'Roboto Mono', monospace; /* Monospace font burada öne çıksın */
+    font-size: 0.9em;
+}
+
+pre code {
+    display: block; /* Kod bloğunu tüm genişliğe yay */
+}
+
+/* Image styling for Decap CMS uploads */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Post Navigation */
+.post-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.post-navigation a {
+    background-color: var(--accent-color-secondary);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.post-navigation a:hover {
+    background-color: var(--accent-color-primary);
+    color: var(--main-bg-color);
+}
+
+
+/* Other Pages (About, Contact) */
+.content-page {
+    background-color: var(--accent-color-secondary);
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.content-page h2 {
+    color: var(--accent-color-primary);
+    margin-top: 0;
+}
+
+.content-page ul {
+    list-style: disc;
+    margin-left: 25px;
+    margin-bottom: 1em;
+}
+
+.content-page li {
+    margin-bottom: 0.5em;
+}
+
+/* Footer */
+footer {
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 25px 0;
+    border-top: 1px solid var(--accent-color-secondary);
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer .github-profile {
+    margin-top: 10px;
+}
+
+footer .github-profile a {
+    color: var(--accent-color-primary);
+    font-weight: bold;
+}
+
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    header h1 {
+        float: none;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    header nav {
+        float: none;
+        text-align: center;
+    }
+
+    header nav ul li {
+        margin: 0 10px;
+    }
+
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.4em; }
+
+    main {
+        padding: 20px 0;
+    }
+
+    .post-card {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .post-detail .post-content {
+        padding: 20px;
+    }
+
+    .post-navigation {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .post-navigation a {
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+}

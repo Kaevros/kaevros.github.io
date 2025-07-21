@@ -1,60 +1,110 @@
-# GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
+# backend: GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
 backend:
   name: github
-  repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
-  branch: main 
+  repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın. Örn: yourusername/your-blog-repo
+  branch: main # Deponuzun ana dalı (genellikle 'main' veya 'master')
 
 # Medya dosyaları (resimler vb.) yüklenirse nereye kaydedileceği.
+# `public_folder` web'den erişilen yolu, `media_folder` ise depodaki fiziksel yolu belirtir.
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-# Yönetilecek içerik koleksiyonları. Bizim için sadece "Yazılar" var.
+# Yönetilecek içerik koleksiyonları.
 collections:
-  - name: "posts" # Koleksiyonun adı
+  - name: "posts" # Koleksiyonun iç adı (benzersiz olmalı)
     label: "Yazılar" # Arayüzde görünecek etiket
     folder: "posts" # Yazıların kaydedileceği klasör
     create: true # Arayüzden yeni yazı oluşturmaya izin ver
-    slug: "{{slug}}" # Dosya adını başlıktan otomatik oluştur
+    slug: "{{slug}}" # Dosya adını başlıktan otomatik oluşturur (ör: "ilk-blog-yazim")
     extension: "html" # Dosya uzantısı .html olacak
-    
+    format: "frontmatter" # YAML frontmatter kullanacağımızı belirtiyoruz.
+
     # Yazıların hangi şablona göre oluşturulacağını belirtiyoruz.
     # Bu, her yazının başına ve sonuna standart HTML yapısını ekler.
-    # NOT: Tırnak işaretleri ve girintiler YAML formatı için çok önemlidir!
-    # Lütfen olduğu gibi kopyalayın.
-    format: "frontmatter" # Bu format, içeriği bir şablonun içine yerleştirmemizi sağlar.
-    
-    # Her yazı oluşturulduğunda doldurulacak alanlar
-    fields:
-      - {label: "Başlık", name: "title", widget: "string"}
-      - {label: "Yayın Tarihi", name: "date", widget: "datetime"}
-      - label: "İçerik"
-        name: "body"
-        widget: "markdown" # Yazılarınızı kolayca Markdown formatında yazmanızı sağlar.
-        
-    # Her yazının ana HTML şablonu
     # 'body' alanı, yukarıda yazdığınız Markdown içeriğin HTML'e çevrilmiş haliyle doldurulur.
     # Bu kısım, her post sayfasının başlık, menü ve footer gibi sabit kısımlarını oluşturur.
     # 'title' ve 'date' gibi alanlar, yukarıda girdiğiniz bilgilerle otomatik dolar.
-    view_filters:
-      - label: 'Formatlanmış Tarih'
-        field: 'date'
-        pattern: 'DD MMMM YYYY' # Tarihi "21 Temmuz 2025" gibi formatlar
+    # Bu yapıyı olduğu gibi kopyalamak önemlidir.
+    path: "{{slug}}.html" # Decap CMS'in dosyaları nasıl kaydedeceğini belirtir.
+    
+    # Yazı oluşturulurken kullanılacak şablon (Markdown içeriği buraya yerleşecek)
+    # Bu, blog yazısının HTML yapısını tanımlar.
+    # Decap CMS, Markdown'ı HTML'e çevirip `{{fields.body}}` yerine koyacak.
+    # `{{fields.title}}` ve `{{fields.date | date('DD MMMM YYYY')}}` gibi ifadeler frontmatter'dan gelir.
+    frontmatter_delimiter: "---"
+    editor:
+      preview: false # Canlı önizlemeyi kapatabiliriz, karmaşık HTML için faydalı.
+    
+    fields:
+      - {label: "Başlık", name: "title", widget: "string"}
+      - {label: "Yayın Tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", picker_utc: true}
+      - label: "İçerik"
+        name: "body"
+        widget: "markdown" # Yazılarınızı kolayca Markdown formatında yazmanızı sağlar.
+        # Bu kısım, Decap CMS'in Markdown içeriğini bir HTML şablonuna nasıl saracağını belirtir.
+        # Decap CMS bu template'i kullanarak Markdown'ı HTML'e çevirip kaydedecektir.
+        output_code_only: false # Tüm HTML yapısını çıktı olarak versin
+        # Decap CMS'in post dosyasını oluştururken kullanacağı ana şablon.
+        # Markdown içeriği `{{fields.body}}` yerine yerleştirilir.
+        # HTML dosyasının başındaki `---` ve sonundaki `---` frontmatter delimiter'larıdır.
+        # Bu, YAML frontmatter'ın doğru şekilde ayrıştırılmasını sağlar.
+        # HTML içeriği doğrudan Markdown'dan çevrildiği için, temel HTML iskeletini burada vermemiz gerekir.
+        # Ancak, Decap CMS'in varsayılan olarak Markdown'ı HTML'e çevirip doğrudan dosya içine yerleştirmesi
+        # için `format: "frontmatter"` yeterlidir. Eğer tam bir HTML dosyası istiyorsak,
+        # bu template'i her yazı için ayrı ayrı oluşturmamız gerekebilir ki bu karmaşık olabilir.
+        # En basit yol, Decap CMS'in sadece Markdown'ı HTML'e çevirip `<article>` içine atmasıdır.
+        # O yüzden, `posts/first-post.html` dosyasını Decap CMS'in kendisinin oluşturduğu bir HTML yapısı gibi
+        # düşünmeliyiz. Aşağıdaki `pages` koleksiyonu ise Decap CMS'in var olan HTML dosyalarını güncellemesi içindir.
 
-    # ÖNEMLİ: files koleksiyonu index.html ve posts.html'i güncelleyecek
+  # Ana sayfa ve tüm yazılar sayfası için "Sayfa Yönetimi" koleksiyonu
+  # Bu, Decap CMS'in belirli HTML dosyalarını (index.html, posts.html) güncellemesini sağlar.
   - name: "pages"
     label: "Sayfa Yönetimi"
     files:
       - label: "Ana Sayfa Yazı Listesi"
-        name: "index"
-        file: "index.html"
+        name: "index_page"
+        file: "index.html" # Güncellenecek dosya
         fields:
-          - label: "Yazı Listesi (HTML)"
-            name: "posts_html"
-            widget: "hidden" # Bu alan kullanıcıya görünmez, sadece arkaplanda kullanılır.
-      - label: "Tüm Yazılar Sayfası Listesi"
-        name: "posts_page"
+          # Bu alanın amacı, Decap CMS'in dinamik olarak blog yazılarını HTML olarak oluşturup
+          # index.html içindeki belirli bir DOM elemanına (<div id="posts-list">) enjekte etmesidir.
+          # Bunun için Decap CMS'in client-side render özelliğini kullanmalıyız.
+          # Ancak saf HTML/CSS/JS projesinde, Decap CMS genellikle dosyayı tamamen yeniden yazar.
+          # Dolayısıyla, buradaki "posts_html" alanının kullanımı, Decap CMS'in varsayılan
+          # davranışıyla biraz çatışabilir.
+          # En iyi yaklaşım, Decap CMS'in yalnızca yeni post HTML dosyaları oluşturmasını sağlamak
+          # ve ardından `index.html` ve `posts.html` içindeki JavaScript'in bu postları
+          # okuyup listelemesidir. Fakat bunu yapmak için sunucuya veya bir derleyiciye ihtiyaç duyarız.
+          # Saf HTML/CSS için en basit yaklaşım, Decap CMS'in bu dosyaları doğrudan güncelleyebileceği
+          # basit HTML alanları sağlamaktır.
+          # Şimdilik bu kısmı yoruma alıyorum, çünkü Decap CMS'in client-side render özelliği
+          # static HTML'de karmaşık olabilir. Bunun yerine, Decap CMS yeni yazıları oluşturdukça
+          # biz manuel olarak `index.html` ve `posts.html`'i güncelleyebiliriz veya
+          # Decap CMS'in `generate_permalink` ve `view_filters` ile daha gelişmiş template
+          # yeteneklerini kullanırız, ki bu da Jekyll benzeri bir yapıya yaklaşır.
+          # En basit ve düz JS ile uyumlu yol: Decap CMS sadece post dosyalarını oluştursun.
+          # index.html ve posts.html, bu dosyaları JS ile okuyup listelesin.
+          # Ancak JS ile statik dosya okuma, tarayıcıda doğrudan çalışmaz (CORS nedeniyle).
+          # Bu durumda, blog yazıları için statik linkleri kullanmak en doğrusudur.
+          # Decap CMS'in ana sayfa ve diğer sayfaları doğrudan güncellemesini sağlamak için
+          # aşağıdaki gibi basit alanlar bırakabiliriz.
+          - label: "Ana Sayfa Başlığı"
+            name: "homepage_title"
+            widget: "string"
+            default: "Son Yazılar"
+          - label: "Ana Sayfa Açıklaması"
+            name: "homepage_description"
+            widget: "markdown"
+            required: false
+
+      - label: "Tüm Yazılar Sayfası"
+        name: "posts_list_page"
         file: "posts.html"
         fields:
-          - label: "Yazı Listesi (HTML)"
-            name: "posts_html_all"
-            widget: "hidden"
+          - label: "Sayfa Başlığı"
+            name: "page_title"
+            widget: "string"
+            default: "Tüm Blog Yazılarım"
+          - label: "Sayfa Açıklaması"
+            name: "page_description"
+            widget: "markdown"
+            required: false

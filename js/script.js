@@ -1,14 +1,16 @@
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+    // Sayfa yüklendiğinde çalışacak kodlar
+    console.log('Blog şablonu yüklendi. Decap CMS entegrasyonu hazır.');
 
-// Mobil menü toggle işlevselliği
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
+    // Örnek: Navigasyon menüsü için mobil toggle (basit bir örnek)
+    // Eğer mobil navigasyon için bir hamburger menü eklemek isterseniz buraya kod yazabilirsiniz.
+    // const navToggle = document.querySelector('.nav-toggle');
+    // const navMenu = document.querySelector('nav ul');
 
-    // Buton yoksa veya menü yoksa kodu çalıştırma
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', function() {
-            // 'active' class'ını menüye ekle/kaldır
-            navMenu.classList.toggle('active');
-        });
-    }
+    // if (navToggle) {
+    //     navToggle.addEventListener('click', () => {
+    //         navMenu.classList.toggle('active');
+    //     });
+    // }
 });
