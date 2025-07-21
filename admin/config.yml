@@ -1,3 +1,4 @@
+# GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
 backend:
   name: github
   repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
@@ -7,8 +8,9 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
+# Yönetilecek içerik koleksiyonları. Bizim için sadece "Yazılar" var.
 collections:
-    name: "posts" # Koleksiyonun adı
+  - name: "posts" # Koleksiyonun adı
     label: "Yazılar" # Arayüzde görünecek etiket
     folder: "posts" # Yazıların kaydedileceği klasör
     create: true # Arayüzden yeni yazı oluşturmaya izin ver
@@ -23,9 +25,9 @@ collections:
     
     # Her yazı oluşturulduğunda doldurulacak alanlar
     fields:
-        {label: "Başlık", name: "title", widget: "string"}
-        {label: "Yayın Tarihi", name: "date", widget: "datetime"}
-        label: "İçerik"
+      - {label: "Başlık", name: "title", widget: "string"}
+      - {label: "Yayın Tarihi", name: "date", widget: "datetime"}
+      - label: "İçerik"
         name: "body"
         widget: "markdown" # Yazılarınızı kolayca Markdown formatında yazmanızı sağlar.
         
@@ -34,25 +36,25 @@ collections:
     # Bu kısım, her post sayfasının başlık, menü ve footer gibi sabit kısımlarını oluşturur.
     # 'title' ve 'date' gibi alanlar, yukarıda girdiğiniz bilgilerle otomatik dolar.
     view_filters:
-        label: 'Formatlanmış Tarih'
+      - label: 'Formatlanmış Tarih'
         field: 'date'
         pattern: 'DD MMMM YYYY' # Tarihi "21 Temmuz 2025" gibi formatlar
 
     # ÖNEMLİ: files koleksiyonu index.html ve posts.html'i güncelleyecek
-    name: "pages"
+  - name: "pages"
     label: "Sayfa Yönetimi"
     files:
-        label: "Ana Sayfa Yazı Listesi"
+      - label: "Ana Sayfa Yazı Listesi"
         name: "index"
         file: "index.html"
         fields:
-            label: "Yazı Listesi (HTML)"
+          - label: "Yazı Listesi (HTML)"
             name: "posts_html"
             widget: "hidden" # Bu alan kullanıcıya görünmez, sadece arkaplanda kullanılır.
-        label: "Tüm Yazılar Sayfası Listesi"
+      - label: "Tüm Yazılar Sayfası Listesi"
         name: "posts_page"
         file: "posts.html"
         fields:
-            label: "Yazı Listesi (HTML)"
+          - label: "Yazı Listesi (HTML)"
             name: "posts_html_all"
             widget: "hidden"
