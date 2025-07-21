@@ -5,65 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mustafa Günay - Anasayfa</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>Mustafa Günay</h2>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li>
-                    <a href="index.html" class="nav-item" data-tooltip="Ana Sayfa">
-                        <i class="fas fa-home"></i>
-                        <span class="nav-text">Ana Sayfa</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="about.html" class="nav-item" data-tooltip="Hakkımda">
-                        <i class="fas fa-user"></i>
-                        <span class="nav-text">Hakkımda</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="posts.html" class="nav-item" data-tooltip="Yazılar">
-                        <i class="fas fa-newspaper"></i>
-                        <span class="nav-text">Yazılar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="contact.html" class="nav-item" data-tooltip="İletişim">
-                        <i class="fas fa-envelope"></i>
-                        <span class="nav-text">İletişim</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="sidebar-footer">
-            <p>&copy; 2025 Mustafa Günay</p>
-            <a href="https://github.com/Kaevros" target="_blank" class="github-link">
-                <i class="fab fa-github"></i>
-                <span class="github-text">Kaevros</span>
-            </a>
-        </div>
-    </aside>
+    <div id="welcome-screen" class="welcome-screen">
+        <h1 id="blog-title" class="animated-title">Mustafa Günay</h1>
+        <p id="welcome-message" class="welcome-message"></p>
+        <button id="enter-button" class="enter-button hidden">BLOGA GİR</button>
+    </div>
 
-    <div class="content-wrapper">
-        <main class="container">
-            <section class="latest-posts">
-                <h2>Son Yazılar</h2>
-                <div id="posts-list">
-                    <article class="post-card">
-                        <h3><a href="posts/first-post.html">İlk Blog Yazım</a></h3>
-                        <p class="post-meta">21 Temmuz 2025</p>
-                        <p>Bu, blogumdaki ilk yazım. Burada teknik deneyimlerimi ve düşüncelerimi paylaşacağım...</p>
-                        <a href="posts/first-post.html" class="read-more">Devamını Oku</a>
-                    </article>
+    <div class="main-layout hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 id="sidebar-blog-title">Mustafa Günay</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="index.html" class="nav-item" data-tooltip="Ana Sayfa">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Ana Sayfa</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="about.html" class="nav-item" data-tooltip="Hakkımda">
+                            <i class="fas fa-user"></i>
+                            <span class="nav-text">Hakkımda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="posts.html" class="nav-item" data-tooltip="Yazılar">
+                            <i class="fas fa-newspaper"></i>
+                            <span class="nav-text">Yazılar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contact.html" class="nav-item" data-tooltip="İletişim">
+                            <i class="fas fa-envelope"></i>
+                            <span class="nav-text">İletişim</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Mustafa Günay</p>
+                <a href="https://github.com/Kaevros" target="_blank" class="github-link">
+                    <i class="fab fa-github"></i>
+                    <span class="github-text">Kaevros</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="content-wrapper">
+            <main class="container">
+                <section class="latest-posts" id="latest-posts-section">
+                    <h2>Son Yazılar</h2>
+                    <div id="posts-list">
+                        <article class="post-card">
+                            <h3><a href="posts/first-post.html">İlk Blog Yazım</a></h3>
+                            <p class="post-meta">21 Temmuz 2025</p>
+                            <p>Bu, blogumdaki ilk yazım. Burada teknik deneyimlerimi ve düşüncelerimi paylaşacağım...</p>
+                            <a href="posts/first-post.html" class="read-more">Devamını Oku</a>
+                        </article>
                     </div>
-            </section>
-        </main>
+                </section>
+            </main>
+        </div>
     </div>
 
     <script src="js/script.js"></script>
