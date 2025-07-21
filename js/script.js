@@ -3,139 +3,119 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Blog şablonu yüklendi. Decap CMS entegrasyonu ve sidebar hazır.');
 
     const welcomeScreen = document.getElementById('welcome-screen');
-    const blogTitle = document.getElementById('blog-title'); // "Mustafa Günay" başlığı
-    const welcomeMessageElement = document.getElementById('welcome-message'); // Sloganlar için element
+    const blogTitleElement = document.getElementById('blog-title');
+    const welcomeMessageElement = document.getElementById('welcome-message');
     const skipButton = document.getElementById('skip-button');
     const mainLayout = document.querySelector('.main-layout');
+    const latestPostsSection = document.getElementById('latest-posts-section'); // "Son Yazılar" bölümü
 
-    // Sloganlar (admin panelinden gelecek) - Şimdilik varsayılanlar
-    const defaultMessages = [
-        "Hello, friend.", // Mr. Robot'tan esinlenme
-        "Her kod bir hikaye anlatır. Bugün ne yazıyoruz?",
-        "Dijital evrenin derinliklerinde kaybolmaya hazır mısın?",
-        "Bazen her şeyi silip yeniden başlamak gerekir."
-    ];
-    let messages = []; // Decap CMS'ten yüklenecek mesajlar buraya gelecek
+    let messages = [];
     let messageIndex = 0;
     let typingTimeout;
     let messageDisplayTimeout;
 
-    // Decap CMS'ten dinamik içerik yükleme fonksiyonu (Basit JSON fetch)
-    async function loadDynamicContent() {
-        try {
-            // index.html'den mi, yoksa doğrudan config.yml'den mi okuyacağız?
-            // Decap CMS, config.yml'deki 'file' alanına göre doğrudan HTML dosyasını günceller.
-            // HTML içindeki script'ler doğrudan güncel HTML'i okur.
-            // Ancak, JS ile dinamik olarak config.yml'deki listeye erişmek için
-            // Decap CMS'in API'ını veya Jekyll benzeri bir yapıyı kullanmak gerekir.
-            // Saf statik HTML/JS için, Decap CMS'in config.yml'deki mesajları
-            // doğrudan index.html içine yazmasını beklemek daha basittir.
-            // Şimdilik varsayılan mesajları kullanmaya devam edelim veya admin panelinden
-            // bu mesajları manuel olarak index.html içine yazdırmanın bir yolunu bulmalıyız.
-            // En basit çözüm: JS scripti index.html'in içindeki sloganları doğrudan okuyabilir.
-            // Decap CMS ile yönetilebilirlik için config.yml'deki veriyi bir şekilde JS'e aktarmalıyız.
-            // Bunu başarmak için, Decap CMS'in index.html dosyasını güncellerken
-            // bir <script> etiketi içine JSON verisi yazdırmasını sağlayabiliriz.
-            // Bu maalesef saf HTML/CSS/JS projesi için Decap CMS'in varsayılanı değildir
-            // ve Jekyll gibi static site generator'ların templating yeteneklerini taklit etmek demektir.
+    // Dinamik içerikleri Decap CMS'ten yükle (config.yml'den)
+    // Decap CMS, index.html dosyasını güncellerken bu verileri bir JS değişkeni olarak eklemelidir.
+    // Şimdilik varsayılan mesajları kullanacağız.
+    // *** Gerçek entegrasyon için, Decap CMS'in bu verileri HTML içine nasıl yazacağını yapılandırmanız gerekir. ***
+    // Örneğin, config.yml'de 'index.html' için özel bir 'template' veya 'editor_components' kullanabilirsiniz.
+    // Ancak düz HTML/CSS/JS için en basit yol, Decap CMS'in admin panelinde
+    // bu mesajları elle girip, çıkan HTML'deki `<p id="welcome-message">` içine yazdırmasını beklemektir.
+    // Daha dinamik bir yaklaşım için, config.yml'deki 'welcome_messages' listesini
+    // index.html'e JSON olarak gömmek ve JS ile okumak gerekebilir.
+    // Şu anki Decap CMS HTML dosyası güncelleme yapısı, doğrudan HTML içine string veya markdown yazar.
+    // Bu yüzden şimdilik JS tarafında statik varsayılanları kullanacağız veya config.yml'den manuel olarak
+    // HTML'e eklediğiniz bir JSON stringini parse etmeniz gerekecek.
 
-            // Şimdilik, JS'i basitleştirmek adına sloganın varsayılan mesajlardan geldiğini varsayalım.
-            // Gerçek Decap CMS entegrasyonunda bu mesajlar config.yml'den index.html'e basılacak.
-            messages = defaultMessages; // Varsayılan mesajları kullanıyoruz
-
-            // Blog başlığını da Decap CMS'ten alabiliriz (index.html içinde bir yere yazmasını sağlayarak)
-            // const response = await fetch('index.html'); // Bu dinamik olmaz, sadece statik dosya
-            // const text = await response.text();
-            // const parser = new DOMParser();
-            // const doc = parser.parseFromString(text, 'text/html');
-            // const fetchedBlogTitle = doc.querySelector('#blog-title').textContent;
-            // if (fetchedBlogTitle) {
-            //     blogTitle.textContent = fetchedBlogTitle;
-            //     document.getElementById('sidebar-blog-title').textContent = fetchedBlogTitle;
-            // }
-
-        } catch (error) {
-            console.error("Dinamik içerik yüklenirken hata oluştu:", error);
-            messages = defaultMessages; // Hata durumunda varsayılanları kullan
-        }
-    }
+    const defaultMessages = [
+        "Sıfırlar ve Birler Arasında Bir Yolculuk...",
+        "Her kod bir hikaye anlatır. Bugün ne yazıyoruz?",
+        "Dijital evrenin derinliklerinde kaybolmaya hazır mısın?",
+        "Bazen her şeyi silip yeniden başlamak gerekir."
+    ];
+    messages = defaultMessages; // Varsayılan mesajları kullan
 
     // Daktilo efekti fonksiyonu
     function typeWriterEffect(text, element, callback) {
-        let i = 0;
-        element.textContent = ''; // Metni temizle
-        // CSS'teki daktilo animasyonunu sıfırla
-        element.style.animation = 'none';
-        element.offsetHeight; // Reflow zorla
-        element.style.animation = `typing ${text.length * 0.1}s steps(${text.length}, end) forwards, blink-caret .75s step-end infinite`; // Dinamik hız
+        element.textContent = ''; // Önceki metni temizle
         element.style.width = '0%'; // Animasyon için başlangıç genişliği
+        element.classList.add('typing-active'); // Animasyonu tetikleyen sınıfı ekle
+
+        clearTimeout(typingTimeout); // Önceki zamanlayıcıları temizle
         
-        // Asıl daktilo yazımı (CSS animasyonu ile senkronize değil, sadece HTML içeriğini doldurur)
-        // Eğer CSS ile tam kontrol istiyorsak, JS'in metni harf harf eklemesine gerek yok.
-        // CSS daktilo animasyonu, metnin tamamen elementte olduğunu varsayar.
-        // O yüzden burada sadece elementin textContent'ini ayarlayıp animasyonu tetikleyeceğiz.
+        // CSS animasyonu metnin tamamı yüklendiğinde çalışır.
+        // Elementin textContent'ine metnin tamamını ekliyoruz.
         element.textContent = text;
-        
-        clearTimeout(typingTimeout);
+
+        // Daktilo animasyonu için metin uzunluğuna göre süre hesapla
+        const typingDuration = text.length * 80; // Her harf için 80ms
+        element.style.setProperty('--typing-steps', text.length); // CSS animasyonu için custom property
+        element.style.setProperty('--typing-duration', `${typingDuration}ms`); // CSS animasyonu için custom property
+
         typingTimeout = setTimeout(() => {
-            element.style.borderRight = 'none'; // Animasyon bitince imleci gizle
-            if (callback) callback();
-        }, text.length * 100); // Metin uzunluğuna göre bitiş süresi
+            element.classList.remove('typing-active'); // Animasyon bitince sınıfı kaldır
+            element.style.borderRight = 'none'; // İmleci gizle
+            clearTimeout(messageDisplayTimeout); // Önceki mesaj döngüsü zamanlayıcısını temizle
+            messageDisplayTimeout = setTimeout(callback, 2000); // 2 saniye sonra callback'i çağır (bir sonraki mesaja geçmek için)
+        }, typingDuration + 500); // Yazma süresi + kısa bir bekleme
     }
 
     // Mesaj döngüsünü başlatan fonksiyon
     function startMessageCycle() {
         if (messages.length === 0) {
-            messages = defaultMessages; // Eğer boşsa varsayılanları kullan
+            messages = defaultMessages;
         }
-        
-        welcomeMessageElement.style.opacity = '1'; // Mesaj elementini görünür yap
-        welcomeMessageElement.classList.remove('typing-finished'); // Her döngüde sınıfı kaldır
 
-        const currentMessage = messages[messageIndex];
+        const currentMessage = messages[messageIndex].message || messages[messageIndex]; // Decap CMS yapısına uyumlu
+        welcomeMessageElement.style.opacity = '1'; // Mesaj elementini görünür yap
+
         typeWriterEffect(currentMessage, welcomeMessageElement, () => {
             messageIndex = (messageIndex + 1) % messages.length; // Sonraki mesaja geç
-            clearTimeout(messageDisplayTimeout);
-            messageDisplayTimeout = setTimeout(startMessageCycle, 4000); // 4 saniye sonra diğer mesaja geç
+            startMessageCycle(); // Döngüyü tekrar başlat
         });
     }
 
-    // Karşılama ekranını göster ve animasyonları başlat
-    function showWelcomeScreen() {
-        welcomeScreen.classList.remove('hidden');
-        mainLayout.classList.add('hidden'); // Ana içeriği gizle
-        
-        // İlk mesajı başlat
-        setTimeout(() => {
-            startMessageCycle();
-            skipButton.classList.add('visible'); // Geç butonunu göster
-        }, 1500); // Başlık animasyonu sonrası başlasın
-    }
-
-    // Ana içeriği göster fonksiyonu
+    // Bloga giriş fonksiyonu
     function enterBlog() {
-        clearTimeout(typingTimeout); // Daktilo animasyonunu durdur
-        clearTimeout(messageDisplayTimeout); // Mesaj döngüsünü durdur
+        clearTimeout(typingTimeout);
+        clearTimeout(messageDisplayTimeout);
 
         welcomeScreen.classList.add('hidden'); // Karşılama ekranını gizle
         setTimeout(() => {
-            welcomeScreen.style.display = 'none'; // Tamamen kaldır
+            welcomeScreen.style.display = 'none'; // Tamamen DOM'dan kaldır
             mainLayout.classList.remove('hidden'); // Ana içeriği göster
             mainLayout.classList.add('visible');
+            latestPostsSection.classList.remove('hidden'); // Son yazılar bölümünü göster
         }, 1000); // Geçiş animasyonu süresi
     }
 
-    // "GEÇ" butonu tıklama olayı
+    // "GEÇ >_" butonu tıklama olayı
     if (skipButton) {
         skipButton.addEventListener('click', enterBlog);
     }
 
-    // Sayfa yüklendiğinde Decap CMS için özel ayarlar (Decap CMS dışındaki sayfalar için)
-    // Eğer index.html dışındaki sayfalarda karşılama ekranı olmasın isterseniz,
-    // bu mantığı HTML içinde doğrudan `main-layout`'a `.visible` sınıfını ekleyerek yapabilirsiniz.
+    // Sayfa yüklendiğinde karşılama ekranını başlat
     const isIndexPage = (window.location.pathname.endsWith('/index.html') || window.location.pathname === '/');
     if (isIndexPage) {
-        loadDynamicContent().then(showWelcomeScreen); // Dinamik içerik yükle ve sonra hoş geldin ekranını göster
+        // Blog başlığını Decap CMS'ten veya varsayılan olarak ayarla
+        // Bu kısım, Decap CMS'in index.html'e doğrudan veri yazmasını gerektirir.
+        // Eğer config.yml'deki 'blog_title' değeri HTML'e basılmıyorsa,
+        // manuel olarak buraya yazabilirsiniz ya da JS ile bir fetch işlemi yapmalısınız.
+        // Şimdilik varsayılan olarak "Mustafa Günay" kalacak.
+        blogTitleElement.textContent = "Mustafa Günay"; // Başlığı ayarla
+        document.getElementById('sidebar-blog-title').textContent = "Mustafa Günay"; // Sidebar başlığını ayarla
+
+        // Karşılama mesajlarını Decap CMS'ten veya varsayılan olarak ayarla
+        // Örneğin, index.html'in içinde gizli bir JSON script etiketi oluşturabilirsiniz:
+        // <script type="application/json" id="welcome-data">{"messages": [{"message": "Slogan 1"}, {"message": "Slogan 2"}]}</script>
+        // Sonra burada:
+        // const welcomeDataScript = document.getElementById('welcome-data');
+        // if (welcomeDataScript) {
+        //     const data = JSON.parse(welcomeDataScript.textContent);
+        //     messages = data.messages || defaultMessages;
+        // }
+        
+        showWelcomeScreen();
     } else {
         // Diğer sayfalar için karşılama ekranını atla ve ana içeriği direkt göster
         if (welcomeScreen) {
@@ -144,6 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mainLayout) {
             mainLayout.classList.remove('hidden');
             mainLayout.classList.add('visible');
+            latestPostsSection.classList.add('hidden'); // Diğer sayfalarda "Son Yazılar" gizli kalsın
         }
+        // Diğer sayfalarda sidebar başlığını ayarla
+        document.getElementById('sidebar-blog-title').textContent = "Mustafa Günay";
     }
+
+    // Sidebar hover efektleri (CSS tarafından yönetiliyor, JS sadece kontrol için kalabilir)
+    const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const icon = item.querySelector('i');
+            if (icon) icon.style.color = 'var(--accent-color-primary)';
+        });
+        item.addEventListener('mouseleave', () => {
+            const icon = item.querySelector('i');
+            if (icon) icon.style.color = 'var(--text-color)';
+        });
+    });
 });
