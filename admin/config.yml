@@ -48,10 +48,10 @@ collections:
             fields:
               - {label: "Mesaj", name: "message", widget: "string"}
             default:
-              - {message: "Hello, friend."}
-              - {message: "Her kod bir hikaye anlatır. Bugün ne yazıyoruz?"}
-              - {message: "Dijital evrenin derinliklerinde kaybolmaya hazır mısın?"}
-              - {message: "Bazen her şeyi silip yeniden başlamak gerekir."}
+              - {message: "Düşünceler kodla buluşuyor. Hoş geldiniz."}
+              - {message: "Dijital ayak izlerinizi bırakın, hikayeler yaratın."}
+              - {message: "Veri sadece rakam değil, anlamdır. Anlam katın."}
+              - {message: "Bugün hangi sorunu çözüyoruz?"}
           - label: "Karşılama Ekranı Arka Plan Resmi"
             name: "welcome_background_image"
             widget: "image"
