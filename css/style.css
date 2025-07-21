@@ -6,6 +6,8 @@
     --accent-color-secondary: #3A3A3A; /* Donuk Gri (Destek) */
     --border-color: #3A3A3A; /* Donuk Gri Kenarlıklar */
     --link-hover-color: #ff6f42; /* Turuncunun daha açık hali */
+    --sidebar-width-collapsed: 80px; /* Sidebar kapalıyken genişlik */
+    --sidebar-width-expanded: 220px; /* Sidebar açıkken genişlik */
 }
 
 * {
@@ -15,12 +17,14 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif; /* Veya 'Fira Code', 'Roboto Mono' */
+    font-family: 'Inter', sans-serif;
     background-color: var(--main-bg-color);
     color: var(--text-color);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    display: flex; /* Sidebar ve içerik yanyana durması için */
+    min-height: 100vh; /* Sayfanın tamamını kaplaması için */
 }
 
 .container {
@@ -51,55 +55,159 @@ h2 { font-size: 2.2em; }
 h3 { font-size: 1.8em; }
 h4 { font-size: 1.4em; }
 
-/* Header */
-header {
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width-collapsed);
     background-color: var(--main-bg-color);
+    color: var(--text-color);
     padding: 20px 0;
-    border-bottom: 1px solid var(--accent-color-secondary);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; /* İkonların ortalanması için */
+    transition: width 0.3s ease-in-out; /* Genişlik animasyonu */
+    position: fixed; /* Sayfada sabit kalması için */
+    height: 100%;
+    border-right: 1px solid var(--accent-color-secondary);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Diğer içeriklerin üstünde olması için */
 }
 
-header h1 {
+.sidebar:hover {
+    width: var(--sidebar-width-expanded); /* Fare üzerine geldiğinde genişlesin */
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.sidebar-header h2 {
     margin: 0;
-    float: left;
-    font-size: 2.2em;
+    font-size: 1.5em;
+    white-space: nowrap; /* Yazının tek satırda kalması için */
+    overflow: hidden; /* Taşmayı gizle */
+    text-overflow: ellipsis; /* Taşma durumunda üç nokta göster */
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 0.3s ease-in-out 0.1s; /* Gecikmeli görünme animasyonu */
 }
 
-header h1 a {
-    color: var(--text-color);
-    text-decoration: none;
+.sidebar:hover .sidebar-header h2 {
+    opacity: 1; /* Fare üzerine geldiğinde görünsün */
 }
 
-header nav {
-    float: right;
-    margin-top: 5px;
-}
-
-header nav ul {
+.sidebar-nav ul {
     list-style: none;
+    width: 100%;
 }
 
-header nav ul li {
-    display: inline-block;
-    margin-left: 25px;
+.sidebar-nav ul li {
+    margin-bottom: 10px;
 }
 
-header nav ul li a {
+.sidebar-nav ul li a {
+    display: flex;
+    align-items: center;
     color: var(--text-color);
+    padding: 15px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap; /* Yazının tek satırda kalması için */
+    overflow: hidden; /* Taşmayı gizle */
+    text-overflow: ellipsis; /* Taşma durumunda üç nokta göster */
+}
+
+.sidebar-nav ul li a:hover {
+    background-color: var(--accent-color-secondary); /* Hafif vurgu */
+    transform: scale(1.05); /* Biraz büyüme efekti */
+    box-shadow: 0 0 10px rgba(232, 74, 39, 0.4); /* Canlı turuncu gölge */
+    color: var(--accent-color-primary); /* Metin rengi de canlılaşsın */
+}
+
+.sidebar-nav ul li a i {
+    font-size: 1.4em;
+    margin-right: 0px; /* Başlangıçta yazı gizli olduğu için boşluk 0 */
+    color: var(--text-color);
+    transition: margin-right 0.3s ease, color 0.3s ease;
+}
+
+.sidebar:hover .sidebar-nav ul li a i {
+    margin-right: 15px; /* Sidebar genişlediğinde boşluk ver */
+}
+
+.sidebar-nav ul li a .nav-text {
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 0.3s ease-in-out 0.1s; /* Gecikmeli görünme animasyonu */
     font-weight: bold;
-    font-size: 1.1em;
-    padding-bottom: 5px;
-    border-bottom: 2px solid transparent;
 }
 
-header nav ul li a:hover {
+.sidebar:hover .sidebar-nav ul li a .nav-text {
+    opacity: 1; /* Fare üzerine geldiğinde görünsün */
+}
+
+.sidebar-footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: #888;
+    padding-top: 20px;
+    border-top: 1px solid var(--accent-color-secondary);
+    width: 100%;
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 0.3s ease-in-out 0.1s;
+}
+
+.sidebar:hover .sidebar-footer {
+    opacity: 1;
+}
+
+.sidebar-footer p {
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-footer .github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-weight: normal;
+    transition: color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-footer .github-link:hover {
     color: var(--accent-color-primary);
-    border-bottom: 2px solid var(--accent-color-primary);
+    transform: scale(1.05);
 }
 
-/* Main Content */
-main {
-    padding: 40px 0;
+.sidebar-footer .github-link i {
+    margin-right: 5px;
+    font-size: 1.1em;
+}
+
+.sidebar-footer .github-link .github-text {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out 0.1s;
+}
+
+.sidebar:hover .sidebar-footer .github-link .github-text {
+    opacity: 1;
+}
+
+/* İçerik Alanı */
+.content-wrapper {
+    margin-left: var(--sidebar-width-collapsed); /* Sidebar genişliği kadar boşluk bırak */
+    flex-grow: 1;
+    transition: margin-left 0.3s ease-in-out; /* Boşluk animasyonu */
+}
+
+.sidebar:hover + .content-wrapper {
+    margin-left: var(--sidebar-width-expanded); /* Sidebar genişlediğinde içerik de kaydırılsın */
 }
 
 /* Post Card (Anasayfa ve Yazılar listesi) */
@@ -110,12 +218,13 @@ main {
     margin-bottom: 30px;
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
 }
 
 .post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px) scale(1.02); /* Biraz daha büyüme */
+    box-shadow: 0 5px 15px rgba(232, 74, 39, 0.5); /* Canlı turuncu gölge */
+    border-color: var(--link-hover-color); /* Kenarlık rengi de canlansın */
 }
 
 .post-card h3 {
@@ -126,6 +235,11 @@ main {
 .post-card h3 a {
     color: var(--text-color);
     font-size: 1.6em;
+    transition: color 0.3s ease;
+}
+
+.post-card h3 a:hover {
+    color: var(--accent-color-primary); /* Başlık rengi de değişsin */
 }
 
 .post-card .post-meta {
@@ -141,16 +255,17 @@ main {
 .read-more {
     display: inline-block;
     background-color: var(--accent-color-primary);
-    color: var(--main-bg-color); /* Yazı rengini arka plan ile kontrast oluşturacak şekilde ayarladık */
+    color: var(--main-bg-color);
     padding: 10px 15px;
     border-radius: 3px;
     font-weight: bold;
     font-size: 0.9em;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .read-more:hover {
     background-color: var(--link-hover-color);
+    transform: scale(1.05); /* Buton da büyüsün */
 }
 
 /* Post Detay Sayfası */
@@ -162,7 +277,7 @@ main {
 }
 
 .post-detail h2 {
-    color: var(--accent-color-primary); /* Yazı başlığı vurgulu olsun */
+    color: var(--accent-color-primary);
     margin-top: 0;
     font-size: 2.5em;
 }
@@ -200,12 +315,12 @@ pre {
 }
 
 code {
-    font-family: 'Fira Code', 'Roboto Mono', monospace; /* Monospace font burada öne çıksın */
+    font-family: 'Fira Code', 'Roboto Mono', monospace;
     font-size: 0.9em;
 }
 
 pre code {
-    display: block; /* Kod bloğunu tüm genişliğe yay */
+    display: block;
 }
 
 /* Image styling for Decap CMS uploads */
@@ -218,7 +333,6 @@ pre code {
     border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
-
 
 /* Post Navigation */
 .post-navigation {
@@ -234,14 +348,14 @@ pre code {
     color: var(--text-color);
     padding: 10px 15px;
     border-radius: 3px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .post-navigation a:hover {
     background-color: var(--accent-color-primary);
     color: var(--main-bg-color);
+    transform: scale(1.05);
 }
-
 
 /* Other Pages (About, Contact) */
 .content-page {
@@ -266,58 +380,81 @@ pre code {
     margin-bottom: 0.5em;
 }
 
-/* Footer */
-footer {
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
-    text-align: center;
-    padding: 25px 0;
-    border-top: 1px solid var(--accent-color-secondary);
-    font-size: 0.9em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-footer p {
-    margin: 5px 0;
-}
-
-footer .github-profile {
-    margin-top: 10px;
-}
-
-footer .github-profile a {
-    color: var(--accent-color-primary);
-    font-weight: bold;
-}
-
-
 /* Responsive Tasarım */
 @media (max-width: 768px) {
-    header h1 {
-        float: none;
-        text-align: center;
-        margin-bottom: 15px;
+    body {
+        flex-direction: column; /* Mobil görünümde sidebar üstte olsun */
     }
 
-    header nav {
-        float: none;
-        text-align: center;
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative; /* Sabit konumdan çıkar */
+        border-right: none;
+        border-bottom: 1px solid var(--accent-color-secondary);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 10px 0;
+        align-items: flex-start; /* Yazıların sola hizalanması için */
     }
 
-    header nav ul li {
-        margin: 0 10px;
+    .sidebar:hover {
+        width: 100%; /* Mobil'de genişleme olmasın */
+    }
+
+    .sidebar-header h2,
+    .sidebar-footer {
+        opacity: 1; /* Mobil'de hep görünür olsunlar */
+        text-align: center;
+        width: 100%;
+    }
+
+    .sidebar-header h2 {
+        font-size: 1.8em;
+    }
+
+    .sidebar-nav ul {
+        display: flex; /* Navigasyon elemanları yanyana */
+        flex-wrap: wrap; /* Gerekirse alt satıra geçsin */
+        justify-content: center;
+        padding: 10px 0;
+    }
+
+    .sidebar-nav ul li {
+        margin: 5px 10px; /* Kenar boşlukları ayarla */
+    }
+
+    .sidebar-nav ul li a {
+        flex-direction: column; /* İkon ve yazı alt alta */
+        padding: 10px;
+    }
+
+    .sidebar-nav ul li a i {
+        margin-right: 0; /* Boşluk kaldır */
+        margin-bottom: 5px; /* İkon ile yazı arasına boşluk */
+        font-size: 1.2em;
+    }
+
+    .sidebar-nav ul li a .nav-text {
+        opacity: 1; /* Mobil'de hep görünür olsun */
+        font-size: 0.9em;
+    }
+
+    .sidebar-footer .github-link .github-text {
+        opacity: 1; /* Mobil'de hep görünür olsun */
+    }
+
+    .content-wrapper {
+        margin-left: 0; /* Sidebar üstte olduğu için sol boşluk sıfırla */
+        padding: 20px;
+    }
+
+    .sidebar:hover + .content-wrapper {
+        margin-left: 0;
     }
 
     h1 { font-size: 2.2em; }
     h2 { font-size: 1.8em; }
     h3 { font-size: 1.4em; }
-
-    main {
-        padding: 20px 0;
-    }
 
     .post-card {
         padding: 20px;
