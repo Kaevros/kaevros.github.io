@@ -3,40 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaevros'un Blogu - Hakkımda</title>
+    <title>Mustafa Günay - Hakkımda</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1><a href="index.html">KAEVROS'UN BLOGU</a></h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Ana Sayfa</a></li>
-                    <li><a href="about.html">Hakkımda</a></li>
-                    <li><a href="posts.html">Yazılar</a></li>
-                    <li><a href="contact.html">İletişim</a></li>
-                </ul>
-            </nav>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Mustafa Günay</h2>
         </div>
-    </header>
-
-    <main class="container content-page">
-        <h2>Hakkımda</h2>
-        <p>Merhaba! Ben Kaevros. Bu blogda, yazılım geliştirme, web teknolojileri ve kişisel projelerim hakkında düşüncelerimi, deneyimlerimi ve öğrendiklerimi paylaşıyorum.</p>
-        <p>Yazılım dünyasındaki yenilikleri takip etmeyi ve öğrendiklerimi başkalarıyla paylaşmayı seviyorum. Özellikle [İlgi Alanlarınız, örn: JavaScript, Python, UI/UX tasarımı] konularına odaklanıyorum.</p>
-        <p>Umarım burada bulduğunuz içerikler size ilham verir veya yeni şeyler öğrenmenize yardımcı olur. Sorularınız veya yorumlarınız olursa çekinmeden iletişime geçebilirsiniz!</p>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Kaevros. Tüm Hakları Saklıdır.</p>
-            <div class="github-profile">
-                <p>GitHub Profilim: <a href="https://github.com/Kaevros" target="_blank">Kaevros</a></p>
-            </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="index.html" class="nav-item" data-tooltip="Ana Sayfa">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Ana Sayfa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html" class="nav-item" data-tooltip="Hakkımda">
+                        <i class="fas fa-user"></i>
+                        <span class="nav-text">Hakkımda</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="posts.html" class="nav-item" data-tooltip="Yazılar">
+                        <i class="fas fa-newspaper"></i>
+                        <span class="nav-text">Yazılar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="contact.html" class="nav-item" data-tooltip="İletişim">
+                        <i class="fas fa-envelope"></i>
+                        <span class="nav-text">İletişim</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <p>&copy; 2025 Mustafa Günay</p>
+            <a href="https://github.com/Kaevros" target="_blank" class="github-link">
+                <i class="fab fa-github"></i>
+                <span class="github-text">Kaevros</span>
+            </a>
         </div>
-    </footer>
+    </aside>
+
+    <div class="content-wrapper">
+        <main class="container content-page">
+            <h2>Hakkımda</h2>
+            <p>Merhaba! Ben Mustafa Günay. Bu blogda, yazılım geliştirme, web teknolojileri ve kişisel projelerim hakkında düşüncelerimi, deneyimlerimi ve öğrendiklerimi paylaşıyorum.</p>
+            <p>Yazılım dünyasındaki yenilikleri takip etmeyi ve öğrendiklerimi başkalarıyla paylaşmayı seviyorum. Özellikle [İlgi Alanlarınız, örn: JavaScript, Python, UI/UX tasarımı] konularına odaklanıyorum.</p>
+            <p>Umarım burada bulduğunuz içerikler size ilham verir veya yeni şeyler öğrenmenize yardımcı olur. Sorularınız veya yorumlarınız olursa çekinmeden iletişime geçebilirsiniz!</p>
+        </main>
+    </div>
 
     <script src="js/script.js"></script>
 </body>
