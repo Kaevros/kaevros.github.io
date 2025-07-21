@@ -112,22 +112,22 @@ h4 { font-size: 1.4em; }
     min-height: 1.2em; /* Mesajın yerine oturması için minimum yükseklik */
     text-align: center;
     padding: 0 20px;
-    white-space: nowrap; /* Tek satırda kalmasını sağla */
-    overflow: hidden;
-    box-sizing: content-box; /* Daktilo efekti için */
+    overflow: hidden; /* Daktilo efekti için taşmayı gizle */
+    /* white-space: nowrap; özelliği kaldırıldı, JS metni dinamik olarak yazar. */
     border-right: .15em solid var(--accent-color-primary); /* Yanıp sönen imleç */
     transition: opacity 0.5s ease-in-out;
 }
 
 /* Daktilo efekti ve imleç animasyonları (JS tarafından tetiklenecek) */
 .welcome-screen .welcome-message.typing-active {
-    animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
-    width: 100%; /* JS ile ayarlanacak */
+    animation: typing var(--typing-duration) steps(var(--typing-steps), end) forwards, blink-caret .75s step-end infinite;
+    width: auto; /* Animasyonla ayarlanacak */
+    max-width: 90%; /* Çok uzun metinlerde taşmayı engelle */
 }
 
 @keyframes typing {
     from { width: 0 }
-    to { width: 100% }
+    /* to { width: 100% } - JS dinamik olarak ayarlandığı için gerek kalmadı */
 }
 
 @keyframes blink-caret {
@@ -140,8 +140,8 @@ h4 { font-size: 1.4em; }
     background-color: transparent;
     border: 2px solid var(--accent-color-primary);
     color: var(--accent-color-primary);
-    width: 60px; /* Play butonu için sabit kare */
-    height: 60px;
+    width: 65px; /* Play butonu için sabit kare */
+    height: 65px;
     border-radius: 50%; /* Yuvarlak buton */
     display: flex;
     justify-content: center;
@@ -149,7 +149,7 @@ h4 { font-size: 1.4em; }
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease, color 0.3s ease;
     opacity: 0; /* Başlangıçta gizli */
-    font-size: 2em; /* Play ikonu boyutu */
+    font-size: 2.2em; /* Play ikonu boyutu */
     position: relative;
     bottom: -30px; /* Biraz daha aşağıda */
     animation: pulse-border 1.5s infinite alternate ease-in-out; /* Gelgit animasyonu */
@@ -236,7 +236,7 @@ h4 { font-size: 1.4em; }
 .sidebar-nav ul li a {
     display: flex;
     align-items: center;
-    justify-content: center; /* İkon ve metni ortala (kapalıyken sadece ikon) */
+    /* justify-content: center; - Bu kaldırıldı, ikonlar sağa hizalansın diye */
     color: var(--text-color);
     padding: 15px 0; /* Yatay padding'i kaldır, iç elemanlar ayarlasın */
     border-radius: 5px;
@@ -255,15 +255,19 @@ h4 { font-size: 1.4em; }
     color: var(--accent-color-primary);
 }
 
+/* Sidebar ikonlarının kapalıyken de tam görünür olması ve sağa yaklaştırılması */
 .sidebar-nav ul li a i {
     font-size: 1.4em;
     width: var(--sidebar-width-collapsed); /* Kapalıyken ikonun kapladığı alan kadar genişlik ver */
     text-align: center; /* İkonu ortala */
-    margin-right: 0;
+    margin-right: 0; /* Başlangıçta boşluk bırakma */
     color: var(--text-color);
     transition: margin-right 0.3s ease, color 0.3s ease, transform 0.2s ease;
     flex-shrink: 0;
-    padding: 0 5px; /* İkonun kendi iç paddingi */
+    padding: 0; /* İkonun kendi iç paddingi */
+    display: flex;
+    justify-content: center; /* İkonu yatayda ortala */
+    align-items: center; /* İkonu dikeyde ortala */
 }
 
 .sidebar:hover .sidebar-nav ul li a i {
@@ -567,6 +571,7 @@ pre code {
         align-items: center;
         overflow: hidden; /* Taşmayı gizle */
         z-index: 1000;
+        transition: height 0.3s ease-in-out; /* Mobil sidebar yükseklik geçişi */
     }
 
     .sidebar:hover {
@@ -578,6 +583,7 @@ pre code {
         text-align: left;
         padding-left: 15px;
         flex-shrink: 0;
+        max-width: 50%; /* Mobil başlık genişliğini sınırla */
     }
 
     .sidebar-header h2 {
@@ -592,6 +598,8 @@ pre code {
         flex-grow: 1;
         display: flex;
         justify-content: flex-end; /* Menüleri sağa hizala */
+        overflow-x: auto; /* Yatay kaydırma için */
+        -webkit-overflow-scrolling: touch; /* iOS'ta akıcı kaydırma */
     }
 
     .sidebar-nav ul {
@@ -599,7 +607,7 @@ pre code {
         justify-content: flex-end;
         align-items: center;
         padding-right: 15px;
-        width: auto;
+        width: auto; /* Otomatik genişlik */
     }
 
     .sidebar-nav ul li {
