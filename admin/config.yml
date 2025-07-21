@@ -10,44 +10,81 @@ public_folder: "/images/uploads"
 
 # Yönetilecek içerik koleksiyonları.
 collections:
-  - name: "posts"
-    label: "Yazılar" # Arayüzde görünecek etiket
+  - name: "posts" # Blog Yazıları
+    label: "Yazılar"
     folder: "posts"
     create: true
     slug: "{{slug}}"
     extension: "html"
     format: "frontmatter"
-    path: "{{slug}}.html"
+    path: "{{slug}}.html" # Decap CMS'in dosyaları nasıl kaydedeceğini belirtir.
     
     frontmatter_delimiter: "---"
     editor:
-      preview: false
+      preview: false # Canlı önizlemeyi kapatabiliriz, karmaşık HTML için faydalı.
     
     fields:
       - {label: "Başlık", name: "title", widget: "string"}
       - {label: "Yayın Tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", picker_utc: true}
       - label: "İçerik"
         name: "body"
-        widget: "markdown"
+        widget: "markdown" # Medium benzeri bir deneyim sunar
+        # Markdown widget'ı ile resimler, başlıklar, kod blokları vb. kolayca ekleyebilirsiniz.
 
-  - name: "pages"
-    label: "Sayfa Yönetimi"
+  - name: "site_pages" # Tüm site sayfaları için genel yönetim
+    label: "Site Sayfaları"
     files:
-      - label: "Ana Sayfa Ayarları" # Burayı güncelledik
+      - label: "Ana Sayfa Ayarları"
         name: "index_page"
         file: "index.html"
         fields:
-          - {label: "Blog Başlığı", name: "blog_title", widget: "string", default: "Mustafa Günay"} # Yeni alan
+          - label: "Blog Başlığı (Karşılama Ekranı ve Sidebar)"
+            name: "blog_title"
+            widget: "string"
+            default: "Mustafa Günay"
+          - label: "Karşılama Mesajları (Her satır ayrı mesaj)"
+            name: "welcome_messages"
+            widget: "list"
+            fields:
+              - {label: "Mesaj", name: "message", widget: "string"}
+            default:
+              - {message: "Sıfırlar ve Birler Arasında Bir Yolculuk..."}
+              - {message: "Kod, Sanat ve Teknolojiye Dair Derinlemesine Bakışlar..."}
+              - {message: "Dijital Dünyanın Kapıları Aralanıyor..."}
+              - {message: "Merhaba Dünya! Hoş Geldiniz..."}
+          - label: "Karşılama Ekranı Arka Plan Resmi"
+            name: "welcome_background_image"
+            widget: "image"
+            required: false
+            hint: "Ana sayfa karşılama ekranı için opsiyonel bir arka plan resmi. CSS ile animasyon eklenebilir."
           - label: "Son Yazılar Bölüm Başlığı"
-            name: "homepage_title"
+            name: "latest_posts_title"
             widget: "string"
             default: "Son Yazılar"
-          - label: "Ana Sayfa Açıklaması"
+          - label: "Ana Sayfa Açıklaması (Son Yazılar Altında)"
             name: "homepage_description"
             widget: "markdown"
             required: false
+            hint: "Son yazılar listesinin üzerinde görünecek ek metin."
 
-      - label: "Tüm Yazılar Sayfası Ayarları" # Burayı güncelledik
+      - label: "Hakkımda Sayfası Ayarları"
+        name: "about_page"
+        file: "about.html"
+        fields:
+          - label: "Hakkımda Başlığı"
+            name: "about_title"
+            widget: "string"
+            default: "Hakkımda"
+          - label: "Hakkımda İçeriği"
+            name: "about_content"
+            widget: "markdown"
+          - label: "Profil Fotoğrafı"
+            name: "profile_picture"
+            widget: "image"
+            required: false
+            hint: "Hakkımda sayfasında görüntülenecek profil fotoğrafınız."
+
+      - label: "Yazılar Sayfası Ayarları"
         name: "posts_list_page"
         file: "posts.html"
         fields:
@@ -60,19 +97,7 @@ collections:
             widget: "markdown"
             required: false
 
-      - label: "Hakkımda Sayfası Ayarları" # Hakkımda sayfası için ekledik
-        name: "about_page"
-        file: "about.html"
-        fields:
-          - label: "Hakkımda Başlığı"
-            name: "about_title"
-            widget: "string"
-            default: "Hakkımda"
-          - label: "Hakkımda İçeriği"
-            name: "about_content"
-            widget: "markdown"
-
-      - label: "İletişim Sayfası Ayarları" # İletişim sayfası için ekledik
+      - label: "İletişim Sayfası Ayarları"
         name: "contact_page"
         file: "contact.html"
         fields:
@@ -83,3 +108,17 @@ collections:
           - label: "İletişim Açıklaması"
             name: "contact_description"
             widget: "markdown"
+          - label: "E-posta Adresi"
+            name: "email_address"
+            widget: "string"
+            default: "senin.eposta@example.com"
+          - label: "LinkedIn Profil URL"
+            name: "linkedin_url"
+            widget: "string"
+            required: false
+            default: "https://www.linkedin.com/in/SENIN_LINKEDIN_PROFILIN"
+          - label: "GitHub Profil URL"
+            name: "github_url"
+            widget: "string"
+            required: false
+            default: "https://github.com/Kaevros"
