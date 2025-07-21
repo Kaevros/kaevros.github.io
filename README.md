@@ -36,4 +36,8 @@ Bu kadar! Değişiklikleri GitHub'a `push` ettiğinizde yeni yazınız sitenizde
 
 - **Renkler:** `css/style.css` dosyasının en üstündeki `:root` bloğundaki renk kodlarını (`--bg-color`, `--accent-color` vb.) değiştirerek tüm sitenin renk paletini anında güncelleyebilirsiniz.
 - **Font:** Fontu değiştirmek için HTML dosyalarındaki Google Fonts linkini ve `css/style.css` dosyasındaki `--font-family` değişkenini güncelleyin.
+- **Profil Fotoğrafı Ekleme (YENİ):**
+    - `about.html` dosyasını açın.
+    - İçindeki şu satırı bulun: `<img src="https://github.com/kullaniciadiniz.png" ... >`
+    - `kullaniciadiniz` yazan yeri kendi **GitHub kullanıcı adınızla** değiştirin. Fotoğrafınız otomatik olarak yüklenecektir.
 - **İçerik:** `about.html` ve `contact.html` gibi sayfaları doğrudan düzenleyerek kişisel bilgilerinizi ekleyin. `<footer>` kısmındaki telif hakkı metnini güncellemeyi unutmayın.
