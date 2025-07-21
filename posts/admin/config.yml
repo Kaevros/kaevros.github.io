@@ -1,1 +1,60 @@
+# GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
+backend:
+  name: github
+  repo: kullaniciadiniz/depo-adiniz # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
+  branch: main # Veya 'master' kullanıyorsanız onu yazın.
 
+# Medya dosyaları (resimler vb.) yüklenirse nereye kaydedileceği.
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+# Yönetilecek içerik koleksiyonları. Bizim için sadece "Yazılar" var.
+collections:
+  - name: "posts" # Koleksiyonun adı
+    label: "Yazılar" # Arayüzde görünecek etiket
+    folder: "posts" # Yazıların kaydedileceği klasör
+    create: true # Arayüzden yeni yazı oluşturmaya izin ver
+    slug: "{{slug}}" # Dosya adını başlıktan otomatik oluştur
+    extension: "html" # Dosya uzantısı .html olacak
+    
+    # Yazıların hangi şablona göre oluşturulacağını belirtiyoruz.
+    # Bu, her yazının başına ve sonuna standart HTML yapısını ekler.
+    # NOT: Tırnak işaretleri ve girintiler YAML formatı için çok önemlidir!
+    # Lütfen olduğu gibi kopyalayın.
+    format: "frontmatter" # Bu format, içeriği bir şablonun içine yerleştirmemizi sağlar.
+    
+    # Her yazı oluşturulduğunda doldurulacak alanlar
+    fields:
+      - {label: "Başlık", name: "title", widget: "string"}
+      - {label: "Yayın Tarihi", name: "date", widget: "datetime"}
+      - label: "İçerik"
+        name: "body"
+        widget: "markdown" # Yazılarınızı kolayca Markdown formatında yazmanızı sağlar.
+        
+    # Her yazının ana HTML şablonu
+    # 'body' alanı, yukarıda yazdığınız Markdown içeriğin HTML'e çevrilmiş haliyle doldurulur.
+    # Bu kısım, her post sayfasının başlık, menü ve footer gibi sabit kısımlarını oluşturur.
+    # 'title' ve 'date' gibi alanlar, yukarıda girdiğiniz bilgilerle otomatik dolar.
+    view_filters:
+      - label: 'Formatlanmış Tarih'
+        field: 'date'
+        pattern: 'DD MMMM YYYY' # Tarihi "21 Temmuz 2025" gibi formatlar
+
+    # ÖNEMLİ: files koleksiyonu index.html ve posts.html'i güncelleyecek
+  - name: "pages"
+    label: "Sayfa Yönetimi"
+    files:
+      - label: "Ana Sayfa Yazı Listesi"
+        name: "index"
+        file: "index.html"
+        fields:
+          - label: "Yazı Listesi (HTML)"
+            name: "posts_html"
+            widget: "hidden" # Bu alan kullanıcıya görünmez, sadece arkaplanda kullanılır.
+      - label: "Tüm Yazılar Sayfası Listesi"
+        name: "posts_page"
+        file: "posts.html"
+        fields:
+          - label: "Yazı Listesi (HTML)"
+            name: "posts_html_all"
+            widget: "hidden"
