@@ -1,4 +1,4 @@
-# Sade ve Teknik GitHub Pages Blog Şablonu
+# Sade ve Teknik GitHub Blog Şablonu
 
 Bu proje, herhangi bir statik site oluşturucu (Jekyll, Hugo vb.) kullanmadan, yalnızca saf HTML, CSS ve minimal JavaScript ile geliştirilmiş, teknik içerik paylaşımına uygun bir blog şablonudur.
 
