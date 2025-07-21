@@ -48,10 +48,10 @@ collections:
             fields:
               - {label: "Mesaj", name: "message", widget: "string"}
             default:
-              - {message: "Sıfırlar ve Birler Arasında Bir Yolculuk..."}
-              - {message: "Kod, Sanat ve Teknolojiye Dair Derinlemesine Bakışlar..."}
-              - {message: "Dijital Dünyanın Kapıları Aralanıyor..."}
-              - {message: "Merhaba Dünya! Hoş Geldiniz..."}
+              - {message: "Hello, friend."}
+              - {message: "Her kod bir hikaye anlatır. Bugün ne yazıyoruz?"}
+              - {message: "Dijital evrenin derinliklerinde kaybolmaya hazır mısın?"}
+              - {message: "Bazen her şeyi silip yeniden başlamak gerekir."}
           - label: "Karşılama Ekranı Arka Plan Resmi"
             name: "welcome_background_image"
             widget: "image"
