@@ -1,44 +1,44 @@
 # backend: GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
 backend:
   name: github
-  repo: Kaevros/kaevros.github.io # Kendi GitHub kullanıcı adınızı ve depo adınızı yazın.
+  repo: Kaevros/kaevros.github.io # GitHub kullanıcı adınız ve depo adınız
   branch: main # Deponuzun ana dalı (genellikle 'main' veya 'master')
 
 # Medya dosyaları (resimler vb.) yüklenirse nereye kaydedileceği.
-# `public_folder` web'den erişilen yolu, `media_folder` ise depodaki fiziksel yolu belirtir.
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 # Yönetilecek içerik koleksiyonları.
 collections:
-  - name: "posts" # Koleksiyonun iç adı (benzersiz olmalı)
+  - name: "posts"
     label: "Yazılar" # Arayüzde görünecek etiket
-    folder: "posts" # Yazıların kaydedileceği klasör
-    create: true # Arayüzden yeni yazı oluşturmaya izin ver
-    slug: "{{slug}}" # Dosya adını başlıktan otomatik oluşturur (ör: "ilk-blog-yazim")
-    extension: "html" # Dosya uzantısı .html olacak
-    format: "frontmatter" # YAML frontmatter kullanacağımızı belirtiyoruz.
-    path: "{{slug}}.html" # Decap CMS'in dosyaları nasıl kaydedeceğini belirtir.
+    folder: "posts"
+    create: true
+    slug: "{{slug}}"
+    extension: "html"
+    format: "frontmatter"
+    path: "{{slug}}.html"
     
     frontmatter_delimiter: "---"
     editor:
-      preview: false # Canlı önizlemeyi kapatabiliriz, karmaşık HTML için faydalı.
+      preview: false
     
     fields:
       - {label: "Başlık", name: "title", widget: "string"}
       - {label: "Yayın Tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", picker_utc: true}
       - label: "İçerik"
         name: "body"
-        widget: "markdown" # Yazılarınızı kolayca Markdown formatında yazmanızı sağlar.
+        widget: "markdown"
 
   - name: "pages"
     label: "Sayfa Yönetimi"
     files:
-      - label: "Ana Sayfa Yazı Listesi"
+      - label: "Ana Sayfa Ayarları" # Burayı güncelledik
         name: "index_page"
         file: "index.html"
         fields:
-          - label: "Ana Sayfa Başlığı"
+          - {label: "Blog Başlığı", name: "blog_title", widget: "string", default: "Mustafa Günay"} # Yeni alan
+          - label: "Son Yazılar Bölüm Başlığı"
             name: "homepage_title"
             widget: "string"
             default: "Son Yazılar"
@@ -47,7 +47,7 @@ collections:
             widget: "markdown"
             required: false
 
-      - label: "Tüm Yazılar Sayfası"
+      - label: "Tüm Yazılar Sayfası Ayarları" # Burayı güncelledik
         name: "posts_list_page"
         file: "posts.html"
         fields:
@@ -59,3 +59,27 @@ collections:
             name: "page_description"
             widget: "markdown"
             required: false
+
+      - label: "Hakkımda Sayfası Ayarları" # Hakkımda sayfası için ekledik
+        name: "about_page"
+        file: "about.html"
+        fields:
+          - label: "Hakkımda Başlığı"
+            name: "about_title"
+            widget: "string"
+            default: "Hakkımda"
+          - label: "Hakkımda İçeriği"
+            name: "about_content"
+            widget: "markdown"
+
+      - label: "İletişim Sayfası Ayarları" # İletişim sayfası için ekledik
+        name: "contact_page"
+        file: "contact.html"
+        fields:
+          - label: "İletişim Başlığı"
+            name: "contact_title"
+            widget: "string"
+            default: "İletişim"
+          - label: "İletişim Açıklaması"
+            name: "contact_description"
+            widget: "markdown"
