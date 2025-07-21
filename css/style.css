@@ -17,14 +17,13 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Mono', monospace; /* Hacker temasına uygun font */
     background-color: var(--main-bg-color);
     color: var(--text-color);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    display: flex; /* Sidebar ve içerik yanyana durması için */
-    min-height: 100vh; /* Sayfanın tamamını kaplaması için */
+    overflow-x: hidden; /* Yatay kaydırmayı engelle */
 }
 
 .container {
@@ -55,6 +54,95 @@ h2 { font-size: 2.2em; }
 h3 { font-size: 1.8em; }
 h4 { font-size: 1.4em; }
 
+/* Welcome Screen (Karşılama Ekranı) */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 1s ease-out;
+}
+
+.welcome-screen.hidden {
+    opacity: 0;
+    pointer-events: none; /* Gizlendiğinde tıklama olaylarını engelle */
+}
+
+.welcome-screen .animated-title {
+    font-size: 4em; /* Büyük punto */
+    color: var(--accent-color-primary);
+    text-shadow: 0 0 10px rgba(232, 74, 39, 0.6), 0 0 20px rgba(232, 74, 39, 0.4);
+    animation: neon-glow 1.5s ease-in-out infinite alternate; /* Animasyon */
+    margin-bottom: 20px;
+    white-space: nowrap; /* Tek satırda kalmasını sağla */
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+.welcome-screen .welcome-message {
+    font-size: 1.5em;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.welcome-screen .welcome-message.visible {
+    opacity: 1;
+}
+
+.welcome-screen .enter-button {
+    background-color: var(--accent-color-primary);
+    color: var(--main-bg-color);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    opacity: 0; /* Başlangıçta gizli */
+}
+
+.welcome-screen .enter-button.visible {
+    opacity: 1;
+}
+
+.welcome-screen .enter-button:hover {
+    background-color: var(--link-hover-color);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(232, 74, 39, 0.4);
+}
+
+@keyframes neon-glow {
+    from {
+        text-shadow: 0 0 5px rgba(232, 74, 39, 0.4), 0 0 10px rgba(232, 74, 39, 0.2);
+    }
+    to {
+        text-shadow: 0 0 15px rgba(232, 74, 39, 0.8), 0 0 25px rgba(232, 74, 39, 0.6);
+    }
+}
+
+/* Main Layout (Sidebar ve İçerik) */
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%; /* İçeriğin tamamını kaplasın */
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 1s ease-in;
+}
+
+.main-layout.visible {
+    opacity: 1;
+}
+
 /* Sidebar */
 .sidebar {
     width: var(--sidebar-width-collapsed);
@@ -64,17 +152,18 @@ h4 { font-size: 1.4em; }
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center; /* İkonların ortalanması için */
-    transition: width 0.3s ease-in-out; /* Genişlik animasyonu */
-    position: fixed; /* Sayfada sabit kalması için */
+    align-items: center;
+    transition: width 0.3s ease-in-out;
+    position: fixed;
     height: 100%;
     border-right: 1px solid var(--accent-color-secondary);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Diğer içeriklerin üstünde olması için */
+    z-index: 1000;
+    overflow: hidden; /* Yazıların taşmasını gizle */
 }
 
 .sidebar:hover {
-    width: var(--sidebar-width-expanded); /* Fare üzerine geldiğinde genişlesin */
+    width: var(--sidebar-width-expanded);
 }
 
 .sidebar-header {
@@ -86,20 +175,21 @@ h4 { font-size: 1.4em; }
 .sidebar-header h2 {
     margin: 0;
     font-size: 1.5em;
-    white-space: nowrap; /* Yazının tek satırda kalması için */
-    overflow: hidden; /* Taşmayı gizle */
-    text-overflow: ellipsis; /* Taşma durumunda üç nokta göster */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     opacity: 0; /* Başlangıçta gizli */
-    transition: opacity 0.3s ease-in-out 0.1s; /* Gecikmeli görünme animasyonu */
+    transition: opacity 0.3s ease-in-out 0.1s;
 }
 
 .sidebar:hover .sidebar-header h2 {
-    opacity: 1; /* Fare üzerine geldiğinde görünsün */
+    opacity: 1;
 }
 
 .sidebar-nav ul {
     list-style: none;
     width: 100%;
+    padding-left: 0; /* Listelerin varsayılan padding'ini kaldır */
 }
 
 .sidebar-nav ul li {
@@ -112,24 +202,29 @@ h4 { font-size: 1.4em; }
     color: var(--text-color);
     padding: 15px 20px;
     border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    white-space: nowrap; /* Yazının tek satırda kalması için */
-    overflow: hidden; /* Taşmayı gizle */
-    text-overflow: ellipsis; /* Taşma durumunda üç nokta göster */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative; /* İkonların pozisyonu için */
 }
 
 .sidebar-nav ul li a:hover {
-    background-color: var(--accent-color-secondary); /* Hafif vurgu */
-    transform: scale(1.05); /* Biraz büyüme efekti */
-    box-shadow: 0 0 10px rgba(232, 74, 39, 0.4); /* Canlı turuncu gölge */
-    color: var(--accent-color-primary); /* Metin rengi de canlılaşsın */
+    background-color: var(--accent-color-secondary);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(232, 74, 39, 0.4);
+    color: var(--accent-color-primary);
 }
 
 .sidebar-nav ul li a i {
     font-size: 1.4em;
+    width: 40px; /* İkonlara sabit bir genişlik ver */
+    text-align: center; /* İkonları ortala */
     margin-right: 0px; /* Başlangıçta yazı gizli olduğu için boşluk 0 */
     color: var(--text-color);
     transition: margin-right 0.3s ease, color 0.3s ease;
+    position: relative; /* Kendi pozisyonunu ayarla */
+    left: 0; /* Tam görünmesini sağla */
 }
 
 .sidebar:hover .sidebar-nav ul li a i {
@@ -137,13 +232,13 @@ h4 { font-size: 1.4em; }
 }
 
 .sidebar-nav ul li a .nav-text {
-    opacity: 0; /* Başlangıçta gizli */
-    transition: opacity 0.3s ease-in-out 0.1s; /* Gecikmeli görünme animasyonu */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out 0.1s;
     font-weight: bold;
 }
 
 .sidebar:hover .sidebar-nav ul li a .nav-text {
-    opacity: 1; /* Fare üzerine geldiğinde görünsün */
+    opacity: 1;
 }
 
 .sidebar-footer {
@@ -153,8 +248,11 @@ h4 { font-size: 1.4em; }
     padding-top: 20px;
     border-top: 1px solid var(--accent-color-secondary);
     width: 100%;
-    opacity: 0; /* Başlangıçta gizli */
+    opacity: 0;
     transition: opacity 0.3s ease-in-out 0.1s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar:hover .sidebar-footer {
@@ -163,9 +261,6 @@ h4 { font-size: 1.4em; }
 
 .sidebar-footer p {
     margin-bottom: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .sidebar-footer .github-link {
@@ -175,9 +270,6 @@ h4 { font-size: 1.4em; }
     color: #888;
     font-weight: normal;
     transition: color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .sidebar-footer .github-link:hover {
@@ -201,18 +293,22 @@ h4 { font-size: 1.4em; }
 
 /* İçerik Alanı */
 .content-wrapper {
-    margin-left: var(--sidebar-width-collapsed); /* Sidebar genişliği kadar boşluk bırak */
+    margin-left: var(--sidebar-width-collapsed);
     flex-grow: 1;
-    transition: margin-left 0.3s ease-in-out; /* Boşluk animasyonu */
+    transition: margin-left 0.3s ease-in-out;
 }
 
 .sidebar:hover + .content-wrapper {
-    margin-left: var(--sidebar-width-expanded); /* Sidebar genişlediğinde içerik de kaydırılsın */
+    margin-left: var(--sidebar-width-expanded);
+}
+
+main {
+    padding: 40px 0;
 }
 
 /* Post Card (Anasayfa ve Yazılar listesi) */
 .post-card {
-    background-color: var(--accent-color-secondary); /* Donuk Gri */
+    background-color: var(--accent-color-secondary);
     border-left: 5px solid var(--accent-color-primary);
     padding: 25px;
     margin-bottom: 30px;
@@ -222,9 +318,9 @@ h4 { font-size: 1.4em; }
 }
 
 .post-card:hover {
-    transform: translateY(-5px) scale(1.02); /* Biraz daha büyüme */
-    box-shadow: 0 5px 15px rgba(232, 74, 39, 0.5); /* Canlı turuncu gölge */
-    border-color: var(--link-hover-color); /* Kenarlık rengi de canlansın */
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(232, 74, 39, 0.5);
+    border-color: var(--link-hover-color);
 }
 
 .post-card h3 {
@@ -239,7 +335,7 @@ h4 { font-size: 1.4em; }
 }
 
 .post-card h3 a:hover {
-    color: var(--accent-color-primary); /* Başlık rengi de değişsin */
+    color: var(--accent-color-primary);
 }
 
 .post-card .post-meta {
@@ -265,7 +361,7 @@ h4 { font-size: 1.4em; }
 
 .read-more:hover {
     background-color: var(--link-hover-color);
-    transform: scale(1.05); /* Buton da büyüsün */
+    transform: scale(1.05);
 }
 
 /* Post Detay Sayfası */
@@ -383,29 +479,31 @@ pre code {
 /* Responsive Tasarım */
 @media (max-width: 768px) {
     body {
-        flex-direction: column; /* Mobil görünümde sidebar üstte olsun */
+        flex-direction: column;
     }
 
     .sidebar {
         width: 100%;
         height: auto;
-        position: relative; /* Sabit konumdan çıkar */
+        position: relative;
         border-right: none;
         border-bottom: 1px solid var(--accent-color-secondary);
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         padding: 10px 0;
-        align-items: flex-start; /* Yazıların sola hizalanması için */
+        align-items: flex-start;
+        overflow: visible; /* Mobil'de taşmayı gizleme */
     }
 
     .sidebar:hover {
-        width: 100%; /* Mobil'de genişleme olmasın */
+        width: 100%;
     }
 
     .sidebar-header h2,
     .sidebar-footer {
-        opacity: 1; /* Mobil'de hep görünür olsunlar */
+        opacity: 1;
         text-align: center;
         width: 100%;
+        padding: 0 10px;
     }
 
     .sidebar-header h2 {
@@ -413,38 +511,39 @@ pre code {
     }
 
     .sidebar-nav ul {
-        display: flex; /* Navigasyon elemanları yanyana */
-        flex-wrap: wrap; /* Gerekirse alt satıra geçsin */
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         padding: 10px 0;
     }
 
     .sidebar-nav ul li {
-        margin: 5px 10px; /* Kenar boşlukları ayarla */
+        margin: 5px 10px;
     }
 
     .sidebar-nav ul li a {
-        flex-direction: column; /* İkon ve yazı alt alta */
+        flex-direction: column;
         padding: 10px;
     }
 
     .sidebar-nav ul li a i {
-        margin-right: 0; /* Boşluk kaldır */
-        margin-bottom: 5px; /* İkon ile yazı arasına boşluk */
+        margin-right: 0;
+        margin-bottom: 5px;
         font-size: 1.2em;
+        width: auto; /* Mobil'de sabit genişliği kaldır */
     }
 
     .sidebar-nav ul li a .nav-text {
-        opacity: 1; /* Mobil'de hep görünür olsun */
+        opacity: 1;
         font-size: 0.9em;
     }
 
     .sidebar-footer .github-link .github-text {
-        opacity: 1; /* Mobil'de hep görünür olsun */
+        opacity: 1;
     }
 
     .content-wrapper {
-        margin-left: 0; /* Sidebar üstte olduğu için sol boşluk sıfırla */
+        margin-left: 0;
         padding: 20px;
     }
 
@@ -452,27 +551,13 @@ pre code {
         margin-left: 0;
     }
 
-    h1 { font-size: 2.2em; }
-    h2 { font-size: 1.8em; }
-    h3 { font-size: 1.4em; }
-
-    .post-card {
-        padding: 20px;
-        margin-bottom: 20px;
+    .welcome-screen .animated-title {
+        font-size: 2.5em;
     }
 
-    .post-detail .post-content {
-        padding: 20px;
-    }
-
-    .post-navigation {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .post-navigation a {
-        margin-bottom: 10px;
-        width: 100%;
+    .welcome-screen .welcome-message {
+        font-size: 1.2em;
+        padding: 0 15px;
         text-align: center;
     }
 }
