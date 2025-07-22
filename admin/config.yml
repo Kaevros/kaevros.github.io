@@ -1,130 +1,25 @@
-# backend: GitHub'ı arka plan olarak kullanacağımızı belirtiyoruz.
 backend:
   name: github
-  repo: Kaevros/kaevros.github.io # GitHub kullanıcı adınız ve depo adınız
-  branch: main # Deponuzun ana dalı (genellikle 'main' veya 'master')
+  repo: Kaevros/kaevros.github.io # SENİN KULLANICI ADIN / REPO ADIN
+  branch: main # Deponuzun ana dalı 'main' ise bu şekilde bırakın. 'master' ise onu yazın.
+  
+# Medya dosyaları (resimler vb.) yüklendiğinde nereye kaydedilecek.
+media_folder: "assets/uploads" # Resimlerin yükleneceği klasör
+public_folder: "/assets/uploads" # Resimlerin sitede görüneceği yol
 
-# Medya dosyaları (resimler vb.) yüklenirse nereye kaydedileceği.
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
-
-# Yönetilecek içerik koleksiyonları.
+# Yönetilecek içerik koleksiyonları
 collections:
-  - name: "posts" # Blog Yazıları
-    label: "Yazılar"
-    folder: "posts"
-    create: true
-    slug: "{{slug}}"
-    extension: "html"
-    format: "frontmatter"
-    path: "{{slug}}.html" # Decap CMS'in dosyaları nasıl kaydedeceğini belirtir.
-    
-    frontmatter_delimiter: "---"
-    editor:
-      preview: false # Canlı önizlemeyi kapatabiliriz, karmaşık HTML için faydalı.
-    
-    fields:
-      - {label: "Başlık", name: "title", widget: "string"}
-      - {label: "Yayın Tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", picker_utc: true}
-      - label: "İçerik"
-        name: "body"
-        widget: "markdown" # Medium benzeri bir deneyim sunar
-        # Markdown widget'ı ile resimler, başlıklar, kod blokları vb. kolayca ekleyebilirsiniz.
-
-  - name: "site_pages" # Tüm site sayfaları için genel yönetim
-    label: "Site Sayfaları"
-    files:
-      - label: "Ana Sayfa Ayarları"
-        name: "index_page"
-        file: "index.html"
-        fields:
-          - label: "Blog Başlığı (Karşılama Ekranı ve Sidebar)"
-            name: "blog_title"
-            widget: "string"
-            default: "Mustafa Günay"
-          - label: "Karşılama Mesajları (Her satır ayrı mesaj)"
-            name: "welcome_messages"
-            widget: "list"
-            fields:
-              - {label: "Mesaj", name: "message", widget: "string"}
-            default:
-              - {message: "Düşünceler kodla buluşuyor. Hoş geldiniz."}
-              - {message: "Siberin karanlık dehlizlerinde yolculuğa çıkmaya hazır mısın?"}
-              - {message: "Bilgi güvenliğin, dijital özgürlüğündür. Koru onu."}
-              - {message: "Ağlar konuşur, biz dinleriz. Tehlikeleri analiz ederiz."}
-              - {message: "Her byte bir sır saklar. Çözebilir misin?"}
-          - label: "Karşılama Ekranı Arka Plan Resmi"
-            name: "welcome_background_image"
-            widget: "image"
-            required: false
-            hint: "Ana sayfa karşılama ekranı için opsiyonel bir arka plan resmi. CSS ile animasyon eklenebilir."
-          - label: "Son Yazılar Bölüm Başlığı"
-            name: "latest_posts_title"
-            widget: "string"
-            default: "Son Yazılar"
-          - label: "Ana Sayfa Açıklaması (Son Yazılar Altında)"
-            name: "homepage_description"
-            widget: "markdown"
-            required: false
-            hint: "Son yazılar listesinin üzerinde görünecek ek metin."
-
-      - label: "Hakkımda Sayfası Ayarları"
-        name: "about_page"
-        file: "about.html"
-        fields:
-          - label: "Hakkımda Başlığı"
-            name: "about_title"
-            widget: "string"
-            default: "Hakkımda"
-          - label: "Hakkımda İçeriği"
-            name: "about_content"
-            widget: "markdown"
-          - label: "Profil Fotoğrafı"
-            name: "profile_picture"
-            widget: "image"
-            required: false
-            hint: "Hakkımda sayfasında görüntülenecek profil fotoğrafınız."
-
-      - label: "Yazılar Sayfası Ayarları"
-        name: "posts_list_page"
-        file: "posts.html"
-        fields:
-          - label: "Sayfa Başlığı"
-            name: "page_title"
-            widget: "string"
-            default: "Tüm Blog Yazılarım"
-          - label: "Sayfa Açıklaması"
-            name: "page_description"
-            widget: "markdown"
-            required: false
-
-      - label: "İletişim Sayfası Ayarları"
-        name: "contact_page"
-        file: "contact.html"
-        fields:
-          - label: "İletişim Başlığı"
-            name: "contact_title"
-            widget: "string"
-            default: "İletişim"
-          - label: "İletişim Açıklaması"
-            name: "contact_description"
-            widget: "markdown"
-          - label: "E-posta Adresi"
-            name: "email_address"
-            widget: "string"
-            default: "senin.eposta@example.com"
-          - label: "LinkedIn Profil URL"
-            name: "linkedin_url"
-            widget: "string"
-            required: false
-            default: "https://www.linkedin.com/in/SENIN_LINKEDIN_PROFILIN"
-          - label: "GitHub Profil URL"
-            name: "github_url"
-            widget: "string"
-            required: false
-            default: "https://github.com/Kaevros"
-          - label: "Instagram Profil URL" # Yeni Instagram alanı
-            name: "instagram_url"
-            widget: "string"
-            required: false
-            default: "https://www.instagram.com/SENIN_INSTAGRAM_KULLANICI_ADIN"
+  # Blog yazılarını yöneteceğimiz koleksiyon
+  - name: "posts" # Koleksiyonun teknik adı
+    label: "Blog Yazıları" # Arayüzde görünecek etiket
+    folder: "_posts" # Jekyll ve GitHub Pages ile uyumlu olması için _posts klasörünü kullanalım
+    create: true # Yeni yazı oluşturmaya izin ver
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Dosya adını '2025-07-22-yeni-yazim' formatında oluşturur
+    extension: "md" # Dosya uzantısı Markdown olsun
+    format: "frontmatter" # Jekyll uyumlu format
+    fields: # Her yazı için doldurulacak alanlar
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Yayın Tarihi", name: "date", widget: "datetime" }
+      - { label: "Etiketler (virgülle ayırın)", name: "tags", widget: "string", required: false }
+      - { label: "Kısa Açıklama", name: "excerpt", widget: "text", required: false }
+      - { label: "İçerik", name: "body", widget: "markdown" }
