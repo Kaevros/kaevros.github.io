@@ -1,3 +1,6 @@
+# admin/config.yml - DÜZELTİLMİŞ VERSİYON
+
+# Arka plan olarak GitHub'ı kullanacağımızı ve hangi depoya bağlanacağımızı belirtiyoruz.
 backend:
   name: github
   repo: Kaevros/kaevros.github.io # SENİN KULLANICI ADIN / REPO ADIN
@@ -16,7 +19,7 @@ collections:
     create: true # Yeni yazı oluşturmaya izin ver
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Dosya adını '2025-07-22-yeni-yazim' formatında oluşturur
     extension: "md" # Dosya uzantısı Markdown olsun
-    format: "frontmatter" # Jekyll uyumlu format
+    # 'format' satırı bilinçli olarak kaldırıldı. Sorun bu satırdaydı.
     fields: # Her yazı için doldurulacak alanlar
       - { label: "Başlık", name: "title", widget: "string" }
       - { label: "Yayın Tarihi", name: "date", widget: "datetime" }
