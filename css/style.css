@@ -301,3 +301,68 @@ main.active { display: block; }
     .welcome-screen #blog-title { font-size: 12vw; }
     .welcome-screen #welcome-message { font-size: 1.5rem; }
 }
+
+/* --- Hizmetler Sayfası Stilleri --- */
+.page-intro {
+    color: #bbb;
+    font-size: 1.1em;
+    margin-bottom: 40px;
+    border-left: 3px solid var(--accent-color-primary);
+    padding-left: 15px;
+}
+.service-card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(232, 74, 39, 0.4);
+}
+.service-card h3 {
+    color: var(--accent-color-primary);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.6em;
+}
+
+/* --- Gelişmiş Kod Bloğu Stilleri --- */
+pre {
+    position: relative; /* kopyala butonu buna göre hizalanacak */
+    background-color: #282c34 !important; /* temanın rengini ezelim */
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 0.95em;
+    line-height: 1.6;
+    overflow-x: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+}
+pre code.hljs {
+    padding: 0; /* highlight.js'in kendi padding'ini sıfırlayalım */
+}
+.copy-code-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: #4f5663;
+    color: #e0e0e0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0; /* normalde hayalet gibi, görünmez */
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    font-size: 0.8em;
+    font-family: 'Oxanium', sans-serif;
+}
+pre:hover .copy-code-button {
+    opacity: 1; /* fare üzerine gelince ortaya çıksın */
+}
+.copy-code-button:hover {
+    background-color: var(--accent-color-primary);
+}
