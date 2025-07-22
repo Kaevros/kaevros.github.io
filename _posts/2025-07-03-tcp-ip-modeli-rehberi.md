@@ -1,6 +1,12 @@
 ---
 title: "🌐 TCP/IP Modeli: Eğlenceli ve Açıklayıcı Rehber"
 date: "2025-07-03"
+description: "İnternetin temel taşı olan TCP/IP modelini, 4 katmanını, OSI ile farklarını ve gerçek hayat örneklerini kolay ezber kodlarıyla keşfedin."
+tags:
+  - Network
+  - TCP/IP
+  - Protokoller
+  - Temel Kavramlar
 ---
 
 Bu yazıda hem internetin çalışma anayasası olan TCP/IP modelini anlayacaksın, hem de gerçek hayat örnekleriyle öğrenmenin ne kadar kolay olabileceğini göreceksin.
@@ -64,7 +70,7 @@ Ethernet, Wi-Fi, MAC adresi, sinyaller… fiziksel aktarım burada olur.
 +--------------------+---------------------+
 
 
-🏠 Bir Kargo Teslimatı Gibi
+##🏠 Bir Kargo Teslimatı Gibi
 Uygulama: Kargoyu hazırlayan müşteri
 
 Taşıma: Kargonun güvenli paketlenmesi
@@ -81,3 +87,5 @@ Ağ Erişimi: Motor kurye ile adrese teslim
 ✅ Yazılım, güvenlik, ağ yönetimi için temel bilgidir.
 
 ✅ OSI ile birlikte öğrenildiğinde mükemmel uyum sağlar.
+
+Artık TCP/IP modeli senin için karışık bir şey değil. Katmanları anladın, işlevlerini kavradın, OSI ile farkını öğrendin.

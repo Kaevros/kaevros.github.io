@@ -1,6 +1,11 @@
 ---
 title: "👻 İnternetteki Hayaletin: Dijital Ayak İzini Anlamak"
 date: "2025-06-15"
+description: "İnternette bıraktığınız aktif ve pasif izler olan dijital ayak izinin ne olduğunu, neden önemli olduğunu ve kimliğinizi nasıl şekillendirdiğini keşfedin."
+tags:
+  - Güvenlik
+  - Gizlilik
+  - Dijital Kimlik
 ---
 
 İnternette attığınız her adım, bıraktığınız her yorum, tıkladığınız her beğeni... Bunların hepsi, arkanızda sizin dijital bir hayaletinizi, yani dijital ayak izinizi bırakır. Peki bu izler kimliğinizi nasıl şekillendiriyor ve geleceğinizi nasıl etkileyebilir?

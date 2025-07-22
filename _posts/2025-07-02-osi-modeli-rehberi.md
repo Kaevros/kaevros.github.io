@@ -1,6 +1,11 @@
 ---
 title: "💡 OSI Modeli: Açıklayıcı ve Eğlenceli Rehber"
 date: "2025-07-02"
+description: "Ağ iletişiminin 7 katmanlı anayasası olan OSI modelini, katmanların görevlerini, ezber kodlarını ve gerçek hayat benzetmelerini bu rehberde öğrenin."
+tags:
+  - Network
+  - OSI Modeli
+  - Temel Kavramlar
 ---
 
 ## 🚀 OSI Modeline Giriş — Basit Kodlamayla Ezber
@@ -74,4 +79,4 @@ OSI Modeli, ağ iletişimini 7 katmana bölen bir sistemdir. Her katman farklı 
 
 > *Bir problem olduğunda hangi katmanda sorun olduğunu bilirsen, çözüm çok daha kolay olur.*
 
-Aslında uygulamada TCP/IP modeli daha yaygın kullanılıyor. Ama OSI modeli, kavramsal olarak hâlâ ağ mühendisliğinin **temel taşıdır**. Network+ sınavından siber güvenlik eğitimine kadar her yerde karşına çıkar.
+Aslında uygulamada `TCP/IP modeli` daha yaygın kullanılıyor. Ama OSI modeli, kavramsal olarak hâlâ ağ mühendisliğinin **temel taşıdır**. Network+ sınavından siber güvenlik eğitimine kadar her yerde karşına çıkar.
