@@ -1,4 +1,4 @@
-// build.js - Geliştirilmiş ve Sitenize Özel Versiyon
+// build.js - ANİMASYON VE STİL HATALARI DÜZELTİLMİŞ FİNAL VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -7,9 +7,8 @@ const matter = require('gray-matter');
 
 const outputDir = path.join(__dirname, '_site');
 
-// Ana HTML şablonumuz. Tüm sayfalar bu iskeleti kullanacak.
-// Orijinal sitenizdeki tüm <head> ve temel yapı buraya eklendi.
-function createPageTemplate(pageTitle, content) {
+// Ana HTML şablonumuz. Artık body için özel class alabiliyor.
+function createPageTemplate(pageTitle, content, bodyClass = '') {
     const sidebarHTML = `
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
@@ -26,6 +25,7 @@ function createPageTemplate(pageTitle, content) {
         </aside>
     `;
 
+    // DÜZELTME: Ana sayfa ise body'e 'home' class'ı ekleniyor.
     return `
         <!DOCTYPE html>
         <html lang="tr">
@@ -38,16 +38,8 @@ function createPageTemplate(pageTitle, content) {
             <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
             <link rel="stylesheet" href="/assets/css/style.css">
         </head>
-        <body>
-            <div class="main-layout">
-                ${sidebarHTML}
-                <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
-                <div class="content-wrapper">
-                    <main id="main-content">
-                        ${content}
-                    </main>
-                </div>
-            </div>
+        <body class="${bodyClass}">
+            ${content}
             <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
             <script src="/assets/js/script.js"></script>
@@ -59,20 +51,22 @@ function createPageTemplate(pageTitle, content) {
 async function buildSite() {
     console.log('Site oluşturma işlemi başlıyor...');
     
-    // 1. Çıktı klasörünü temizle ve statik dosyaları kopyala
     await fs.emptyDir(outputDir);
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
     
-    // 2. Statik sayfaları (Hakkında, Hizmetler vb.) kopyala
+    // Statik sayfaları kopyala
     const staticPages = ['about.html', 'hizmetler.html', 'contact.html'];
     for (const page of staticPages) {
-        if (await fs.exists(path.join(__dirname, page))) {
-            await fs.copy(path.join(__dirname, page), path.join(outputDir, page));
+        if (await fs.pathExists(path.join(__dirname, page))) {
+            const pageContent = await fs.readFile(path.join(__dirname, page), 'utf8');
+            const fullPage = createPageTemplate(page.split('.')[0], pageContent); // Basit başlık
+            await fs.writeFile(path.join(outputDir, page), fullPage);
         }
     }
 
-    // 3. Yazıları işle ve HTML'e çevir
+    // Yazıları işle
     const postsDir = path.join(__dirname, '_posts');
+    await fs.ensureDir(path.join(outputDir, 'posts')); // 'posts' klasörünün var olduğundan emin ol
     const postFiles = await fs.readdir(postsDir);
     const allPosts = [];
 
@@ -80,69 +74,123 @@ async function buildSite() {
         if (path.extname(postFile) !== '.md') continue;
         
         const fileContent = await fs.readFile(path.join(postsDir, postFile), 'utf8');
-        const { data, content } = matter(fileContent); // Markdown ön bilgisini (title, date vs) ve içeriği ayır
-        const htmlContent = marked(content); // Markdown'ı HTML'e çevir
+        const { data, content } = matter(fileContent);
+        const htmlContent = marked(content);
         
         const postData = {
             title: data.title,
             date: new Date(data.date),
-            image: data.image || null,
-            content: htmlContent,
-            path: `${path.basename(postFile, '.md')}.html`
+            path: `${path.basename(postFile, '.md')}.html`,
+            content: `
+                <div class="main-layout">
+                    <aside class="sidebar" id="sidebar">
+                        <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
+                                <li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li>
+                                <li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li>
+                                <li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li>
+                                <li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
+                            </ul>
+                        </nav>
+                        <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
+                    </aside>
+                    <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
+                    <div class="content-wrapper">
+                        <main id="main-content">
+                            <article class="post-detail">
+                                <header class="post-header"><h1>${data.title}</h1></header>
+                                <section class="post-content">${htmlContent}</section>
+                            </article>
+                        </main>
+                    </div>
+                </div>
+            `
         };
         allPosts.push(postData);
 
-        // Her yazı için ayrı bir HTML sayfası oluştur
-        const postPageContent = `
-            <article class="post-detail" data-aos="fade-in">
-                <header class="post-header">
-                    <h1>${postData.title}</h1>
-                    <div class="post-meta">
-                        <span><i class="fas fa-calendar-alt"></i> ${postData.date.toLocaleDateString('tr-TR')}</span>
-                    </div>
-                </header>
-                ${postData.image ? `<img src="${postData.image}" alt="${postData.title}" style="width:100%; border-radius:8px; margin-bottom:20px;">` : ''}
-                <section class="post-content">${postData.content}</section>
-            </article>
-        `;
-        const fullPageHtml = createPageTemplate(postData.title, postPageContent);
+        const fullPageHtml = createPageTemplate(postData.title, postData.content);
         await fs.writeFile(path.join(outputDir, 'posts', postData.path), fullPageHtml);
     }
     
-    // posts klasörünü oluştur
-    await fs.ensureDir(path.join(outputDir, 'posts'));
-
-    // 4. Ana sayfa ve Yazılar sayfasını oluştur
-    allPosts.sort((a, b) => b.date - a.date); // En yeni yazı en üstte
+    allPosts.sort((a, b) => b.date - a.date);
 
     const createPostCard = (post) => `
         <div class="post-card" data-aos="fade-up">
-            <div class="post-card-content">
-                <h3>${post.title}</h3>
-                <p>Yayın Tarihi: ${post.date.toLocaleDateString('tr-TR')}</p>
-            </div>
-            <a href="/posts/${post.path}" class="read-more">İncelemeye Başla &rarr;</a>
+            <a href="/posts/${post.path}" class="post-card-link">
+                <div class="post-card-content">
+                    <h3>${post.title}</h3>
+                    <p>Yayın Tarihi: ${post.date.toLocaleDateString('tr-TR')}</p>
+                </div>
+                <span class="read-more">İncelemeye Başla &rarr;</span>
+            </a>
         </div>
     `;
 
     const postsGrid = `<div class="posts-grid">${allPosts.map(createPostCard).join('')}</div>`;
     
-    // Ana sayfa içeriği
+    // DÜZELTME: Ana sayfa için welcome-screen ve doğru yapı eklendi.
     const indexContent = `
-        <section class="hero-section" data-aos="fade-in">
-            <h1 class="hero-title">Mustafa Günay</h1>
-            <p class="hero-subtitle">Teknoloji ve Güvenlik Araştırmacısı</p>
-        </section>
-        <section class="latest-posts-section">
-            <h2 class="section-title" data-aos="fade-right">Son Keşifler</h2>
-            ${postsGrid}
-        </section>
+        <div class="welcome-screen" id="welcome-screen">
+            <h1 class="animated-title" id="blog-title">Mustafa Günay</h1>
+            <p class="welcome-message" id="welcome-message"></p>
+            <button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button>
+        </div>
+        <div class="main-layout hidden">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
+                <nav class="sidebar-nav">
+                     <ul>
+                        <li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
+                        <li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li>
+                        <li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li>
+                        <li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li>
+                        <li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
+            </aside>
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="content-wrapper">
+                <main id="main-content">
+                    <section class="hero-section" data-aos="fade-in">
+                        <h1 class="hero-title">Mustafa Günay</h1>
+                        <p class="hero-subtitle">Teknoloji ve Güvenlik Araştırmacısı</p>
+                    </section>
+                    <section class="latest-posts-section">
+                        <h2 class="section-title" data-aos="fade-right">Son Keşifler</h2>
+                        ${postsGrid}
+                    </section>
+                </main>
+            </div>
+        </div>
     `;
-    const indexPage = createPageTemplate('Ana Sayfa', indexContent);
+    const indexPage = createPageTemplate('Ana Sayfa', indexContent, 'home');
     await fs.writeFile(path.join(outputDir, 'index.html'), indexPage);
     
     // Tüm yazılar sayfası içeriği
-    const postsPageContent = `<section class="content-page"><h2 data-aos="fade-down">Tüm Yazılar</h2>${postsGrid}</section>`;
+    const postsPageContent = `
+        <div class="main-layout">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
+                        <li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li>
+                        <li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li>
+                        <li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li>
+                        <li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
+            </aside>
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="content-wrapper">
+                 <main id="main-content"><section class="content-page"><h2 data-aos="fade-down">Tüm Yazılar</h2>${postsGrid}</section></main>
+            </div>
+        </div>
+    `;
     const postsPage = createPageTemplate('Yazılar', postsPageContent);
     await fs.writeFile(path.join(outputDir, 'posts.html'), postsPage);
 
