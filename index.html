@@ -6,16 +6,21 @@
     <title>Mustafa Günay - Kişisel Blog</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <!-- Scroll Animasyon Kütüphanesi (AOS) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="home">
+    <!-- Giriş ekranı - Buraya dokunmuyoruz -->
     <div class="welcome-screen" id="welcome-screen">
         <h1 class="animated-title" id="blog-title">Mustafa Günay</h1>
         <p class="welcome-message" id="welcome-message"></p>
         <button class="skip-button hidden" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button>
     </div>
+
+    <!-- Ana düzen - Giriş sonrası burası görünecek -->
     <div class="main-layout hidden">
+        <!-- Sidebar - Buraya da dokunmuyoruz -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
             <nav class="sidebar-nav">
@@ -30,8 +35,83 @@
             <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
         </aside>
         <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
-        <div class="content-wrapper"><main id="main-content"></main></div>
+
+        <!-- YENİ: Doldurduğumuz içerik alanı -->
+        <div class="content-wrapper">
+            <main id="main-content">
+
+                <!-- Modül 1: Karşılama Alanı -->
+                <section class="hero-section" data-aos="fade-in">
+                    <h1 class="hero-title">Mustafa Günay</h1>
+                    <p class="hero-subtitle">Teknoloji ve Güvenlik Araştırmacısı</p>
+                    <p class="hero-description">Dijital dünyanın karmaşasında yolunuzu aydınlatan notlar.</p>
+                </section>
+
+                <!-- Modül 2: Mr. Robot Alıntısı -->
+                <section class="quote-section" data-aos="fade-up">
+                    <blockquote>
+                        "Dünyamızdaki her şey bir ve sıfırlardan ibaret. Bu, evrenin temelindeki ikilik."
+                        <span>- Mr. Robot</span>
+                    </blockquote>
+                </section>
+
+                <!-- Modül 3: Son Yazılar -->
+                <section class="latest-posts-section">
+                    <h2 class="section-title" data-aos="fade-right">Son Keşifler</h2>
+                    <div class="posts-grid">
+                        <!-- Örnek Yazı Kartı 1 -->
+                        <div class="post-card" data-aos="fade-up" data-aos-delay="100">
+                            <h3>Ağ Güvenliğinin Temelleri</h3>
+                            <p>Herkesin bilmesi gereken temel ağ güvenliği prensipleri ve en yaygın saldırı vektörleri üzerine bir başlangıç rehberi.</p>
+                            <a href="#" class="read-more">Devamını Oku &rarr;</a>
+                        </div>
+                        <!-- Örnek Yazı Kartı 2 -->
+                        <div class="post-card" data-aos="fade-up" data-aos-delay="200">
+                            <h3>Python ile Basit Port Tarayıcı</h3>
+                            <p>Python'un gücünü kullanarak kendi port tarama aracınızı nasıl yazabileceğinizi adım adım anlatan pratik bir kodlama yazısı.</p>
+                            <a href="#" class="read-more">Devamını Oku &rarr;</a>
+                        </div>
+                        <!-- Örnek Yazı Kartı 3 -->
+                        <div class="post-card" data-aos="fade-up" data-aos-delay="300">
+                            <h3>Sosyal Mühendislik: En Zayıf Halka</h3>
+                            <p>Teknolojiden çok insan psikolojisini hedef alan sosyal mühendislik saldırılarından korunma yöntemleri ve gerçek hayat örnekleri.</p>
+                            <a href="#" class="read-more">Devamını Oku &rarr;</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Modül 4: Yetkinlikler -->
+                <section class="competencies-section">
+                    <h2 class="section-title" data-aos="fade-right">Uzmanlık Alanları</h2>
+                    <div class="competencies-grid">
+                        <div class="competency-item" data-aos="zoom-in" data-aos-delay="100">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Ağ Güvenliği</h4>
+                        </div>
+                        <div class="competency-item" data-aos="zoom-in" data-aos-delay="200">
+                            <i class="fas fa-code"></i>
+                            <h4>Web Uygulamaları</h4>
+                        </div>
+                        <div class="competency-item" data-aos="zoom-in" data-aos-delay="300">
+                            <i class="fas fa-server"></i>
+                            <h4>Sistem Analizi</h4>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Modül 5: Harekete Geçirici Mesaj -->
+                <section class="cta-section" data-aos="fade-up">
+                    <p>Daha fazlasını keşfetmeye hazır mısın?</p>
+                    <div class="cta-buttons">
+                        <a href="posts.html" class="cta-button">Tüm Yazılar</a>
+                        <a href="hizmetler.html" class="cta-button secondary">Hizmetleri İncele</a>
+                    </div>
+                </section>
+
+            </main>
+        </div>
     </div>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="js/script.js"></script>
