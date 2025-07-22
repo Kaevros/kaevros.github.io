@@ -1,22 +1,29 @@
-// js/script.js
-
+// Bütün olay burada başlıyor. Sayfa hazır olunca...
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM içeriği yüklendi. Script çalışıyor.");
+    // console.log("Sayfa hazır, makine ısınıyor...");
 
-    // Gerekli DOM elemanlarını seçelim
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const blogTitle = document.getElementById('blog-title');
+    // Giriş animasyonu sadece anasayfada çalışsın diye body'e bir class eklemiştik.
+    if (document.body.classList.contains('home')) {
+        setupWelcomeScreen();
+    }
+
+    // Sidebar her sayfada lazım, o yüzden onu hep kuruyoruz.
+    setupSidebar();
+    
+    // Kod bloklarını yakalayıp güzelleştiren sihirbaz.
+    enhanceCodeBlocks();
+});
+
+
+/**
+ * O havalı karşılama ekranını ve daktilo efektini ayarlar.
+ */
+function setupWelcomeScreen() {
     const welcomeMessage = document.getElementById('welcome-message');
     const skipButton = document.getElementById('skip-button');
-    const mainLayout = document.querySelector('.main-layout');
-
-    const sidebar = document.getElementById('sidebar');
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-    const sidebarBlogTitle = document.getElementById('sidebar-blog-title');
-
-    // Daktilo efekti ve mesaj döngüsü için değişkenler
-    let messages = [
+    
+    // Ekranda dönecek o felsefi sözler.
+    const messages = [
         "Siber güvenlik sadece bir başlangıçtır.",
         "Sistemler insanlar tarafından yapılır ve insanlar kusurludur.",
         "Kontrol bir yanılsamadır.",
@@ -24,27 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
         "Gerçek tehlike, görmezden geldiğimiz güvenlik açığıdır."
     ];
     let messageIndex = 0;
-    let typingInterval; // Hata veren değişken burada doğru şekilde tanımlandı
+    let typingInterval;
     let messageCycleTimeout;
-    let sidebarCloseTimeout;
 
-    // --- Karşılama Ekranı Mantığı ---
-
-    /**
-     * Daktilo efekti ile metin yazan fonksiyon.
-     * @param {string} text - Yazılacak metin.
-     * @param {HTMLElement} element - Metnin yazılacağı HTML elemanı.
-     * @param {function} callback - Yazma işlemi bittiğinde çalışacak fonksiyon.
-     */
-    function typeWriterEffect(text, element, callback) {
-        if (!element) return; // Eleman bulunamazsa işlemi durdur
-        
+    // Şu meşhur daktilo efekti fonksiyonu.
+    function typeWriterEffect(element, text, onComplete) {
+        if (!element) return;
         element.textContent = '';
-        element.style.borderRightColor = 'var(--accent-color-primary)'; // İmleci görünür yap
-
-        // Önceki animasyonları temizle
+        element.style.borderRightColor = 'var(--accent-color-primary)';
         if (typingInterval) clearInterval(typingInterval);
-        clearTimeout(messageCycleTimeout);
 
         let i = 0;
         typingInterval = setInterval(() => {
@@ -52,129 +47,121 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.textContent += text.charAt(i);
                 i++;
             } else {
-                clearInterval(typingInterval); // Yazı bitince interval'i durdur
-                typingInterval = null; // Değişkeni sıfırla
-                setTimeout(() => { // İmleci gizlemeden önce kısa bir bekleme
-                     if(element) element.style.borderRightColor = 'transparent';
-                }, 500);
-                if (callback) callback();
+                clearInterval(typingInterval);
+                if (onComplete) onComplete();
             }
-        }, 85); // Karakter yazma hızı (ms)
+        }, 85);
     }
 
-    /**
-     * Sloganları döngüsel olarak gösteren fonksiyon.
-     */
+    // Mesajları birer birer ekrana getiren döngü.
     function startMessageCycle() {
         if (!welcomeMessage || messages.length === 0) return;
-
-        // Bir sonraki mesaja geçmeden önce eski metni temizle ve görünür yap
-        welcomeMessage.textContent = '';
         welcomeMessage.style.opacity = '1';
-
-        const currentMessage = messages[messageIndex];
-
-        typeWriterEffect(currentMessage, welcomeMessage, () => {
+        typeWriterEffect(welcomeMessage, messages[messageIndex], () => {
             messageIndex = (messageIndex + 1) % messages.length;
-            // Bir sonraki mesaj için döngüyü ayarla
-            messageCycleTimeout = setTimeout(startMessageCycle, 4000); // Sloganlar arası bekleme süresi (4 saniye)
+            messageCycleTimeout = setTimeout(startMessageCycle, 4000); // sonraki mesaja geçmeden bekle
         });
-
-        // Skip butonu varsa görünür yap
-        if (skipButton) {
-            skipButton.classList.remove('hidden');
-            skipButton.classList.add('visible');
-        }
+        if (skipButton) skipButton.classList.add('visible');
     }
 
-    /**
-     * Karşılama ekranından ana blog görünümüne geçişi sağlar.
-     */
+    // Karşılama ekranını atlayıp ana siteye dalma fonksiyonu.
     function enterBlog() {
-        // Tüm animasyon zamanlayıcılarını temizle
         if (typingInterval) clearInterval(typingInterval);
         clearTimeout(messageCycleTimeout);
 
+        const welcomeScreen = document.getElementById('welcome-screen');
         if (welcomeScreen) {
             welcomeScreen.classList.add('hidden');
-            // welcomeScreen tamamen gizlendikten sonra display:none yap
-            setTimeout(() => {
-                welcomeScreen.style.display = 'none';
-            }, 1000); // CSS transition süresiyle aynı olmalı
+            setTimeout(() => { welcomeScreen.style.display = 'none'; }, 1000); // animasyon bitsin diye bekliyoruz
         }
-
-        if (mainLayout) {
-            mainLayout.classList.remove('hidden');
-            mainLayout.classList.add('visible');
-        }
+        document.querySelector('.main-layout').classList.add('visible');
     }
     
-    // Skip butonuna tıklama olayını ekle
     if (skipButton) {
         skipButton.addEventListener('click', enterBlog);
-    } else {
-        // Bu artık bir hata değil, sadece bir uyarı. Script çalışmaya devam eder.
-        console.warn('Skip butonu bulunamadı!');
     }
 
-    // Karşılama animasyonunu başlat
-    if (welcomeScreen) {
-         setTimeout(startMessageCycle, 1500); // Sayfa yüklendikten 1.5 saniye sonra başla
-    }
-   
+    // Başlangıç vuruşu
+    setTimeout(startMessageCycle, 1500);
+}
 
-    // --- Sidebar İşlevselliği ---
 
-    function openSidebar() {
-        if (sidebar) sidebar.classList.add('open');
-    }
+/**
+ * Kenardaki menünün (sidebar) açılıp kapanma olaylarını halleder.
+ */
+function setupSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
 
-    function closeSidebar() {
-        if (sidebar) sidebar.classList.remove('open');
-    }
+    // bu elemanlar yoksa hiç uğraşmayalım
+    if (!sidebar || !mobileMenuToggle || !closeSidebarBtn) return;
 
-    // Mobil menü (hamburger) tıklama olayı
-    if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // Olayın dışarıya yayılmasını engelle
-            if (sidebar.classList.contains('open')) {
-                closeSidebar();
-            } else {
-                openSidebar();
-            }
-        });
-    }
-
-    // Mobil kapatma (X) butonu tıklama olayı
-    if (closeSidebarBtn) {
-        closeSidebarBtn.addEventListener('click', closeSidebar);
-    }
-
-    // Sidebar linklerine tıklandığında (mobil için) menüyü kapat
-    const sidebarLinks = sidebar.querySelectorAll('a');
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-                closeSidebar();
-            }
-        });
+    // hamburger menüye tıklayınca...
+    mobileMenuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle('open');
     });
 
-    // Sayfanın herhangi bir yerine tıklandığında (mobil için) menüyü kapat
+    // çarpı (X) butonuna tıklayınca...
+    closeSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+    });
+
+    // mobilde menü açıkken dışarı tıklayınca kapansın.
     document.addEventListener('click', (event) => {
-        if (window.innerWidth <= 768 && sidebar && mobileMenuToggle) {
-             if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
-                closeSidebar();
+        if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+            if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                sidebar.classList.remove('open');
             }
         }
     });
+}
 
-    // PC'de fare sidebar üzerindeyken otomatik kapanmasını engelleme (bu mantık CSS :hover ile daha verimli yönetiliyor)
-    // Ancak mobil için bir otomatik kapanma ekleyebiliriz (istendiği gibi)
-    sidebar.addEventListener('mouseenter', () => clearTimeout(sidebarCloseTimeout));
-    sidebar.addEventListener('mouseleave', () => {
-        if(window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-             sidebarCloseTimeout = setTimeout(closeSidebar, 5000); // Mobil'de 5sn sonra kapat
-        }
+
+/**
+ * Sayfadaki tüm kod bloklarını (<pre> etiketleri) bulur,
+ * onları renklendirir ve bir de kopyalama butonu ekler. Tam teşkilatlı.
+ */
+function enhanceCodeBlocks() {
+    // hljs kütüphanesi yüklenmiş mi, bi' bakalım.
+    if (typeof hljs === 'undefined') {
+        // console.log("highlight.js kütüphanesi bu sayfada yok, atlıyorum.");
+        return;
+    }
+    
+    // sayfadaki tüm kodları otomatik olarak bul ve boya.
+    hljs.highlightAll();
+
+    // şimdi de kopyala butonlarını ekleyelim
+    const codeBlocks = document.querySelectorAll('pre');
+    
+    codeBlocks.forEach(block => {
+        const codeElement = block.querySelector('code');
+        // içinde kod olmayan pre'leri atlayalım.
+        if (!codeElement) return;
+
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-code-button';
+        copyButton.textContent = 'Kopyala';
+
+        block.appendChild(copyButton);
+
+        // butona basınca olacaklar...
+        copyButton.addEventListener('click', () => {
+            const codeToCopy = codeElement.innerText;
+            navigator.clipboard.writeText(codeToCopy).then(() => {
+                // başardık!
+                copyButton.textContent = 'Kopyalandı!';
+                copyButton.style.backgroundColor = 'var(--accent-color-primary)';
+                setTimeout(() => {
+                    copyButton.textContent = 'Kopyala';
+                    copyButton.style.backgroundColor = '';
+                }, 2000); // 2 saniye sonra eski haline dönsün
+            }).catch(err => {
+                console.error('Kod panoya kopyalanamadı, ne yazık ki.', err);
+                copyButton.textContent = 'Hata!';
+            });
+        });
     });
-});
+}
