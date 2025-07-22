@@ -8,6 +8,7 @@
     --link-hover-color: #ff6f42; /* Turuncunun daha açık hali */
     --sidebar-width-collapsed: 60px; /* Sidebar kapalıyken daha dar */
     --sidebar-width-expanded: 220px; /* Sidebar açıkken genişlik */
+    --mobile-header-height: 60px; /* Mobil header yüksekliği */
 }
 
 * {
@@ -17,7 +18,7 @@
 }
 
 body {
-    font-family: 'Oxanium', monospace; /* Yeni font */
+    font-family: 'Oxanium', monospace; /* Ana font */
     background-color: var(--main-bg-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -105,6 +106,7 @@ h4 { font-size: 1.4em; }
 
 
 .welcome-screen .welcome-message {
+    font-family: 'VT323', monospace; /* Slogan fontu daktilo */
     font-size: 1.6em; /* Slogan fontu */
     color: var(--text-color);
     margin-bottom: 50px; /* Butonla arayı aç */
@@ -113,9 +115,11 @@ h4 { font-size: 1.4em; }
     text-align: center;
     padding: 0 20px;
     overflow: hidden; /* Daktilo efekti için taşmayı gizle */
-    /* white-space: nowrap; özelliği kaldırıldı, JS metni dinamik olarak yazar. */
     border-right: .15em solid var(--accent-color-primary); /* Yanıp sönen imleç */
     transition: opacity 0.5s ease-in-out;
+    white-space: nowrap; /* Tek satırda kalmasını sağla */
+    display: inline-block; /* Metnin kendi genişliğinde olmasını sağla */
+    vertical-align: middle; /* Dikey hizalama */
 }
 
 /* Daktilo efekti ve imleç animasyonları (JS tarafından tetiklenecek) */
@@ -127,7 +131,7 @@ h4 { font-size: 1.4em; }
 
 @keyframes typing {
     from { width: 0 }
-    /* to { width: 100% } - JS dinamik olarak ayarlandığı için gerek kalmadı */
+    to { width: var(--final-width, 100%) } /* JS ile dinamik genişlik */
 }
 
 @keyframes blink-caret {
@@ -164,6 +168,17 @@ h4 { font-size: 1.4em; }
     color: var(--main-bg-color);
     transform: scale(1.1); /* Buton biraz büyüsün */
     box-shadow: 0 0 20px rgba(232, 74, 39, 0.8);
+}
+
+@keyframes pulse-border {
+    from {
+        border-color: var(--accent-color-primary);
+        box-shadow: 0 0 5px rgba(232, 74, 39, 0.3);
+    }
+    to {
+        border-color: var(--link-hover-color);
+        box-shadow: 0 0 15px rgba(232, 74, 39, 0.8);
+    }
 }
 
 /* Main Layout (Sidebar ve İçerik) */
@@ -236,7 +251,6 @@ h4 { font-size: 1.4em; }
 .sidebar-nav ul li a {
     display: flex;
     align-items: center;
-    /* justify-content: center; - Bu kaldırıldı, ikonlar sağa hizalansın diye */
     color: var(--text-color);
     padding: 15px 0; /* Yatay padding'i kaldır, iç elemanlar ayarlasın */
     border-radius: 5px;
@@ -255,12 +269,13 @@ h4 { font-size: 1.4em; }
     color: var(--accent-color-primary);
 }
 
-/* Sidebar ikonlarının kapalıyken de tam görünür olması ve sağa yaklaştırılması */
+/* Sidebar ikonlarının kapalıyken tam görünür olması ve ortaya hizalanması */
 .sidebar-nav ul li a i {
     font-size: 1.4em;
     width: var(--sidebar-width-collapsed); /* Kapalıyken ikonun kapladığı alan kadar genişlik ver */
-    text-align: center; /* İkonu ortala */
-    margin-right: 0; /* Başlangıçta boşluk bırakma */
+    text-align: center; /* İkonu yatayda ortala */
+    line-height: 1; /* Dikeyde ortalamak için */
+    margin-right: 0;
     color: var(--text-color);
     transition: margin-right 0.3s ease, color 0.3s ease, transform 0.2s ease;
     flex-shrink: 0;
@@ -368,7 +383,12 @@ main {
     pointer-events: none;
     height: 0; /* Gizlendiğinde yer kaplamasın */
     overflow: hidden;
+    margin-bottom: 0; /* Boşluk bırakma */
 }
+.latest-posts.hidden h2, .latest-posts.hidden #posts-list {
+    display: none; /* İçeriği tamamen gizle */
+}
+
 
 .latest-posts h2 {
     text-align: center;
@@ -548,30 +568,56 @@ pre code {
     margin-bottom: 0.5em;
 }
 
-/* Responsive Tasarım */
+/* Responsive Tasarım (Mobil) */
 @media (max-width: 768px) {
     body {
         flex-direction: column;
-        padding-top: 70px; /* Sabit mobil sidebar için boşluk */
+        padding-top: var(--mobile-header-height); /* Sabit mobil header için boşluk */
     }
 
-    /* Mobil Sidebar: Üstte sabit ve kompakt */
-    .sidebar {
-        width: 100%;
-        height: 70px; /* Daha kompakt yükseklik */
-        position: fixed; /* Üstte sabit */
+    /* Mobil Menü Toggle (Hamburger) */
+    .mobile-menu-toggle {
+        display: block; /* Mobil'de görünür yap */
+        position: fixed;
         top: 0;
         left: 0;
-        border-right: none;
-        border-bottom: 1px solid var(--accent-color-secondary);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        padding: 0; /* Padding'i sıfırla */
-        flex-direction: row; /* Elemanlar yanyana */
-        justify-content: space-between; /* Başlık ve navigasyonu ayır */
+        width: 100%;
+        height: var(--mobile-header-height);
+        background-color: var(--main-bg-color);
+        color: var(--accent-color-primary);
+        z-index: 1001; /* Sidebar'ın hemen üzerinde */
+        display: flex;
         align-items: center;
-        overflow: hidden; /* Taşmayı gizle */
-        z-index: 1000;
-        transition: height 0.3s ease-in-out; /* Mobil sidebar yükseklik geçişi */
+        padding: 0 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-menu-toggle i {
+        font-size: 1.8em;
+        cursor: pointer;
+    }
+
+    /* Mobil Sidebar */
+    .sidebar {
+        width: 100%;
+        height: 100vh; /* Tam ekran yüksekliği */
+        position: fixed;
+        top: 0;
+        left: -100%; /* Başlangıçta ekran dışında gizli */
+        background-color: var(--main-bg-color);
+        transition: left 0.3s ease-in-out;
+        z-index: 1002; /* Hamburger menüden üstte */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* İçeriği yukarı hizala */
+        align-items: center;
+        padding: 20px 0;
+        border-right: none;
+        box-shadow: none; /* Mobil'de gölge yok */
+    }
+
+    .sidebar.open {
+        left: 0; /* Açıldığında ekran içine gelsin */
     }
 
     .sidebar:hover {
@@ -579,67 +625,86 @@ pre code {
     }
 
     .sidebar-header {
-        margin-bottom: 0;
-        text-align: left;
-        padding-left: 15px;
-        flex-shrink: 0;
-        max-width: 50%; /* Mobil başlık genişliğini sınırla */
+        margin-bottom: 30px;
+        padding: 0 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .sidebar-header h2 {
         opacity: 1; /* Mobil'de her zaman görünür */
-        font-size: 1.5em;
+        font-size: 1.8em; /* Mobil sidebar başlığı daha büyük */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
+    .close-sidebar-btn {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 1.8em;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .close-sidebar-btn:hover {
+        color: var(--accent-color-primary);
+    }
+
     .sidebar-nav {
-        flex-grow: 1;
-        display: flex;
-        justify-content: flex-end; /* Menüleri sağa hizala */
-        overflow-x: auto; /* Yatay kaydırma için */
-        -webkit-overflow-scrolling: touch; /* iOS'ta akıcı kaydırma */
+        flex-grow: 0; /* İçeriği sıkıştırma */
+        width: 100%;
     }
 
     .sidebar-nav ul {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding-right: 15px;
-        width: auto; /* Otomatik genişlik */
+        flex-direction: column; /* Menü elemanları alt alta */
+        padding: 0 20px;
+        align-items: flex-start; /* Menü yazılarını sola hizala */
     }
 
     .sidebar-nav ul li {
-        margin: 0 8px;
+        margin: 0;
+        width: 100%;
     }
 
     .sidebar-nav ul li a {
-        flex-direction: column;
-        padding: 8px;
-        min-width: 50px;
-        text-align: center;
+        flex-direction: row; /* İkon ve yazı yanyana */
+        justify-content: flex-start; /* Sola hizala */
+        padding: 15px 10px; /* Padding'i artır */
+        width: 100%;
     }
 
     .sidebar-nav ul li a i {
-        margin-right: 0;
-        margin-bottom: 3px;
-        font-size: 1.1em;
+        margin-right: 15px; /* İkon ile yazı arasına boşluk */
+        margin-bottom: 0;
+        font-size: 1.4em;
         width: auto;
     }
 
     .sidebar-nav ul li a .nav-text {
-        opacity: 1;
-        font-size: 0.7em;
+        opacity: 1; /* Mobil'de her zaman görünür */
+        font-size: 1em;
     }
 
     .sidebar-footer {
-        display: none; /* Mobil'de footer'ı gizle */
+        display: block; /* Mobil'de footer'ı göster */
+        margin-top: auto; /* En alta hizala */
+        padding-top: 20px;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 20px; /* Alttan boşluk */
+    }
+    .sidebar-footer .github-link .github-text {
+        opacity: 1; /* Mobil'de görünür */
     }
 
+
     .content-wrapper {
-        margin-left: 0;
-        padding: 20px 0;
+        margin-left: 0; /* Mobil'de sol boşluk yok */
+        padding: 20px 0; /* Üst/alt padding kalsın */
     }
 
     .sidebar:hover + .content-wrapper {
@@ -657,6 +722,7 @@ pre code {
 
     .welcome-screen .skip-button {
         font-size: 1.4em;
-        padding: 10px 20px;
+        width: 55px;
+        height: 55px;
     }
 }
