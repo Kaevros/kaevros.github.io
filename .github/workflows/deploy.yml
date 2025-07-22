@@ -1,9 +1,16 @@
+# .github/workflows/deploy.yml - İZİN HATASI DÜZELTİLMİŞ HALİ
+
 name: Build and Deploy Blog
 
 on:
   push:
     branches:
       - main  # veya master
+
+# YENİ EKLENEN İZİN BLOĞU
+# Bu blok, iş akışına repoya yazma (yeni dal oluşturma) izni verir.
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -22,10 +29,10 @@ jobs:
       run: npm install
 
     - name: Build static site
-      run: node build.js # Sitemizi oluşturan script'i çalıştır
+      run: node build.js
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_site # Build script'inin çıktı verdiği klasör
+        publish_dir: ./_site
