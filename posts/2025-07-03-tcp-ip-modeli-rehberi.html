@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🌐 TCP/IP Modeli Nedir? - Mustafa Günay</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/style.css"></head><body class=""><div class="main-layout">
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🌐 TCP/IP Modeli: Eğlenceli ve Açıklayıcı Rehber - Mustafa Günay</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/style.css"></head><body class=""><div class="main-layout">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
             <nav class="sidebar-nav">
@@ -15,14 +15,79 @@
             </button>
             <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
         </aside>
-    <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div><div class="content-wrapper"><main id="main-content"><article class="post-detail"><header class="post-header"><h1>🌐 TCP/IP Modeli Nedir?</h1></header><section class="post-content"><p>İnternet dediğimiz devasa ağın nasıl çalıştığını hiç merak ettiniz mi? Milyarlarca cihazın birbiriyle sorunsuzca konuşmasını sağlayan dil nedir? Cevap, TCP/IP modelinde saklı. Bu model, internetin anayasasıdır ve modern ağ iletişiminin temelini oluşturur.</p>
-<h3>TCP/IP&#39;nin Katmanları</h3>
-<p>OSI modelinin aksine daha pratik ve basit olan TCP/IP modeli genellikle 4 katmandan oluşur:</p>
-<ol>
-<li><strong>Uygulama (Application) Katmanı:</strong> Tarayıcılar (HTTP), e-posta istemcileri (SMTP) gibi son kullanıcı uygulamalarının çalıştığı yerdir. Veri burada ilk olarak oluşturulur.</li>
-<li><strong>Taşıma (Transport) Katmanı:</strong> Verinin güvenilir bir şekilde uçtan uca iletilmesini sağlar. En bilinen protokolleri <strong>TCP</strong> (güvenilir, sıralı) ve <strong>UDP</strong> (hızlı, güvenilirsiz)&#39;dir.</li>
-<li><strong>İnternet Katmanı:</strong> Veri paketlerinin (datagram) farklı ağlar arasında yönlendirilmesini sağlar. Meşhur <strong>IP (Internet Protocol)</strong> adresi bu katmanın yıldızıdır. Paketlerin hedefe giden en iyi yolu bulmasından sorumludur.</li>
-<li><strong>Ağ Arayüzü (Network Interface) Katmanı:</strong> Paketlerin fiziksel olarak ağa (kablolar, Wi-Fi sinyalleri vb.) nasıl aktarılacağını tanımlar. MAC adresleri bu katmanda çalışır.</li>
-</ol>
-<p>Kısacası, bir e-posta gönderdiğinizde, mesajınız Uygulama katmanından başlayarak aşağı doğru her katmanda paketlenir, İnternet katmanında adreslenir, Ağ Arayüzü katmanında fiziksel sinyallere dönüştürülür ve hedefe ulaştığında bu işlemlerin tam tersi gerçekleşir.</p>
+    <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div><div class="content-wrapper"><main id="main-content"><article class="post-detail"><header class="post-header"><h1>🌐 TCP/IP Modeli: Eğlenceli ve Açıklayıcı Rehber</h1></header><section class="post-content"><p>Bu yazıda hem internetin çalışma anayasası olan TCP/IP modelini anlayacaksın, hem de gerçek hayat örnekleriyle öğrenmenin ne kadar kolay olabileceğini göreceksin.</p>
+<h2>🚀 OSI’nin Kardeşi TCP/IP</h2>
+<p>TCP/IP Modeli, aslında internette kullandığımız <strong>gerçek protokol modelidir</strong>. OSI gibi 7 değil, <strong>4 katmandan oluşur</strong> (bazı kaynaklara göre 5).</p>
+<blockquote>
+<p><strong>Türkçe Ezber Kodu:</strong></p>
+<p>&quot;Ayşe Tatilde İnternette Nefeslendi&quot;
+<em>(Uygulama → Taşıma → İnternet → Ağ Erişimi)</em></p>
+<p><strong>İngilizce Ezber Kodu:</strong></p>
+<p>&quot;A Touchy Internet Needs Data&quot;
+<em>(Application → Transport → Internet → Network Access)</em></p>
+</blockquote>
+<h2>🧱 Katman Katman TCP/IP Modeli</h2>
+<h4>🔹 1. Uygulama (Application) Katmanı — Uygulamanın Konuştuğu Yer</h4>
+<p>HTTP, FTP, DNS gibi kullanıcıya en yakın protokoller burada çalışır.</p>
+<ul>
+<li><strong>İşlev:</strong> Kullanıcıyla sistem arasındaki en üst iletişim.</li>
+<li><strong>Gerçek Hayat:</strong> YouTube’a girip video izlemek.</li>
+<li><strong>OSI’deki Karşılığı:</strong> Application + Presentation + Session katmanlarının birleşimi.</li>
+</ul>
+<h4>🔹 2. Taşıma (Transport) Katmanı — Verinin Sağlıklı Taşınması</h4>
+<p>TCP ile güvenli, UDP ile hızlı taşıma yapılır.</p>
+<ul>
+<li><strong>Protokoller:</strong> <code>TCP</code>, <code>UDP</code></li>
+<li><strong>Görev:</strong> Veriyi segmentlere ayırmak, bağlantı kurmak.</li>
+<li><strong>Gerçek Hayat:</strong> WhatsApp mesajları (TCP), canlı yayınlar (UDP).</li>
+<li><strong>OSI’deki Karşılığı:</strong> Transport katmanıyla birebir örtüşür.</li>
+</ul>
+<h4>🔹 3. İnternet (Internet) Katmanı — Yön Bulucu Katman</h4>
+<p>IP adresi, yönlendirme, hedef bulma bu katmanda gerçekleşir.</p>
+<ul>
+<li><strong>Protokoller:</strong> <code>IP</code>, <code>ICMP</code>, <code>ARP</code></li>
+<li><strong>Görev:</strong> Paketlere adres vermek ve yönlendirmek.</li>
+<li><strong>Gerçek Hayat:</strong> “Bu veri nereye gidiyor?” sorusuna yanıt verir.</li>
+<li><strong>OSI’deki Karşılığı:</strong> Network katmanına denk gelir.</li>
+</ul>
+<h4>🔹 4. Ağ Erişimi (Network Access) Katmanı — Fiziksel Temas Noktası</h4>
+<p>Ethernet, Wi-Fi, MAC adresi, sinyaller… fiziksel aktarım burada olur.</p>
+<ul>
+<li><strong>Protokoller:</strong> Ethernet, PPP</li>
+<li><strong>Cihazlar:</strong> Switch, modem, kablo</li>
+<li><strong>Görev:</strong> Paketin fiziksel olarak iletilmesi.</li>
+<li><strong>OSI’deki Karşılığı:</strong> Data Link + Physical katmanları birleşmiştir.</li>
+</ul>
+<h2>📊 OSI vs. TCP/IP – Karşılaştırmalı Tablo</h2>
+<pre><code class="language-plaintext">+--------------------+---------------------+
+|     OSI Modeli     |   TCP/IP Modeli     |
++--------------------+---------------------+
+| Application        | Application         |
+| Presentation       | Application         |
+| Session            | Application         |
+| Transport          | Transport           |
+| Network            | Internet            |
+| Data Link          | Network Access      |
+| Physical           | Network Access      |
++--------------------+---------------------+
+
+
+🏠 Bir Kargo Teslimatı Gibi
+Uygulama: Kargoyu hazırlayan müşteri
+
+Taşıma: Kargonun güvenli paketlenmesi
+
+İnternet: Kargonun yönlendirildiği dağıtım ağı
+
+Ağ Erişimi: Motor kurye ile adrese teslim
+
+📌 TCP/IP Neden Bu Kadar Önemli?
+✅ Gerçek dünyada kullanılan modeldir.
+
+✅ İnternet iletişimi bu yapıyla işler.
+
+✅ Yazılım, güvenlik, ağ yönetimi için temel bilgidir.
+
+✅ OSI ile birlikte öğrenildiğinde mükemmel uyum sağlar.
+</code></pre>
 </section></article></main></div></div><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>
