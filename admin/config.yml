@@ -49,9 +49,10 @@ collections:
               - {label: "Mesaj", name: "message", widget: "string"}
             default:
               - {message: "Düşünceler kodla buluşuyor. Hoş geldiniz."}
-              - {message: "Dijital ayak izlerinizi bırakın, hikayeler yaratın."}
-              - {message: "Veri sadece rakam değil, anlamdır. Anlam katın."}
-              - {message: "Bugün hangi sorunu çözüyoruz?"}
+              - {message: "Siberin karanlık dehlizlerinde yolculuğa çıkmaya hazır mısın?"}
+              - {message: "Bilgi güvenliğin, dijital özgürlüğündür. Koru onu."}
+              - {message: "Ağlar konuşur, biz dinleriz. Tehlikeleri analiz ederiz."}
+              - {message: "Her byte bir sır saklar. Çözebilir misin?"}
           - label: "Karşılama Ekranı Arka Plan Resmi"
             name: "welcome_background_image"
             widget: "image"
@@ -122,3 +123,8 @@ collections:
             widget: "string"
             required: false
             default: "https://github.com/Kaevros"
+          - label: "Instagram Profil URL" # Yeni Instagram alanı
+            name: "instagram_url"
+            widget: "string"
+            required: false
+            default: "https://www.instagram.com/SENIN_INSTAGRAM_KULLANICI_ADIN"
