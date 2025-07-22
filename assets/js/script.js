@@ -1,11 +1,9 @@
-// /assets/js/script.js - NİHAİ VERSİYON
+// /assets/js/script.js - BASİTLEŞTİRİLMİŞ VE GÜVENİLİR ANİMASYON MANTIĞI
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Mantık Değişikliği: Ana sayfadaysan, animasyonu HER ZAMAN kur.
     if (document.body.classList.contains('home')) {
-        if (!localStorage.getItem('hasVisited')) {
-            setupWelcomeScreen();
-        } else {
-            skipWelcomeScreen();
-        }
+        setupWelcomeScreen();
     }
     setupSidebar();
     enhanceCodeBlocks();
@@ -13,10 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setupReplayButton();
     if (typeof AOS !== 'undefined') { AOS.init({ duration: 800, once: true, offset: 50 }); }
 });
+
 function setupWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
     if (!welcomeScreen) return;
-    welcomeScreen.style.display = 'flex';
+    welcomeScreen.style.display = 'flex'; // Animasyonu görünür yap
     const welcomeMessage = document.getElementById('welcome-message');
     const skipButton = document.getElementById('skip-button');
     const messages = ["Sistemler insanlar tarafından yapılır ve insanlar kusurludur.", "Kontrol bir yanılsamadır.", "Sıfırlar ve birler... Dünyayı yöneten ikili."];
@@ -37,21 +36,18 @@ function setupWelcomeScreen() {
     }
     function enterBlog() {
         if (typingInterval) clearInterval(typingInterval);
-        localStorage.setItem('hasVisited', 'true');
-        skipWelcomeScreen();
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const mainLayout = document.querySelector('.main-layout');
+        if (welcomeScreen) {
+            welcomeScreen.classList.add('hidden');
+            setTimeout(() => { welcomeScreen.style.display = 'none'; }, 1000);
+        }
+        if (mainLayout) { mainLayout.classList.remove('hidden'); }
     }
     if (skipButton) { skipButton.addEventListener('click', enterBlog); }
     setTimeout(startMessageCycle, 1500);
 }
-function skipWelcomeScreen() {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const mainLayout = document.querySelector('.main-layout');
-    if (welcomeScreen) {
-        welcomeScreen.classList.add('hidden');
-        setTimeout(() => { welcomeScreen.style.display = 'none'; }, 1000);
-    }
-    if (mainLayout) { mainLayout.classList.remove('hidden'); }
-}
+
 function setupSidebar() {
     const sidebar = document.getElementById('sidebar');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -61,12 +57,11 @@ function setupSidebar() {
     closeSidebarBtn.addEventListener('click', () => { sidebar.classList.remove('open'); });
     document.addEventListener('click', (event) => {
         if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-            if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
-                sidebar.classList.remove('open');
-            }
+            if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) { sidebar.classList.remove('open'); }
         }
     });
 }
+
 function enhanceCodeBlocks() {
     if (typeof hljs === 'undefined') { return; }
     document.querySelectorAll('pre code').forEach((block) => { hljs.highlightElement(block); });
@@ -82,19 +77,23 @@ function enhanceCodeBlocks() {
         });
     });
 }
+
 function setActiveSidebarLink() {
     const currentPath = window.location.pathname;
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        if (link.getAttribute('href') === currentPath || (currentPath === '/' && link.getAttribute('href') === '/index.html')) {
+        const linkHref = link.getAttribute('href');
+        // Kök dizin kontrolü: / ve /index.html aynıdır.
+        if (linkHref === currentPath || (currentPath === '/' && linkHref === '/index.html')) {
             link.classList.add('active');
         }
     });
 }
+
 function setupReplayButton() {
     const replayButton = document.getElementById('replay-animation-btn');
     if (replayButton) {
+        // Butonun tek görevi artık ana sayfaya gitmek.
         replayButton.addEventListener('click', () => {
-            localStorage.removeItem('hasVisited');
             window.location.href = '/index.html';
         });
     }
