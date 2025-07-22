@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hizmetler - Mustafa Günay</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
     <div class="main-layout">
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h2 id="sidebar-blog-title">Mustafa Günay</h2>
-                <button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+            <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
             <nav class="sidebar-nav">
                 <ul>
                     <li class="nav-item"><a href="index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
@@ -27,22 +22,32 @@
                     <li class="nav-item"><a href="contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
                 </ul>
             </nav>
-            <div class="sidebar-footer">
-                <p>&copy; 2025 Mustafa Günay</p>
-            </div>
+            <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
         </aside>
-
         <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
-
         <div class="content-wrapper">
             <main id="main-content">
                 <section class="content-page">
-                    <h2>Hizmetler</h2>
-                    <p class="page-intro">Siber güvenlik ve teknoloji alanındaki uzmanlığımla, dijital dünyada güvende kalmanız ve hedeflerinize ulaşmanız için çeşitli hizmetler sunuyorum.</p>
-                    <div class="service-card">
+                    <h2 data-aos="fade-down">Hizmetler</h2>
+                    <p class="page-intro" data-aos="fade-right">Siber güvenlik ve teknoloji alanındaki uzmanlığımla, dijital dünyada güvende kalmanız ve hedeflerinize ulaşmanız için çeşitli hizmetler sunuyorum.</p>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
                         <h3>Sızma Testi (Penetration Testing)</h3>
                         <p>Web uygulamalarınız, ağ altyapınız ve mobil uygulamalarınız için kapsamlı sızma testleri gerçekleştirerek güvenlik zafiyetlerinizi proaktif olarak tespit ediyor ve raporluyorum.</p>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
                         <h3>Güvenlik Danışmanlığı</h3>
-                        <p>Kurumunuzun veya kişisel projelerinizin güvenlik politikalarını oluşturma, mevcut durumu analiz et
+                        <p>Kurumunuzun veya kişisel projelerinizin güvenlik politikalarını oluşturma, mevcut durumu analiz etme ve siber tehditlere karşı dayanıklılığınızı artırma konusunda stratejik danışmanlık sağlıyorum.</p>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3>Teknik Eğitim ve Farkındalık</h3>
+                        <p>Ekibinizin veya sizin, güncel siber tehditler, güvenli kodlama pratikleri ve sosyal mühendislik saldırılarına karşı farkındalığını artırmak için özel eğitim programları düzenliyorum.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hakkında - Mustafa Günay</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <div class="main-layout visible">
+    <div class="main-layout">
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h2 id="sidebar-blog-title">Mustafa Günay</h2>
-                <button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+            <div class="sidebar-header"><h2 id="sidebar-blog-title">Mustafa Günay</h2><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div>
             <nav class="sidebar-nav">
                 <ul>
                     <li class="nav-item"><a href="index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
@@ -27,24 +22,20 @@
                     <li class="nav-item"><a href="contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
                 </ul>
             </nav>
-            <div class="sidebar-footer">
-                <p>&copy; 2025 Mustafa Günay</p>
-            </div>
+            <div class="sidebar-footer"><p>&copy; 2025 Mustafa Günay</p></div>
         </aside>
-
         <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
-
         <div class="content-wrapper">
             <main id="main-content">
                 <section class="content-page">
-                    <h2>Hakkında</h2>
-                    <p>Burası hakkında sayfası içeriği...</p>
+                    <h2 data-aos="fade-down">Hakkında</h2>
+                    <p data-aos="fade-up">Burası hakkında sayfası içeriği...</p>
                 </section>
             </main>
         </div>
     </div>
-
-    <script src="js/script.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
