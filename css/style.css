@@ -1,14 +1,18 @@
-/* Genel Ayarlar */
+/* css/style.css */
+
+/* Genel Ayarlar ve Fontlar */
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=VT323&display=swap');
+
 :root {
-    --main-bg-color: #171717; /* Grafit Siyah */
-    --text-color: #e0e0e0; /* Açık Gri Yazı */
-    --accent-color-primary: #E84A27; /* Kızıl Turuncu (Vurgu) */
-    --accent-color-secondary: #3A3A3A; /* Donuk Gri (Destek) */
-    --border-color: #3A3A3A; /* Donuk Gri Kenarlıklar */
-    --link-hover-color: #ff6f42; /* Turuncunun daha açık hali */
-    --sidebar-width-collapsed: 60px; /* Sidebar kapalıyken daha dar */
-    --sidebar-width-expanded: 220px; /* Sidebar açıkken genişlik */
-    --mobile-header-height: 60px; /* Mobil header yüksekliği */
+    --main-bg-color: #171717;
+    --text-color: #e0e0e0;
+    --accent-color-primary: #E84A27;
+    --accent-color-secondary: #3A3A3A;
+    --border-color: #3A3A3A;
+    --link-hover-color: #ff6f42;
+    --sidebar-width-collapsed: 65px; /* İkonların tam sığması için biraz genişletildi */
+    --sidebar-width-expanded: 240px;
+    --mobile-header-height: 60px;
 }
 
 * {
@@ -18,165 +22,101 @@
 }
 
 body {
-    font-family: 'Oxanium', monospace; /* Ana font */
+    font-family: 'Oxanium', sans-serif;
     background-color: var(--main-bg-color);
     color: var(--text-color);
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden; /* Yatay kaydırmayı engelle */
+    overflow-x: hidden;
 }
 
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-a {
-    color: var(--accent-color-primary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: var(--link-hover-color);
-}
-
-/* Başlıklar */
-h1, h2, h3, h4, h5, h6 {
-    color: var(--text-color);
-    margin-bottom: 15px;
-    line-height: 1.2;
-}
-
-h1 { font-size: 2.8em; }
-h2 { font-size: 2.2em; }
-h3 { font-size: 1.8em; }
-h4 { font-size: 1.4em; }
-
-/* Welcome Screen (Karşılama Ekranı) */
+/* --- Karşılama Ekranı Stilleri --- */
 .welcome-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: var(--main-bg-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 2000;
+    opacity: 1;
     transition: opacity 1s ease-out;
 }
 
 .welcome-screen.hidden {
     opacity: 0;
-    pointer-events: none; /* Gizlendiğinde tıklama olaylarını engelle */
+    pointer-events: none;
 }
 
-.welcome-screen .animated-title {
-    font-family: 'Oxanium', monospace; /* Başlık için de yeni font */
-    font-size: 6em; /* Daha büyük ve havalı punto */
+.welcome-screen #blog-title {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 700;
+    font-size: 6vw; /* Ekran genişliğine göre ölçeklenir */
     color: var(--accent-color-primary);
-    text-shadow: 0 0 15px rgba(232, 74, 39, 0.8), 0 0 30px rgba(232, 74, 39, 0.6);
-    animation: neon-pulse 2s ease-in-out infinite alternate; /* Flicker kaldırıldı, sadece pulse */
-    margin-bottom: 40px; /* Sloganlarla arayı aç */
+    margin-bottom: 40px;
     white-space: nowrap;
-    overflow: hidden;
-    padding: 0 10px;
-    transform: perspective(1px) translateZ(0); /* GPU hızlandırma için */
+    /* Daha doğal bir "nefes alma" animasyonu */
+    animation: breath 3s ease-in-out infinite alternate;
 }
 
-@keyframes neon-pulse {
-    from { text-shadow: 0 0 5px rgba(232, 74, 39, 0.4), 0 0 10px rgba(232, 74, 39, 0.2), 0 0 15px rgba(232, 74, 39, 0.1); }
-    to { text-shadow: 0 0 20px rgba(232, 74, 39, 0.9), 0 0 40px rgba(232, 74, 39, 0.7), 0 0 60px rgba(232, 74, 39, 0.5); }
+@keyframes breath {
+    from {
+        text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2);
+        transform: scale(1);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(232, 74, 39, 0.8), 0 0 40px rgba(232, 74, 39, 0.5);
+        transform: scale(1.03);
+    }
 }
 
-
-.welcome-screen .welcome-message {
-    font-family: 'VT323', monospace; /* Slogan fontu daktilo */
-    font-size: 1.6em; /* Slogan fontu */
+.welcome-screen #welcome-message {
+    font-family: 'VT323', monospace; /* Daktilo fontu */
+    font-size: 1.8rem;
     color: var(--text-color);
-    margin-bottom: 50px; /* Butonla arayı aç */
-    opacity: 0; /* Başlangıçta gizli */
-    min-height: 1.2em; /* Mesajın yerine oturması için minimum yükseklik */
+    margin-bottom: 50px;
+    min-height: 1.2em; /* Atlamaları engellemek için */
     text-align: center;
     padding: 0 20px;
-    overflow: hidden; /* Daktilo efekti için taşmayı gizle */
+    opacity: 0; /* Başlangıçta gizli, JS ile görünür yapılır */
     border-right: .15em solid var(--accent-color-primary); /* Yanıp sönen imleç */
+    white-space: nowrap;
+    overflow: hidden;
     transition: opacity 0.5s ease-in-out;
-    white-space: nowrap; /* Tek satırda kalmasını sağla */
-    display: inline-block; /* Metnin kendi genişliğinde olmasını sağla */
-    vertical-align: middle; /* Dikey hizalama */
-    animation: blink-caret .75s step-end infinite; /* İmleç animasyonu */
+    animation: blink-caret .75s step-end infinite;
 }
-
-/* Daktilo efekti için CSS kaldırıldı, JS kontrol ediyor */
-/* .welcome-screen .welcome-message.typing-active {
-    animation: typing var(--typing-duration) steps(var(--typing-steps), end) forwards, blink-caret .75s step-end infinite;
-    width: auto;
-    max-width: 90%;
-} */
-
-/* @keyframes typing {
-    from { width: 0 }
-    to { width: var(--final-width, 100%) }
-} */
 
 @keyframes blink-caret {
     from, to { border-color: transparent }
     50% { border-color: var(--accent-color-primary); }
 }
 
-
-.welcome-screen .skip-button {
-    background-color: transparent;
-    border: 2px solid var(--accent-color-primary);
+.welcome-screen #skip-button {
+    background: transparent;
+    border: none;
     color: var(--accent-color-primary);
-    width: 65px; /* Play butonu için sabit kare */
-    height: 65px;
-    border-radius: 50%; /* Yuvarlak buton */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 3rem; /* Sadece ikon boyutu */
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, opacity 0.5s ease, color 0.3s ease;
-    opacity: 0; /* Başlangıçta gizli */
-    font-size: 2.2em; /* Play ikonu boyutu */
-    position: relative;
-    bottom: -30px; /* Biraz daha aşağıda */
-    animation: pulse-border 1.5s infinite alternate ease-in-out; /* Gelgit animasyonu */
+    opacity: 0; /* JS ile görünür yapılır */
+    transition: all 0.3s ease;
+    margin-top: 20px; /* Biraz aşağı al */
 }
 
-.welcome-screen .skip-button.visible {
+.welcome-screen #skip-button.visible {
     opacity: 1;
 }
 
-.welcome-screen .skip-button:hover {
-    background-color: var(--accent-color-primary);
-    color: var(--main-bg-color);
-    transform: scale(1.1); /* Buton biraz büyüsün */
-    box-shadow: 0 0 20px rgba(232, 74, 39, 0.8);
+.welcome-screen #skip-button:hover {
+    color: var(--link-hover-color);
+    transform: scale(1.2);
 }
 
-@keyframes pulse-border {
-    from {
-        border-color: var(--accent-color-primary);
-        box-shadow: 0 0 5px rgba(232, 74, 39, 0.3);
-    }
-    to {
-        border-color: var(--link-hover-color);
-        box-shadow: 0 0 15px rgba(232, 74, 39, 0.8);
-    }
-}
-
-/* Main Layout (Sidebar ve İçerik) */
+/* --- Ana Düzen --- */
 .main-layout {
     display: flex;
-    min-height: 100vh;
-    width: 100%;
     opacity: 0;
     transition: opacity 1s ease-in;
 }
@@ -185,185 +125,88 @@ h4 { font-size: 1.4em; }
     opacity: 1;
 }
 
-/* Sidebar (PC Görünümü) */
+/* --- Sidebar (PC) --- */
 .sidebar {
-    width: var(--sidebar-width-collapsed); /* Varsayılan dar genişlik */
+    width: var(--sidebar-width-collapsed);
     background-color: var(--main-bg-color);
-    color: var(--text-color);
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center; /* Elemanları ortaya hizala */
-    transition: width 0.3s ease-in-out;
+    border-right: 1px solid var(--border-color);
     position: fixed;
     height: 100%;
-    border-right: 1px solid var(--accent-color-secondary);
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    overflow: hidden; /* Taşmayı gizle */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* İkonları yatayda ortala */
+    padding: 20px 0;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .sidebar:hover {
-    width: var(--sidebar-width-expanded); /* Fare üzerine geldiğinde genişlesin */
+    width: var(--sidebar-width-expanded);
 }
+
+#mobile-menu-toggle { display: none; } /* PC'de hamburger menü gizli */
+#close-sidebar-btn { display: none; } /* PC'de X butonu gizli */
 
 .sidebar-header {
-    text-align: center;
-    margin-bottom: 30px;
     width: 100%;
-    padding: 0 5px; /* Başlığa kenar boşluğu */
-    display: flex; /* İçindeki elemanları hizalamak için */
-    justify-content: center; /* Yatayda ortala */
-    align-items: center; /* Dikeyde ortala */
-    position: relative; /* Kapatma butonu için */
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.sidebar-header h2 {
-    margin: 0;
-    font-size: 1.5em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+#sidebar-blog-title {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--accent-color-primary); /* Rengi turuncu yaptık */
     opacity: 0; /* Başlangıçta gizli */
-    transition: opacity 0.3s ease-in-out 0.1s, color 0.3s ease; /* Renk geçişi eklendi */
-    color: var(--text-color); /* Varsayılan metin rengi */
+    transition: opacity 0.3s ease 0.1s; /* Gecikmeli geçiş */
+    white-space: nowrap;
 }
 
-.sidebar:hover .sidebar-header h2 {
-    opacity: 1;
-    color: var(--accent-color-primary); /* Hover'da turuncu */
+.sidebar:hover #sidebar-blog-title {
+    opacity: 1; /* Fare üzerine gelince görünür */
 }
 
-/* PC Görünümünde Kapatma Butonu (X) Gizli */
-.close-sidebar-btn {
-    display: none; /* PC'de gizli */
-}
+.sidebar-nav { width: 100%; }
+.sidebar-nav ul { list-style: none; }
 
-.sidebar-nav ul {
-    list-style: none;
-    width: 100%;
-    padding-left: 0;
-}
-
-.sidebar-nav ul li {
-    margin-bottom: 10px;
-}
-
-.sidebar-nav ul li a {
+.sidebar-nav .nav-item a {
     display: flex;
     align-items: center;
+    padding: 15px 0;
     color: var(--text-color);
-    padding: 15px 0; /* Yatay padding'i kaldır, iç elemanlar ayarlasın */
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    position: relative;
-    width: 100%; /* Tam genişliği kullan */
 }
 
-.sidebar-nav ul li a:hover {
+.sidebar-nav .nav-item a:hover {
     background-color: var(--accent-color-secondary);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(232, 74, 39, 0.4);
     color: var(--accent-color-primary);
 }
 
-/* Sidebar ikonlarının kapalıyken tam görünür olması ve ortaya hizalanması */
-.sidebar-nav ul li a i {
-    font-size: 1.4em;
-    width: var(--sidebar-width-collapsed); /* Kapalıyken ikonun kapladığı alan kadar genişlik ver */
-    text-align: center; /* İkonu yatayda ortala */
-    line-height: 1; /* Dikeyde ortalamak için */
-    margin-right: 0;
-    color: var(--text-color);
-    transition: margin-right 0.3s ease, color 0.3s ease, transform 0.2s ease;
-    flex-shrink: 0;
-    padding: 0; /* İkonun kendi iç paddingi */
-    display: flex;
-    justify-content: center; /* İkonu yatayda ortala */
-    align-items: center; /* İkonu dikeyde ortala */
-}
-
-.sidebar:hover .sidebar-nav ul li a i {
-    margin-right: 15px; /* Sidebar genişlediğinde boşluk ver */
-    width: auto; /* Genişlediğinde genişliği esnek bırak */
-    padding-left: 20px; /* Sol taraftan daha fazla padding */
-}
-
-.sidebar-nav ul li a:hover i {
-    transform: scale(1.1);
-}
-
-.sidebar-nav ul li a .nav-text {
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out 0.1s;
-    font-weight: bold;
-    flex-grow: 1; /* Metnin kalan alanı kaplamasını sağla */
-    text-align: left; /* Metni sola hizala */
-}
-
-.sidebar:hover .sidebar-nav ul li a .nav-text {
-    opacity: 1;
-}
-
-.sidebar-footer {
+.sidebar-nav .nav-item a .icon {
+    font-size: 1.5rem;
+    min-width: var(--sidebar-width-collapsed); /* Kapanınca ortalamak için kritik */
     text-align: center;
-    font-size: 0.8em;
-    color: #888;
-    padding-top: 20px;
-    border-top: 1px solid var(--accent-color-secondary);
-    width: 100%;
+    transition: color 0.3s ease;
+}
+
+.sidebar-nav .nav-item a .nav-text {
     opacity: 0;
-    transition: opacity 0.3s ease-in-out 0.1s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 20px 5px 0; /* Kenar boşlukları */
+    transition: opacity 0.2s ease;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
-.sidebar:hover .sidebar-footer {
-    opacity: 1;
-}
-
-.sidebar-footer p {
-    margin-bottom: 5px;
-}
-
-.sidebar-footer .github-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-    font-weight: normal;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.sidebar-footer .github-link:hover {
-    color: var(--accent-color-primary);
-    transform: scale(1.05);
-}
-
-.sidebar-footer .github-link i {
-    margin-right: 5px;
-    font-size: 1.1em;
-}
-
-.sidebar-footer .github-link .github-text {
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out 0.1s;
-}
-
-.sidebar:hover .sidebar-footer .github-link .github-text {
+.sidebar:hover .nav-item a .nav-text {
     opacity: 1;
 }
 
 /* İçerik Alanı */
 .content-wrapper {
-    margin-left: var(--sidebar-width-collapsed);
     flex-grow: 1;
+    padding: 40px;
+    margin-left: var(--sidebar-width-collapsed);
     transition: margin-left 0.3s ease-in-out;
 }
 
@@ -371,364 +214,90 @@ h4 { font-size: 1.4em; }
     margin-left: var(--sidebar-width-expanded);
 }
 
-main {
-    padding: 40px 0;
-}
+main { display: none; /* Yazılar başlangıçta görünmesin */ }
+main.active { display: block; }
 
-/* Son Yazılar Alanı */
-.latest-posts {
-    padding-top: 0;
-    transition: opacity 0.8s ease-in; /* Geçiş animasyonu */
-}
-.latest-posts.hidden {
-    opacity: 0;
-    pointer-events: none;
-    height: 0; /* Gizlendiğinde yer kaplamasın */
-    overflow: hidden;
-    margin-bottom: 0; /* Boşluk bırakma */
-}
-.latest-posts.hidden h2, .latest-posts.hidden #posts-list {
-    display: none; /* İçeriği tamamen gizle */
-}
-
-
-.latest-posts h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    color: var(--accent-color-primary);
-    font-size: 2.5em;
-    text-shadow: 0 0 8px rgba(232, 74, 39, 0.5);
-}
-
-/* Post Card (Anasayfa ve Yazılar listesi) */
-.post-card {
-    background-color: var(--accent-color-secondary);
-    border-left: 5px solid var(--accent-color-primary);
-    padding: 25px;
-    margin-bottom: 30px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
-}
-
-.post-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(232, 74, 39, 0.5);
-    border-color: var(--link-hover-color);
-}
-
-.post-card h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.post-card h3 a {
-    color: var(--text-color);
-    font-size: 1.6em;
-    transition: color 0.3s ease;
-}
-
-.post-card h3 a:hover {
-    color: var(--accent-color-primary);
-}
-
-.post-card .post-meta {
-    font-size: 0.9em;
-    color: #bbb;
-    margin-bottom: 15px;
-}
-
-.post-card p {
-    margin-bottom: 15px;
-}
-
-.read-more {
-    display: inline-block;
-    background-color: var(--accent-color-primary);
-    color: var(--main-bg-color);
-    padding: 10px 15px;
-    border-radius: 3px;
-    font-weight: bold;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.read-more:hover {
-    background-color: var(--link-hover-color);
-    transform: scale(1.05);
-}
-
-/* Post Detay Sayfası */
-.post-detail .post-content {
-    background-color: var(--accent-color-secondary);
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.post-detail h2 {
-    color: var(--accent-color-primary);
-    margin-top: 0;
-    font-size: 2.5em;
-}
-
-.post-detail .post-meta {
-    font-size: 0.95em;
-    color: #bbb;
-    margin-bottom: 25px;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 15px;
-}
-
-.post-detail p {
-    margin-bottom: 1em;
-}
-
-.post-detail ul, .post-detail ol {
-    margin-left: 20px;
-    margin-bottom: 1em;
-}
-
-.post-detail ul li, .post-detail ol li {
-    margin-bottom: 0.5em;
-}
-
-/* Kod Blokları */
-pre {
-    background-color: #0d0d0d;
-    color: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
-    margin-bottom: 20px;
-    border: 1px solid var(--border-color);
-}
-
-code {
-    font-family: 'Fira Code', 'Roboto Mono', monospace;
-    font-size: 0.9em;
-}
-
-pre code {
-    display: block;
-}
-
-/* Image styling for Decap CMS uploads */
-.post-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 20px auto;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-/* Post Navigation */
-.post-navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed var(--border-color);
-}
-
-.post-navigation a {
-    background-color: var(--accent-color-secondary);
-    color: var(--text-color);
-    padding: 10px 15px;
-    border-radius: 3px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.post-navigation a:hover {
-    background-color: var(--accent-color-primary);
-    color: var(--main-bg-color);
-    transform: scale(1.05);
-}
-
-/* Other Pages (About, Contact) */
-.content-page {
-    background-color: var(--accent-color-secondary);
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.content-page h2 {
-    color: var(--accent-color-primary);
-    margin-top: 0;
-}
-
-.content-page ul {
-    list-style: disc;
-    margin-left: 25px;
-    margin-bottom: 1em;
-}
-
-.content-page li {
-    margin-bottom: 0.5em;
-}
-
-/* Responsive Tasarım (Mobil) */
+/* --- Mobil Görünüm --- */
 @media (max-width: 768px) {
     body {
-        flex-direction: column;
-        padding-top: var(--mobile-header-height); /* Sabit mobil header için boşluk */
+        padding-top: var(--mobile-header-height);
     }
-
-    /* Mobil Menü Toggle (Hamburger) */
-    .mobile-menu-toggle {
-        display: flex; /* Mobil'de görünür yap */
+    
+    #mobile-menu-toggle {
+        display: flex; /* Görünür yap */
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: var(--mobile-header-height);
         background-color: var(--main-bg-color);
-        color: var(--accent-color-primary);
-        z-index: 1001; /* Sidebar'ın hemen üzerinde */
         align-items: center;
-        padding: 0 15px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 0 20px;
+        z-index: 1001; /* Sidebar'ın altında */
+        border-bottom: 1px solid var(--border-color);
     }
 
-    .mobile-menu-toggle i {
-        font-size: 1.8em;
+    #mobile-menu-toggle .icon {
+        font-size: 1.8rem;
+        color: var(--text-color);
         cursor: pointer;
     }
-
-    /* Mobil Sidebar */
+    
     .sidebar {
-        width: 100%;
-        height: 100vh; /* Tam ekran yüksekliği */
+        width: 85%; /* Ekranın çoğunu kaplasın ama tamamını değil */
+        max-width: 300px;
+        height: 100%;
         position: fixed;
         top: 0;
-        left: -100%; /* Başlangıçta ekran dışında gizli */
-        background-color: var(--main-bg-color);
+        left: -300px; /* Ekran dışında */
+        z-index: 1002;
         transition: left 0.3s ease-in-out;
-        z-index: 1002; /* Hamburger menüden üstte */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start; /* İçeriği yukarı hizala */
-        align-items: center;
-        padding: 20px 0;
-        border-right: none;
-        box-shadow: none; /* Mobil'de gölge yok */
+        border-right: 1px solid var(--border-color);
+        padding-top: 20px;
+        align-items: flex-start; /* İçeriği sola hizala */
     }
 
     .sidebar.open {
-        left: 0; /* Açıldığında ekran içine gelsin */
+        left: 0; /* Açıldığında görünsün */
     }
 
-    /* Mobil Sidebar'daki Kapatma Butonu (X) Görünür */
-    .close-sidebar-btn {
-        display: block; /* Mobil'de görünür */
+    #close-sidebar-btn {
+        display: block; /* Görünür yap */
+        position: absolute;
+        top: 15px;
+        right: 15px;
         background: none;
         border: none;
         color: var(--text-color);
-        font-size: 1.8em;
+        font-size: 2rem;
         cursor: pointer;
-        position: absolute; /* Sidebar başlığının sağ üstüne */
-        right: 20px;
-        top: 20px;
-        z-index: 1003; /* En üstte olsun */
     }
 
-    .close-sidebar-btn:hover {
-        color: var(--accent-color-primary);
-    }
+    .sidebar-header { text-align: left; padding: 0 20px; }
 
-    .sidebar:hover {
-        width: 100%; /* Mobil'de genişleme yok */
-    }
-
-    .sidebar-header {
-        margin-bottom: 30px;
-        padding: 0 20px;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .sidebar-header h2 {
+    #sidebar-blog-title {
         opacity: 1; /* Mobil'de her zaman görünür */
-        font-size: 1.8em; /* Mobil sidebar başlığı daha büyük */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: var(--accent-color-primary); /* Mobil'de turuncu yap */
+        font-size: 1.8rem;
+        color: var(--accent-color-primary); /* Renk turuncu */
     }
 
-    .sidebar-nav {
-        flex-grow: 1; /* Menü içeriği kalan alanı kaplasın */
-        width: 100%;
+    .sidebar-nav .nav-item a { padding: 15px 20px; }
+    
+    .sidebar-nav .nav-item a .icon {
+        min-width: 40px; /* İkonlar için sabit genişlik */
+        text-align: left;
     }
 
-    .sidebar-nav ul {
-        flex-direction: column; /* Menü elemanları alt alta */
-        padding: 0 20px;
-        align-items: flex-start; /* Menü yazılarını sola hizala */
-    }
-
-    .sidebar-nav ul li {
-        margin: 0;
-        width: 100%;
-    }
-
-    .sidebar-nav ul li a {
-        flex-direction: row; /* İkon ve yazı yanyana */
-        justify-content: flex-start; /* Sola hizala */
-        padding: 15px 10px; /* Padding'i artır */
-        width: 100%;
-    }
-
-    .sidebar-nav ul li a i {
-        margin-right: 15px; /* İkon ile yazı arasına boşluk */
-        margin-bottom: 0;
-        font-size: 1.4em;
-        width: auto;
-    }
-
-    .sidebar-nav ul li a .nav-text {
-        opacity: 1; /* Mobil'de her zaman görünür */
-        font-size: 1em;
-    }
-
-    .sidebar-footer {
-        display: block; /* Mobil'de footer'ı göster */
-        margin-top: auto; /* En alta hizala */
-        padding-top: 20px;
-        width: 100%;
-        text-align: center;
-        padding-bottom: 20px; /* Alttan boşluk */
-    }
-    .sidebar-footer .github-link .github-text {
-        opacity: 1; /* Mobil'de görünür */
+    .sidebar-nav .nav-item a .nav-text {
+        opacity: 1; /* Mobil'de metin her zaman görünür */
+        margin-left: 15px;
     }
 
     .content-wrapper {
-        margin-left: 0; /* Mobil'de sol boşluk yok */
-        padding: 20px 0; /* Üst/alt padding kalsın */
-    }
-
-    .sidebar:hover + .content-wrapper {
         margin-left: 0;
+        padding: 20px;
     }
 
-    .welcome-screen .animated-title {
-        font-size: 3.5em;
-    }
-
-    .welcome-screen .welcome-message {
-        font-size: 1.4em;
-        padding: 0 15px;
-    }
-
-    .welcome-screen .skip-button {
-        font-size: 1.4em;
-        width: 55px;
-        height: 55px;
-    }
+    .welcome-screen #blog-title { font-size: 12vw; }
+    .welcome-screen #welcome-message { font-size: 1.5rem; }
 }
