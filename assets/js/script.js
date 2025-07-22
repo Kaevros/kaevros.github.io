@@ -1,5 +1,4 @@
-// /assets/js/script.js - FİNAL VERSİYON
-
+// /assets/js/script.js - NİHAİ VERSİYON
 document.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('home')) {
         if (!localStorage.getItem('hasVisited')) {
@@ -12,10 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     enhanceCodeBlocks();
     setActiveSidebarLink();
     setupReplayButton();
-
     if (typeof AOS !== 'undefined') { AOS.init({ duration: 800, once: true, offset: 50 }); }
 });
-
 function setupWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
     if (!welcomeScreen) return;
@@ -46,7 +43,6 @@ function setupWelcomeScreen() {
     if (skipButton) { skipButton.addEventListener('click', enterBlog); }
     setTimeout(startMessageCycle, 1500);
 }
-
 function skipWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
     const mainLayout = document.querySelector('.main-layout');
@@ -56,46 +52,44 @@ function skipWelcomeScreen() {
     }
     if (mainLayout) { mainLayout.classList.remove('hidden'); }
 }
-
 function setupSidebar() {
-    const sidebar = document.getElementById('sidebar'); 
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle'); 
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn'); 
-    if (!sidebar || !mobileMenuToggle || !closeSidebarBtn) return; 
-    mobileMenuToggle.addEventListener('click', (e) => { e.stopPropagation(); sidebar.classList.toggle('open'); }); 
-    closeSidebarBtn.addEventListener('click', () => { sidebar.classList.remove('open'); }); 
-    document.addEventListener('click', (event) => { 
-        if (window.innerWidth <= 768 && sidebar.classList.contains('open')) { 
-            if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) { sidebar.classList.remove('open'); } 
-        } 
+    const sidebar = document.getElementById('sidebar');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    if (!sidebar || !mobileMenuToggle || !closeSidebarBtn) return;
+    mobileMenuToggle.addEventListener('click', (e) => { e.stopPropagation(); sidebar.classList.add('open'); });
+    closeSidebarBtn.addEventListener('click', () => { sidebar.classList.remove('open'); });
+    document.addEventListener('click', (event) => {
+        if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+            if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        }
     });
 }
-
 function enhanceCodeBlocks() {
-    if (typeof hljs === 'undefined') { return; } 
+    if (typeof hljs === 'undefined') { return; }
     document.querySelectorAll('pre code').forEach((block) => { hljs.highlightElement(block); });
-    document.querySelectorAll('pre').forEach(block => { 
-        const codeElement = block.querySelector('code'); if (!codeElement) return; 
-        const copyButton = document.createElement('button'); copyButton.className = 'copy-code-button'; copyButton.textContent = 'Kopyala'; 
-        block.appendChild(copyButton); 
-        copyButton.addEventListener('click', () => { 
-            navigator.clipboard.writeText(codeElement.innerText).then(() => { 
-                copyButton.textContent = 'Kopyalandı!'; copyButton.style.backgroundColor = 'var(--accent-color-primary)'; 
-                setTimeout(() => { copyButton.textContent = 'Kopyala'; copyButton.style.backgroundColor = ''; }, 2000); 
-            }); 
-        }); 
+    document.querySelectorAll('pre').forEach(block => {
+        const codeElement = block.querySelector('code'); if (!codeElement) return;
+        const copyButton = document.createElement('button'); copyButton.className = 'copy-code-button'; copyButton.textContent = 'Kopyala';
+        block.appendChild(copyButton);
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(codeElement.innerText).then(() => {
+                copyButton.textContent = 'Kopyalandı!'; copyButton.style.backgroundColor = 'var(--accent-color-primary)';
+                setTimeout(() => { copyButton.textContent = 'Kopyala'; copyButton.style.backgroundColor = ''; }, 2000);
+            });
+        });
     });
 }
-
 function setActiveSidebarLink() {
     const currentPath = window.location.pathname;
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
+        if (link.getAttribute('href') === currentPath || (currentPath === '/' && link.getAttribute('href') === '/index.html')) {
             link.classList.add('active');
         }
     });
 }
-
 function setupReplayButton() {
     const replayButton = document.getElementById('replay-animation-btn');
     if (replayButton) {
