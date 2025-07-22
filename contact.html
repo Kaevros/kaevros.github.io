@@ -3,74 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mustafa Günay - İletişim</title>
+    <title>İletişim - Mustafa Günay</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
-    <div class="mobile-menu-toggle" id="mobile-menu-toggle">
-        <i class="fas fa-bars"></i>
-    </div>
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2 id="sidebar-blog-title">Mustafa Günay</h2>
-            <button class="close-sidebar-btn" id="close-sidebar-btn"><i class="fas fa-times"></i></button>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li>
-                    <a href="index.html" class="nav-item" data-tooltip="Ana Sayfa">
-                        <i class="fas fa-home"></i>
-                        <span class="nav-text">Ana Sayfa</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="about.html" class="nav-item" data-tooltip="Hakkımda">
-                        <i class="fas fa-user"></i>
-                        <span class="nav-text">Hakkımda</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="posts.html" class="nav-item" data-tooltip="Yazılar">
-                        <i class="fas fa-newspaper"></i>
-                        <span class="nav-text">Yazılar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="contact.html" class="nav-item" data-tooltip="İletişim">
-                        <i class="fas fa-envelope"></i>
-                        <span class="nav-text">İletişim</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="sidebar-footer">
-            <p>&copy; 2025 Mustafa Günay</p>
-            <a href="https://github.com/Kaevros" target="_blank" class="github-link">
-                <i class="fab fa-github"></i>
-                <span class="github-text">Kaevros</span>
-            </a>
-        </div>
-    </aside>
-
-    <div class="content-wrapper">
-        <main class="container content-page">
-            <h2 id="contact-title">İletişim</h2>
-            <div id="contact-description">
-                <p>Benimle iletişime geçmek için aşağıdaki yolları kullanabilirsiniz:</p>
+    <div class="main-layout visible">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2 id="sidebar-blog-title">Mustafa Günay</h2>
+                <button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <ul>
-                <li><strong>E-posta:</strong> <a href="mailto:mustafagunay4848@gmail.com" id="email-address">senin.eposta@example.com</a></li>
-                <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/mustafa-gunay48" target="_blank" id="linkedin-url">LinkedIn Profilim</a></li>
-                <li><strong>GitHub:</strong> <a href="https://github.com/Kaevros" target="_blank" id="github-url">GitHub Profilim</a></li>
-                <li><strong>Instagram:</strong> <a href="https://www.instagram.com/mustafa_gunay48/" target="_blank" id="instagram-url">Instagram Profilim</a></li>
-            </ul>
-            <p><strong>Instagram üzerinden daha hızlı yanıt alabilirsiniz.</strong></p>
-        </main>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item"><a href="index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
+                    <li class="nav-item"><a href="about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li>
+                    <li class="nav-item"><a href="hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li>
+                    <li class="nav-item"><a href="posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li>
+                    <li class="nav-item"><a href="contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Mustafa Günay</p>
+            </div>
+        </aside>
+
+        <div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i></div>
+
+        <div class="content-wrapper">
+            <main id="main-content">
+                <section class="content-page">
+                    <h2>İletişim</h2>
+                    <p>Burası iletişim sayfası içeriği...</p>
+                </section>
+            </main>
+        </div>
     </div>
 
     <script src="js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </body>
 </html>
