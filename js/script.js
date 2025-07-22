@@ -12,12 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar'); // Sidebar elementi
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle'); // Hamburger ikonu
     const closeSidebarBtn = document.getElementById('close-sidebar-btn'); // Kapatma ikonu (X)
+    const sidebarBlogTitle = document.getElementById('sidebar-blog-title'); // Sidebar'daki Mustafa Günay yazısı
 
     let messages = [];
     let messageIndex = 0;
     let typingTimeout;
     let messageCycleTimeout;
     let sidebarCloseTimeout; // Mobil sidebar için otomatik kapanma zamanlayıcısı
+    let typingInterval; // Daktilo efekti için interval değişkeni tanımlandı
 
     // Dinamik içerikleri Decap CMS'ten yükle (data-attributes'tan)
     function loadDynamicContentFromHTML() {
@@ -49,31 +51,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function typeWriterEffect(text, element, callback) {
         element.textContent = '';
         element.style.width = '0%';
+        element.style.borderRightColor = 'var(--accent-color-primary)'; // İmleci görünür yap
 
-        clearInterval(typingInterval);
+        // Önceki interval'i temizle
+        if (typingInterval) {
+            clearInterval(typingInterval);
+        }
+        clearTimeout(typingTimeout);
 
-        element.classList.remove('typing-active');
-        element.offsetHeight; 
-        element.classList.add('typing-active');
-
-        element.textContent = text;
-        element.style.setProperty('--typing-steps', text.length);
-        const typingDuration = text.length * 80;
-        element.style.setProperty('--typing-duration', `${typingDuration}ms`);
-
-        typingTimeout = setTimeout(() => {
-            element.classList.remove('typing-active');
-            element.style.borderRightColor = 'transparent';
-            if (callback) callback();
-        }, typingDuration + 500);
+        let i = 0;
+        typingInterval = setInterval(() => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingInterval);
+                element.style.borderRightColor = 'transparent'; // Yazı bitince imleci gizle
+                if (callback) callback();
+            }
+        }, 80); // Her karakter arası gecikme (ms)
     }
 
     // Mesaj döngüsünü başlatan fonksiyon
     function startMessageCycle() {
         if (messages.length === 0) {
             console.warn('Mesaj listesi boş, daktilo animasyonu başlatılamıyor.');
-            skipButton.classList.remove('hidden');
-            skipButton.classList.add('visible');
+            if (skipButton) { // skipButton kontrolü eklendi
+                skipButton.classList.remove('hidden');
+                skipButton.classList.add('visible');
+            }
             return;
         }
 
@@ -83,17 +89,21 @@ document.addEventListener('DOMContentLoaded', () => {
         typeWriterEffect(currentMessage, welcomeMessageElement, () => {
             messageIndex = (messageIndex + 1) % messages.length;
             clearTimeout(messageCycleTimeout);
-            messageCycleTimeout = setTimeout(startMessageCycle, 3000);
+            messageCycleTimeout = setTimeout(startMessageCycle, 3000); // 3 saniye sonra yeni mesaj
         });
 
-        skipButton.classList.remove('hidden');
-        skipButton.classList.add('visible');
+        if (skipButton) { // skipButton kontrolü eklendi
+            skipButton.classList.remove('hidden');
+            skipButton.classList.add('visible');
+        }
     }
 
     // Bloga giriş fonksiyonu
     function enterBlog() {
         console.log('Bloga giriş yapılıyor...');
-        clearInterval(typingInterval);
+        if (typingInterval) { // typingInterval kontrolü eklendi
+            clearInterval(typingInterval);
+        }
         clearTimeout(messageCycleTimeout);
 
         welcomeScreen.classList.add('hidden');
@@ -109,15 +119,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (skipButton) {
         skipButton.addEventListener('click', enterBlog);
     } else {
-        console.error('Skip butonu bulunamadı!');
+        console.error('Skip butonu bulunamadı! Lütfen HTML\'deki ID\'yi kontrol edin.');
     }
 
     // Sayfa yüklendiğinde karşılama ekranını başlatma mantığı
     const isIndexPage = (window.location.pathname.endsWith('/index.html') || window.location.pathname === '/');
     if (isIndexPage) {
         loadDynamicContentFromHTML();
-        blogTitleElement.textContent = "Mustafa Günay";
-        document.getElementById('sidebar-blog-title').textContent = "Mustafa Günay";
+        if (blogTitleElement) {
+            blogTitleElement.textContent = "Mustafa Günay";
+        }
+        if (sidebarBlogTitle) { // Sidebar başlığı kontrolü
+            sidebarBlogTitle.textContent = "Mustafa Günay";
+        }
         
         setTimeout(() => {
             startMessageCycle();
@@ -135,7 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (latestPostsSection) {
             latestPostsSection.classList.add('hidden');
         }
-        document.getElementById('sidebar-blog-title').textContent = "Mustafa Günay";
+        if (sidebarBlogTitle) { // Sidebar başlığı kontrolü
+            sidebarBlogTitle.textContent = "Mustafa Günay";
+        }
     }
 
     // --- Sidebar İşlevselliği ---
@@ -144,10 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function openSidebar() {
         sidebar.classList.add('open');
         // Mobil sidebar açıldığında Mustafa Günay yazısının görünür olmasını sağla
-        const sidebarTitle = sidebar.querySelector('.sidebar-header h2');
-        if (sidebarTitle) {
-            sidebarTitle.style.opacity = '1';
-            sidebarTitle.style.transition = 'opacity 0.3s ease-in-out'; // Animasyon ekle
+        if (sidebarBlogTitle) {
+            sidebarBlogTitle.style.opacity = '1';
+            sidebarBlogTitle.style.transition = 'opacity 0.3s ease-in-out';
+            sidebarBlogTitle.style.color = 'var(--accent-color-primary)'; // Mobil'de turuncu yap
         }
         // Otomatik kapanma zamanlayıcısını başlat
         resetSidebarCloseTimer();
@@ -156,11 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeSidebar() {
         sidebar.classList.remove('open');
-        // Mobil sidebar kapandığında Mustafa Günay yazısını gizle
-        const sidebarTitle = sidebar.querySelector('.sidebar-header h2');
-        if (sidebarTitle) {
-            sidebarTitle.style.opacity = '0';
-        }
+        // Mobil sidebar kapandığında Mustafa Günay yazısını gizle (CSS ile yönetildi, JS'e gerek kalmadı)
         clearTimeout(sidebarCloseTimeout); // Zamanlayıcıyı temizle
         console.log('Mobil sidebar kapandı.');
     }
@@ -169,14 +181,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', openSidebar);
     } else {
-        console.error('Mobil menü toggle butonu bulunamadı!');
+        console.error('Mobil menü toggle butonu bulunamadı! Lütfen HTML\'deki ID\'yi kontrol edin.');
     }
 
     // Kapatma (X) butonuna tıklama olayı
     if (closeSidebarBtn) {
         closeSidebarBtn.addEventListener('click', closeSidebar);
     } else {
-        console.error('Kapatma butonu bulunamadı!');
+        console.error('Kapatma butonu bulunamadı! Lütfen HTML\'deki ID\'yi kontrol edin.');
     }
 
     // Sidebar içindeki bir linke tıklandığında menüyü kapat
@@ -196,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Otomatik kapanma zamanlayıcısını sıfırlayan fonksiyon
+    // Otomatik kapanma zamanlayıcısını sıfırlayan fonksiyon (Mobil için)
     function resetSidebarCloseTimer() {
         clearTimeout(sidebarCloseTimeout);
         sidebarCloseTimeout = setTimeout(() => {
@@ -214,30 +226,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // PC sidebar'ın kapanmaması için fare sidebar üzerindeyken zamanlayıcıyı temizle
+    if (sidebar) {
+        sidebar.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 768) {
+                clearTimeout(sidebarCloseTimeout); // PC'de otomatik kapanmayı engelle
+            }
+        });
+        sidebar.addEventListener('mouseleave', () => {
+            // PC'de fare çıktığında otomatik kapanma olmasın, sadece CSS hover ile genişlesin/daralsın
+        });
+    }
+
+
     // Pencere boyutu değiştiğinde sidebar durumunu sıfırla (mobil/PC geçişi için)
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
             // PC moduna geçince mobil specific sınıfları kaldır
             sidebar.classList.remove('open');
             sidebar.style.left = '0'; // PC'de solda kalsın
-            const sidebarTitle = sidebar.querySelector('.sidebar-header h2');
-            if (sidebarTitle) {
-                 sidebarTitle.style.opacity = ''; // CSS'in kontrol etmesine izin ver
-                 sidebarTitle.style.transition = '';
+            if (sidebarBlogTitle) {
+                 sidebarBlogTitle.style.opacity = '0'; // PC'de başlangıçta gizli
+                 sidebarBlogTitle.style.transition = 'opacity 0.3s ease-in-out 0.1s';
+                 sidebarBlogTitle.style.color = 'var(--text-color)'; // PC'de varsayılan renk
             }
+            clearTimeout(sidebarCloseTimeout); // PC'de otomatik kapanma zamanlayıcısını temizle
         } else {
             // Mobil moduna geçince (eğer açıksa) otomatik kapanma zamanlayıcısını başlat
             if (sidebar.classList.contains('open')) {
                 resetSidebarCloseTimer();
             }
+            if (sidebarBlogTitle) {
+                sidebarBlogTitle.style.color = 'var(--accent-color-primary)'; // Mobil'de turuncu yap
+            }
         }
     });
 
-    // Sidebar header'daki Mustafa Günay yazısı ve kapatma butonu PC'de gizli olsun
-    // Bu kontrol CSS'te de var ama JS ile de ek kontrol edelim.
+    // Sayfa yüklendiğinde PC'de sidebar başlığını gizle
     if (window.innerWidth > 768) {
-        if (closeSidebarBtn) closeSidebarBtn.style.display = 'none';
-        const sidebarTitlePC = sidebar.querySelector('.sidebar-header h2');
-        if (sidebarTitlePC) sidebarTitlePC.style.opacity = '0'; // PC'de başlangıçta gizli
+        if (sidebarBlogTitle) {
+            sidebarBlogTitle.style.opacity = '0';
+        }
     }
 });
