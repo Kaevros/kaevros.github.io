@@ -1,3 +1,5 @@
+// js/script.js
+
 // Bütün olay burada başlıyor. Sayfa hazır olunca...
 document.addEventListener('DOMContentLoaded', () => {
     // console.log("Sayfa hazır, makine ısınıyor...");
@@ -12,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Kod bloklarını yakalayıp güzelleştiren sihirbaz.
     enhanceCodeBlocks();
+
+    // Hangi sayfadaysak o linki sidebar'da işaretleyelim ki kullanıcı kaybolmasın.
+    setActiveSidebarLink();
 });
 
 
@@ -163,5 +168,25 @@ function enhanceCodeBlocks() {
                 copyButton.textContent = 'Hata!';
             });
         });
+    });
+}
+
+/**
+ * Mevcut sayfanın URL'ine bakarak sidebar'daki doğru linke "active" class'ı ekler.
+ */
+function setActiveSidebarLink() {
+    const currentPath = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    navLinks.forEach(link => {
+        const linkPath = link.getAttribute('href').split('/').pop();
+        // Anasayfa özel durumu (genellikle 'index.html' veya boş olur)
+        if (currentPath === '' || currentPath === 'index.html') {
+            if (linkPath === '' || linkPath === 'index.html') {
+                link.classList.add('active');
+            }
+        } else if (linkPath === currentPath) {
+            link.classList.add('active');
+        }
     });
 }
