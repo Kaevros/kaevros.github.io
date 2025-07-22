@@ -1,0 +1,14 @@
+{
+  "name": "mustafa-gunay-blog",
+  "version": "1.0.0",
+  "description": "Blog build script",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "marked": "^9.0.0",
+    "fs-extra": "^11.1.1",
+    "gray-matter": "^4.0.3"
+  }
+}
