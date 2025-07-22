@@ -10,7 +10,8 @@
     --accent-color-secondary: #3A3A3A;
     --border-color: #3A3A3A;
     --link-hover-color: #ff6f42;
-    --sidebar-width-collapsed: 65px; /* İkonların tam sığması için biraz genişletildi */
+    --sidebar-bg-color: #1c1c1c; /* Sidebar için biraz farklı bir ton */
+    --sidebar-width-collapsed: 65px;
     --sidebar-width-expanded: 240px;
     --mobile-header-height: 60px;
 }
@@ -45,23 +46,22 @@ body {
     opacity: 1;
     transition: opacity 1s ease-out;
 }
-
 .welcome-screen.hidden {
     opacity: 0;
     pointer-events: none;
 }
-
+.main-layout.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 .welcome-screen #blog-title {
     font-family: 'Oxanium', sans-serif;
     font-weight: 700;
-    font-size: 6vw; /* Ekran genişliğine göre ölçeklenir */
+    font-size: 6vw;
     color: var(--accent-color-primary);
     margin-bottom: 40px;
-    white-space: nowrap;
-    /* Daha doğal bir "nefes alma" animasyonu */
     animation: breath 3s ease-in-out infinite alternate;
 }
-
 @keyframes breath {
     from {
         text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2);
@@ -72,43 +72,36 @@ body {
         transform: scale(1.03);
     }
 }
-
 .welcome-screen #welcome-message {
-    font-family: 'VT323', monospace; /* Daktilo fontu */
+    font-family: 'VT323', monospace;
     font-size: 1.8rem;
     color: var(--text-color);
     margin-bottom: 50px;
-    min-height: 1.2em; /* Atlamaları engellemek için */
+    min-height: 1.2em;
     text-align: center;
     padding: 0 20px;
-    opacity: 0; /* Başlangıçta gizli, JS ile görünür yapılır */
-    border-right: .15em solid var(--accent-color-primary); /* Yanıp sönen imleç */
+    opacity: 0;
+    border-right: .15em solid var(--accent-color-primary);
     white-space: nowrap;
     overflow: hidden;
     transition: opacity 0.5s ease-in-out;
     animation: blink-caret .75s step-end infinite;
 }
-
 @keyframes blink-caret {
     from, to { border-color: transparent }
     50% { border-color: var(--accent-color-primary); }
 }
-
 .welcome-screen #skip-button {
     background: transparent;
     border: none;
     color: var(--accent-color-primary);
-    font-size: 3rem; /* Sadece ikon boyutu */
+    font-size: 3rem;
     cursor: pointer;
-    opacity: 0; /* JS ile görünür yapılır */
+    opacity: 0;
     transition: all 0.3s ease;
-    margin-top: 20px; /* Biraz aşağı al */
+    margin-top: 20px;
 }
-
-.welcome-screen #skip-button.visible {
-    opacity: 1;
-}
-
+.welcome-screen #skip-button.visible { opacity: 1; }
 .welcome-screen #skip-button:hover {
     color: var(--link-hover-color);
     transform: scale(1.2);
@@ -117,189 +110,128 @@ body {
 /* --- Ana Düzen --- */
 .main-layout {
     display: flex;
-    opacity: 0;
     transition: opacity 1s ease-in;
 }
+.main-layout.visible { opacity: 1; }
 
-.main-layout.visible {
-    opacity: 1;
-}
-
-/* --- Sidebar (PC) --- */
+/* --- Sidebar (PC) - YENİLENMİŞ GÖRÜNÜM --- */
 .sidebar {
     width: var(--sidebar-width-collapsed);
-    background-color: var(--main-bg-color);
+    background-color: var(--sidebar-bg-color);
     border-right: 1px solid var(--border-color);
     position: fixed;
     height: 100%;
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: center; /* İkonları yatayda ortala */
+    align-items: center;
     padding: 20px 0;
-    transition: width 0.3s ease-in-out;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1); /* Daha yumuşak bir geçiş */
     overflow: hidden;
 }
-
 .sidebar:hover {
     width: var(--sidebar-width-expanded);
 }
-
-#mobile-menu-toggle { display: none; } /* PC'de hamburger menü gizli */
-#close-sidebar-btn { display: none; } /* PC'de X butonu gizli */
-
+#mobile-menu-toggle { display: none; }
+#close-sidebar-btn { display: none; }
 .sidebar-header {
     width: 100%;
     text-align: center;
     margin-bottom: 40px;
 }
-
 #sidebar-blog-title {
     font-size: 1.6em;
     font-weight: 700;
-    color: var(--accent-color-primary); /* Rengi turuncu yaptık */
-    opacity: 0; /* Başlangıçta gizli */
-    transition: opacity 0.3s ease 0.1s; /* Gecikmeli geçiş */
+    color: var(--accent-color-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
     white-space: nowrap;
 }
-
-.sidebar:hover #sidebar-blog-title {
-    opacity: 1; /* Fare üzerine gelince görünür */
-}
-
+.sidebar:hover #sidebar-blog-title { opacity: 1; }
 .sidebar-nav { width: 100%; }
 .sidebar-nav ul { list-style: none; }
-
 .sidebar-nav .nav-item a {
     display: flex;
     align-items: center;
     padding: 15px 0;
-    color: var(--text-color);
+    color: #a0a0a0; /* Varsayılan link rengini biraz soldurduk */
     transition: background-color 0.3s ease, color 0.3s ease;
     white-space: nowrap;
+    position: relative; /* Aktif link çizgisi için */
+    overflow: hidden; /* Taşmayı engellemek için */
 }
-
+.sidebar-nav .nav-item a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: var(--accent-color-primary);
+    transform: scaleY(0); /* Normalde çizgi gizli */
+    transition: transform 0.3s ease;
+}
 .sidebar-nav .nav-item a:hover {
     background-color: var(--accent-color-secondary);
-    color: var(--accent-color-primary);
+    color: var(--text-color); /* Hover'da yazı rengi canlansın */
 }
-
+.sidebar-nav .nav-item a:hover::before,
+.sidebar-nav .nav-item a.active::before {
+    transform: scaleY(1); /* Hover veya aktif olunca çizgi görünsün */
+}
+.sidebar-nav .nav-item a.active {
+    color: #ffffff; /* Aktif linkin yazısı beyaz ve belirgin olsun */
+    background-color: #2a2a2a; /* Aktif linke hafif arka plan */
+}
 .sidebar-nav .nav-item a .icon {
     font-size: 1.5rem;
-    min-width: var(--sidebar-width-collapsed); /* Kapanınca ortalamak için kritik */
+    min-width: var(--sidebar-width-collapsed);
     text-align: center;
     transition: color 0.3s ease;
 }
-
 .sidebar-nav .nav-item a .nav-text {
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease 0.1s; /* Gecikmeli ve daha yumuşak */
     margin-left: 10px;
     font-weight: bold;
 }
-
-.sidebar:hover .nav-item a .nav-text {
-    opacity: 1;
+.sidebar:hover .nav-item a .nav-text { opacity: 1; }
+.sidebar-footer {
+    margin-top: auto; /* Footer'ı her zaman en alta itsin */
+    padding-top: 20px;
+    color: #666;
+    font-size: 0.8em;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
 }
+.sidebar:hover .sidebar-footer { opacity: 1; }
 
 /* İçerik Alanı */
 .content-wrapper {
     flex-grow: 1;
     padding: 40px;
     margin-left: var(--sidebar-width-collapsed);
-    transition: margin-left 0.3s ease-in-out;
+    transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .sidebar:hover + .content-wrapper {
     margin-left: var(--sidebar-width-expanded);
 }
-
-main { display: none; /* Yazılar başlangıçta görünmesin */ }
-main.active { display: block; }
-
-/* --- Mobil Görünüm --- */
-@media (max-width: 768px) {
-    body {
-        padding-top: var(--mobile-header-height);
-    }
-    
-    #mobile-menu-toggle {
-        display: flex; /* Görünür yap */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: var(--mobile-header-height);
-        background-color: var(--main-bg-color);
-        align-items: center;
-        padding: 0 20px;
-        z-index: 1001; /* Sidebar'ın altında */
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    #mobile-menu-toggle .icon {
-        font-size: 1.8rem;
-        color: var(--text-color);
-        cursor: pointer;
-    }
-    
-    .sidebar {
-        width: 85%; /* Ekranın çoğunu kaplasın ama tamamını değil */
-        max-width: 300px;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: -300px; /* Ekran dışında */
-        z-index: 1002;
-        transition: left 0.3s ease-in-out;
-        border-right: 1px solid var(--border-color);
-        padding-top: 20px;
-        align-items: flex-start; /* İçeriği sola hizala */
-    }
-
-    .sidebar.open {
-        left: 0; /* Açıldığında görünsün */
-    }
-
-    #close-sidebar-btn {
-        display: block; /* Görünür yap */
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: var(--text-color);
-        font-size: 2rem;
-        cursor: pointer;
-    }
-
-    .sidebar-header { text-align: left; padding: 0 20px; }
-
-    #sidebar-blog-title {
-        opacity: 1; /* Mobil'de her zaman görünür */
-        font-size: 1.8rem;
-        color: var(--accent-color-primary); /* Renk turuncu */
-    }
-
-    .sidebar-nav .nav-item a { padding: 15px 20px; }
-    
-    .sidebar-nav .nav-item a .icon {
-        min-width: 40px; /* İkonlar için sabit genişlik */
-        text-align: left;
-    }
-
-    .sidebar-nav .nav-item a .nav-text {
-        opacity: 1; /* Mobil'de metin her zaman görünür */
-        margin-left: 15px;
-    }
-
-    .content-wrapper {
-        margin-left: 0;
-        padding: 20px;
-    }
-
-    .welcome-screen #blog-title { font-size: 12vw; }
-    .welcome-screen #welcome-message { font-size: 1.5rem; }
+main {
+    max-width: 960px;
+    margin: 0 auto;
+}
+.content-page, .post-detail {
+    background-color: var(--sidebar-bg-color); /* Daha tutarlı bir görünüm */
+    padding: 30px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.content-page h2 {
+    margin-top: 0;
+    color: var(--accent-color-primary);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 /* --- Hizmetler Sayfası Stilleri --- */
@@ -332,8 +264,8 @@ main.active { display: block; }
 
 /* --- Gelişmiş Kod Bloğu Stilleri --- */
 pre {
-    position: relative; /* kopyala butonu buna göre hizalanacak */
-    background-color: #282c34 !important; /* temanın rengini ezelim */
+    position: relative;
+    background-color: #282c34 !important;
     border-radius: 8px;
     padding: 20px;
     font-size: 0.95em;
@@ -341,9 +273,10 @@ pre {
     overflow-x: auto;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-color);
+    margin: 20px 0;
 }
 pre code.hljs {
-    padding: 0; /* highlight.js'in kendi padding'ini sıfırlayalım */
+    padding: 0;
 }
 .copy-code-button {
     position: absolute;
@@ -355,14 +288,63 @@ pre code.hljs {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    opacity: 0; /* normalde hayalet gibi, görünmez */
+    opacity: 0;
     transition: opacity 0.2s ease, background-color 0.2s ease;
     font-size: 0.8em;
     font-family: 'Oxanium', sans-serif;
 }
-pre:hover .copy-code-button {
-    opacity: 1; /* fare üzerine gelince ortaya çıksın */
-}
-.copy-code-button:hover {
-    background-color: var(--accent-color-primary);
+pre:hover .copy-code-button { opacity: 1; }
+.copy-code-button:hover { background-color: var(--accent-color-primary); }
+
+/* --- Mobil Görünüm --- */
+@media (max-width: 768px) {
+    body { padding-top: var(--mobile-header-height); }
+    .mobile-menu-toggle {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--mobile-header-height);
+        background-color: var(--sidebar-bg-color);
+        align-items: center;
+        padding: 0 20px;
+        z-index: 1001;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .mobile-menu-toggle .fa-bars { font-size: 1.8rem; color: var(--text-color); cursor: pointer; }
+    .sidebar {
+        width: 85%;
+        max-width: 300px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: -300px;
+        z-index: 1002;
+        transition: left 0.3s ease-in-out;
+        border-right: 1px solid var(--border-color);
+        padding-top: 20px;
+        align-items: flex-start;
+    }
+    .sidebar.open { left: 0; }
+    #close-sidebar-btn {
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    .sidebar:hover { width: 85%; max-width: 300px; }
+    .sidebar-header { text-align: left; padding: 0 20px; }
+    #sidebar-blog-title { opacity: 1; font-size: 1.8rem; color: var(--accent-color-primary); }
+    .sidebar-nav .nav-item a { padding: 15px 20px; }
+    .sidebar-nav .nav-item a .icon { min-width: 40px; text-align: left; }
+    .sidebar-nav .nav-item a .nav-text { opacity: 1; margin-left: 15px; }
+    .content-wrapper { margin-left: 0; padding: 20px; }
+    .sidebar:hover + .content-wrapper { margin-left: 0; }
+    .welcome-screen #blog-title { font-size: 12vw; }
 }
