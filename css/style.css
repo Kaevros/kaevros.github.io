@@ -131,7 +131,7 @@ h4 { font-size: 1.4em; }
 
 @keyframes typing {
     from { width: 0 }
-    to { width: var(--final-width, 100%) } /* JS ile dinamik genişlik */
+    to { width: var(--final-width, 100%) } /* JS dinamik olarak ayarlanacak */
 }
 
 @keyframes blink-caret {
@@ -236,6 +236,11 @@ h4 { font-size: 1.4em; }
 
 .sidebar:hover .sidebar-header h2 {
     opacity: 1;
+}
+
+/* PC Görünümünde Kapatma Butonu (X) Gizli */
+.close-sidebar-btn {
+    display: none; /* PC'de gizli */
 }
 
 .sidebar-nav ul {
@@ -577,7 +582,7 @@ pre code {
 
     /* Mobil Menü Toggle (Hamburger) */
     .mobile-menu-toggle {
-        display: block; /* Mobil'de görünür yap */
+        display: flex; /* Mobil'de görünür yap */
         position: fixed;
         top: 0;
         left: 0;
@@ -586,7 +591,6 @@ pre code {
         background-color: var(--main-bg-color);
         color: var(--accent-color-primary);
         z-index: 1001; /* Sidebar'ın hemen üzerinde */
-        display: flex;
         align-items: center;
         padding: 0 15px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -620,6 +624,21 @@ pre code {
         left: 0; /* Açıldığında ekran içine gelsin */
     }
 
+    /* Mobil Sidebar'daki Kapatma Butonu (X) Görünür */
+    .close-sidebar-btn {
+        display: block; /* Mobil'de görünür */
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 1.8em;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .close-sidebar-btn:hover {
+        color: var(--accent-color-primary);
+    }
+
     .sidebar:hover {
         width: 100%; /* Mobil'de genişleme yok */
     }
@@ -641,21 +660,8 @@ pre code {
         text-overflow: ellipsis;
     }
 
-    .close-sidebar-btn {
-        background: none;
-        border: none;
-        color: var(--text-color);
-        font-size: 1.8em;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
-
-    .close-sidebar-btn:hover {
-        color: var(--accent-color-primary);
-    }
-
     .sidebar-nav {
-        flex-grow: 0; /* İçeriği sıkıştırma */
+        flex-grow: 1; /* Menü içeriği kalan alanı kaplasın */
         width: 100%;
     }
 
@@ -700,7 +706,6 @@ pre code {
     .sidebar-footer .github-link .github-text {
         opacity: 1; /* Mobil'de görünür */
     }
-
 
     .content-wrapper {
         margin-left: 0; /* Mobil'de sol boşluk yok */
