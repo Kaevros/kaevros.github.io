@@ -1,4 +1,5 @@
-// build.js - ARAMA, ETİKETLER, OKUMA SÜRESİ GİBİ TÜM YENİ ÖZELLİKLERİ İÇEREN NİHAİ VERSİYON
+// build.js - ETİKETLERDEKİ ÖZEL KARAKTER HATASI GİDERİLMİŞ NİHAİ VERSİYON
+
 const fs = require('fs-extra');
 const path = require('path');
 const { marked } = require('marked');
@@ -46,7 +47,6 @@ async function buildSite() {
     }
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    // Arama indeksi oluştur
     const searchIndex = lunr(function () { this.ref('path'); this.field('title'); this.field('content'); this.field('tags'); allPosts.forEach(doc => { this.add(doc); }); });
     await fs.writeFile(path.join(outputDir, 'search-index.json'), JSON.stringify(searchIndex));
     const searchDocs = allPosts.reduce((acc, doc) => { acc[doc.path] = { title: doc.title, description: doc.description }; return acc; }, {});
@@ -55,14 +55,19 @@ async function buildSite() {
     const createPostCard = (post, index) => `<div class="post-card" data-aos="fade-up" data-aos-delay="${index * 100}"><div class="post-card-content"><h3>${post.title}</h3><p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p><p class="post-card-description">${post.description || ''}</p></div><a href="/${post.path}" class="read-more">Devamını Oku &rarr;</a></div>`;
     
     for (const post of allPosts) {
-        const tagLinks = (post.tags || []).map(tag => `<a href="/tags/${tag.toLowerCase().replace(/ /g, '-')}.html" class="tag">${tag}</a>`).join('');
+        const tagLinks = (post.tags || []).map(tag => {
+            // DÜZELTME: Etiket adındaki '/' gibi özel karakterleri de '-' ile değiştiriyoruz.
+            const safeTag = tag.toLowerCase().replace(/[ \/]/g, '-');
+            return `<a href="/tags/${safeTag}.html" class="tag">${tag}</a>`
+        }).join('');
         const shareLinks = `<div class="share-buttons"><a href="https://twitter.com/intent/tweet?url=https://kaevros.github.io/${post.path}&text=${encodeURIComponent(post.title)}" target="_blank">Twitter</a><a href="https://www.linkedin.com/shareArticle?mini=true&url=https://kaevros.github.io/${post.path}" target="_blank">LinkedIn</a></div>`;
         const postPageContent = `<article class="post-detail"><header class="post-header"><h1>${post.title}</h1><div class="post-meta"><span>${post.date.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</span> • <span><i class="fas fa-clock"></i> ${post.readingTime}</span></div><div class="tag-list">${tagLinks}</div></header><section class="post-content">${post.htmlContent}</section><footer>${shareLinks}</footer></article>`;
         await fs.writeFile(path.join(outputDir, post.path), createPageTemplate(post.title, postPageContent));
     }
 
     for (const tag in tagsMap) {
-        const tagName = tag.toLowerCase().replace(/ /g, '-');
+        // DÜZELTME: Etiket sayfasını oluştururken de aynı güvenli dosya adını kullanıyoruz.
+        const tagName = tag.toLowerCase().replace(/[ \/]/g, '-');
         const tagPageContent = `<section class="content-page"><h2 data-aos="fade-down">'${tag}' Etiketli Yazılar</h2><div class="posts-grid">${tagsMap[tag].map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
         await fs.writeFile(path.join(outputDir, 'tags', `${tagName}.html`), createPageTemplate(`${tag} Yazıları`, tagPageContent));
     }
