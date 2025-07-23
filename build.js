@@ -1,4 +1,4 @@
-// build.js - ÖNBELLEK İMHA EDEN VE HER ŞEYİ ÇÖZEN NİHAİ VERSİYON
+// build.js - Decap CMS kaldırıldı, sistem sadeleştirildi. NİHAİ VERSİYON.
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -18,67 +18,9 @@ function createPageTemplate(pageTitle, mainContent, bodyClass = '') {
     return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle} - Mustafa Günay</title>${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
 }
 
-async function generateAdminFiles() {
-    const adminDir = path.join(outputDir, 'admin');
-    await fs.ensureDir(adminDir);
-
-    // Ayarları bir JavaScript objesi olarak hazırla
-    const config = {
-        backend: {
-            name: 'github',
-            repo: 'Kaevros/kaevros.github.io',
-            branch: 'main',
-            auth_type: 'implicit',
-        },
-        media_folder: "assets/images",
-        public_folder: "/assets/images",
-        publish_mode: "editorial_workflow",
-        collections: [{
-            name: "blog",
-            label: "Yazılar",
-            folder: "_posts",
-            create: true,
-            slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
-            fields: [
-                { label: "Başlık", name: "title", widget: "string" },
-                { label: "Yayın Tarihi", name: "date", widget: "datetime" },
-                { label: "Kısa Açıklama (SEO için)", name: "description", widget: "string" },
-                { label: "Etiketler", name: "tags", widget: "list", required: false },
-                { label: "Kapak Fotoğrafı (İsteğe Bağlı)", name: "image", widget: "image", required: false },
-                { label: "İçerik", name: "body", widget: "markdown" },
-            ],
-        }],
-    };
-
-    // index.html dosyasını oluştur
-    const adminIndexHTML = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>İçerik Yöneticisi</title>
-          <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-        </head>
-        <body>
-          <script>
-            // Ayarları doğrudan CMS'e vererek başlat
-            CMS.init({ config: ${JSON.stringify(config, null, 2)} });
-          </script>
-        </body>
-        </html>
-    `;
-    await fs.writeFile(path.join(adminDir, 'index.html'), adminIndexHTML);
-}
-
-
 async function buildSite() {
     await fs.emptyDir(outputDir);
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
-    
-    // YENİ: Admin dosyalarını bu fonksiyon oluşturacak
-    await generateAdminFiles();
-
     if (await fs.pathExists(path.join(__dirname, 'assets/icons/favicon.ico'))) { await fs.copy(path.join(__dirname, 'assets/icons/favicon.ico'), path.join(outputDir, 'favicon.ico')); }
     const staticPagesDir = path.join(__dirname, '_pages');
     if (await fs.pathExists(staticPagesDir)) { for (const pageFile of await fs.readdir(staticPagesDir)) { const mainContent = await fs.readFile(path.join(staticPagesDir, pageFile), 'utf8'); const pageTitle = pageFile.charAt(0).toUpperCase() + pageFile.slice(1, pageFile.indexOf('.')); await fs.writeFile(path.join(outputDir, pageFile), createPageTemplate(pageTitle, mainContent)); } }
