@@ -44,7 +44,7 @@ function setupSearch() {
     const resultsList = document.getElementById('search-results-list');
     if (!searchTrigger || !searchModal) return;
     let idx, searchDocs; let dataFetched = false;
-    async function initializeSearch() { if(dataFetched) return; try { const [idxResponse, docsResponse] = await Promise.all([fetch('/search-index.json'), fetch('/search-docs.json')]); const serializedIdx = await idxResponse.json(); searchDocs = await docsResponse.json(); idx = lunr.Index.load(serializedIdx); dataFetched = true; } catch (error) { console.error("Arama verileri yüklenemedi:", error); } }
+    async function initializeSearch() { if (dataFetched) return; try { const [idxResponse, docsResponse] = await Promise.all([fetch('/search-index.json'), fetch('/search-docs.json')]); const serializedIdx = await idxResponse.json(); searchDocs = await docsResponse.json(); idx = lunr.Index.load(serializedIdx); dataFetched = true; } catch (error) { console.error("Arama verileri yüklenemedi:", error); } }
     function openSearch() { initializeSearch(); searchModal.classList.add('active'); document.body.style.overflow = 'hidden'; setTimeout(() => searchModalInput.focus(), 300); }
     function closeSearch() { searchModal.classList.remove('active'); document.body.style.overflow = ''; searchModalInput.value = ''; resultsList.innerHTML = ''; }
     searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
