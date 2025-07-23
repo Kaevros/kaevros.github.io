@@ -140,7 +140,23 @@ main { max-width: 960px; margin: 0 auto; }
 .contact-card i { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; display: block; transition: transform 0.3s ease; }
 .contact-card:hover i { transform: scale(1.1); }
 .contact-card span { font-size: 1.2rem; font-weight: bold; }
-/* HAREKETLİ GRADYAN YAZI EFEKTİ */
+/* HAREKETLİ GRADYAN YAZI EFEKTİ (ÖZEL SAYFALAR İÇİN) */
 .animated-gradient-container { display: flex; justify-content: center; align-items: center; text-align: center; min-height: 60vh; padding: 20px; }
 .animated-gradient-text { font-family: 'Oxanium', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; background: linear-gradient(90deg, var(--text-color), var(--accent-color-primary), var(--text-color)); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: move-gradient 8s ease-in-out infinite; }
-@keyframes move-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+/* YAZI İÇİ BAŞLIKLARA HAREKETLİ GRADYAN EFEKTİ (YENİ) */
+.post-detail .styled-header h1 {
+    background: linear-gradient( 90deg, var(--accent-color-primary), var(--text-color), var(--accent-color-primary) );
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: move-gradient 8s ease-in-out infinite;
+}
+
+@keyframes move-gradient { 
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; } 
+}
