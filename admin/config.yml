@@ -1,13 +1,16 @@
-# admin/config.yml
+# admin/config.yml - GİRİŞ HATASINI ÇÖZEN NİHAİ VERSİYON
 
 backend:
   name: github
   repo: Kaevros/kaevros.github.io
   branch: main
-  site_domain: kaevros.github.io
+  
+  # DİKKAT: EKLENEN YENİ SATIRLAR
+  # Bu ayarlar, Decap CMS'e Netlify yerine kendi servisini kullanmasını söyler.
+  base_url: https://api.decapcms.org
+  auth_endpoint: auth
 
-# DİKKAT: app_id satırı eklendi.
-# Bu, GitHub'a kendi uygulamamız üzerinden bağlandığımızı söyler.
+# Bu, bir önceki adımda GitHub'da oluşturduğun OAuth uygulamasının Client ID'sidir.
 app_id: Ov23li88PIl7iF9Br2Ck
   
 media_folder: "assets/images"
