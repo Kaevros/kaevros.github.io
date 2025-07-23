@@ -51,7 +51,23 @@ body.sidebar-open { overflow: hidden; }
 .content-wrapper { flex-grow: 1; padding: 40px; margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 .sidebar:hover + .content-wrapper { margin-left: var(--sidebar-width-expanded); }
 main { max-width: 960px; margin: 0 auto; }
-.search-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 4000; visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s 0.3s; backdrop-filter: blur(5px); }
+.search-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 4000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+    backdrop-filter: blur(5px);
+    /* YENİ: Modal içeriğini dikey ve yatayda ortalamak için */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .search-modal-overlay.active { visibility: visible; opacity: 1; transition: opacity 0.3s ease; }
 .search-modal-content { background-color: var(--sidebar-bg-color); width: 90%; max-width: 700px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); transform: scale(0.95); transition: transform 0.3s ease; }
 .search-modal-overlay.active .search-modal-content { transform: scale(1); }
@@ -140,3 +156,60 @@ main { max-width: 960px; margin: 0 auto; }
 .contact-card i { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; display: block; transition: transform 0.3s ease; }
 .contact-card:hover i { transform: scale(1.1); }
 .contact-card span { font-size: 1.2rem; font-weight: bold; }
+
+
+/* =============================================== */
+/* HAREKETLİ GRADYAN YAZI EFEKTİ        */
+/* =============================================== */
+
+.animated-gradient-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 60vh; /* Alanın dikeyde ortalanması için */
+    padding: 20px;
+}
+
+.animated-gradient-text {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 4rem; /* Yazı boyutu, isteğe göre ayarlanabilir */
+    font-weight: 700;
+    
+    /* 1. Adım: Arka plan olarak bir gradyan oluşturuyoruz. */
+    /* Beyaz, Turuncu ve tekrar Beyaz arasında bir geçiş. */
+    background: linear-gradient(
+        90deg, 
+        var(--text-color), 
+        var(--accent-color-primary), 
+        var(--text-color)
+    );
+    
+    /* 2. Adım: Gradyanı metinden çok daha büyük yapıyoruz. */
+    background-size: 200% auto;
+    
+    /* 3. Adım (SİHİR BURADA): */
+    /* Gradyanı metnin şekline göre kırpıyoruz. */
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Metnin kendi rengini şeffaf yapıyoruz ki alttaki gradyan görünsün. */
+    -webkit-text-fill-color: transparent;
+    
+    /* 4. Adım: Arka planı hareket ettiren animasyonu uyguluyoruz. */
+    animation: move-gradient 5s linear infinite;
+}
+
+/* Gradyan hareket animasyonu */
+@keyframes move-gradient {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Mobil cihazlar için yazı boyutunu ayarlayalım */
+@media (max-width: 768px) {
+    .animated-gradient-text {
+        font-size: 2.5rem;
+    }
+}
