@@ -1,4 +1,4 @@
-// build.js - TÜM SAYFA YAPI HATALARINI GİDEREN NİHAİ VERSİYON
+// build.js - ADMIN PANELI 404 HATASINI GİDEREN NİHAİ VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -19,7 +19,15 @@ function createPageTemplate(pageTitle, mainContent, bodyClass = '') {
 }
 async function buildSite() {
     await fs.emptyDir(outputDir);
+
+    // Statik klasörleri kopyala
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
+    
+    // EKSİK OLAN SATIR BURAYA EKLENDİ: Admin panelini de kopyala
+    if (await fs.pathExists(path.join(__dirname, 'admin'))) {
+        await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin'));
+    }
+
     const staticPagesDir = path.join(__dirname, '_pages');
     if (await fs.pathExists(staticPagesDir)) {
         for (const pageFile of await fs.readdir(staticPagesDir)) {
@@ -69,4 +77,5 @@ async function buildSite() {
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate('Yazılar', postsPageContent));
     console.log('Site başarıyla ve hatasız oluşturuldu!');
 }
+
 buildSite();
