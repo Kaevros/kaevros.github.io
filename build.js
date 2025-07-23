@@ -1,4 +1,4 @@
-// build.js - NİHAİ VERSİYON (Dinamik 404 Sayfası Eklenmiş)
+// build.js - NİHAİ VERSİYON (RSS Feed Oluşturma Eklenmiş)
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -6,6 +6,7 @@ const { marked } = require('marked');
 const matter = require('gray-matter');
 const lunr = require('lunr');
 const readingTime = require('reading-time');
+const RSS = require('rss'); // YENİ: RSS paketini dahil ettik
 
 const outputDir = path.join(__dirname, '_site');
 const siteBaseUrl = 'https://kaevros.github.io'; 
@@ -33,16 +34,19 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
         <meta name="twitter:image" content="${pageImage}">
     `;
 
+    // YENİ: RSS feed linkini head'e ekliyoruz
+    const rssLinkHTML = `<link rel="alternate" type="application/rss+xml" title="Mustafa Günay - Kişisel Blog RSS Feed" href="/feed.xml">`;
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
     const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div><aside class="sidebar" id="sidebar"><div class="sidebar-header"><div class="logo-container"><a href="/index.html" aria-label="Ana Sayfa" id="logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo"></a></div><div class="sidebar-slogan"><span class="slogan-en">Control is an illusion.</span><span class="slogan-tr">Kontrol bir illüzyondur.</span></div><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div><div class="search-container" id="search-trigger"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Blogda Ara..." readonly></div><nav class="sidebar-nav"><ul><li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li><li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li><li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li><li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li><li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li></ul></nav><button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button><div class="sidebar-footer"><p>&copy; ${new Date().getFullYear()} Mustafa Günay</p></div></aside>`;
     const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button></div>` : '';
     const mainLayoutClass = bodyClass.includes('home') ? 'main-layout hidden' : 'main-layout';
 
-    return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
+    return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
 }
 
 async function buildSite() {
+    // ... buildSite fonksiyonunun başındaki kodlar aynı kalacak ...
     await fs.emptyDir(outputDir);
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
     if (await fs.pathExists(path.join(__dirname, 'admin'))) { await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin')); }
@@ -85,6 +89,8 @@ async function buildSite() {
     }
 
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    // ... searchIndex ve diğer kodlar aynı kalacak ...
     const searchIndex = lunr(function () { this.ref('path'); this.field('title', { boost: 10 }); this.field('content'); this.field('tags', { boost: 5 }); allPosts.forEach(doc => { this.add(doc); }); });
     await fs.writeFile(path.join(outputDir, 'search-index.json'), JSON.stringify(searchIndex));
     const searchDocs = allPosts.reduce((acc, doc) => { acc[doc.path] = { title: doc.title, description: doc.description }; return acc; }, {});
@@ -130,34 +136,37 @@ async function buildSite() {
     const postsMeta = { title: 'Tüm Yazılar', description: 'Siber güvenlik, yazılım ve teknoloji üzerine yazılmış tüm yazıların arşivi.', url: '/posts.html' };
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate(postsMeta, postsPageContent));
 
-    // YENİ: 404 SAYFASI OLUŞTURMA BÖLÜMÜ
-    const recentPostsFor404 = allPosts.slice(0, 3)
-        .map(post => `<li><a href="/${post.path}">${post.title}</a></li>`)
-        .join('');
-
-    const notFoundContent = `
-        <div class="error-page-container">
-            <h1 class="error-code animated-gradient-text">404</h1>
-            <h2 class="error-title">SAYFA BULUNAMADI</h2>
-            <p class="error-message">
-                Aradığınız sayfa ya hiç var olmadı ya da bir bit-flip kurbanı oldu.
-                Endişelenme, en iyi sistemlerde bile olur.
-            </p>
-            <div class="error-actions">
-                <a href="/index.html" class="cta-button">Ana Sayfaya Dön</a>
-            </div>
-            <div class="error-recent-posts">
-                <h3>Belki bunlardan birini arıyordun?</h3>
-                <ul>
-                    ${recentPostsFor404}
-                </ul>
-            </div>
-        </div>
-    `;
+    const notFoundContent = `<div class="error-page-container"><h1 class="error-code animated-gradient-text">404</h1><h2 class="error-title">SAYFA BULUNAMADI</h2><p class="error-message">Aradığınız sayfa ya hiç var olmadı ya da bir bit-flip kurbanı oldu. Endişelenme, en iyi sistemlerde bile olur.</p><div class="error-actions"><a href="/index.html" class="cta-button">Ana Sayfaya Dön</a></div><div class="error-recent-posts"><h3>Belki bunlardan birini arıyordun?</h3><ul>${allPosts.slice(0, 3).map(post => `<li><a href="/${post.path}">${post.title}</a></li>`).join('')}</ul></div></div>`;
     const notFoundMeta = { title: '404 - Sayfa Bulunamadı', url: '/404.html' };
     await fs.writeFile(path.join(outputDir, '404.html'), createPageTemplate(notFoundMeta, notFoundContent, 'error-page'));
     
-    console.log('Site başarıyla ve özel 404 sayfasıyla birlikte hatasız oluşturuldu!');
+    // YENİ: RSS FEED OLUŞTURMA BÖLÜMÜ
+    const feed = new RSS({
+        title: 'Mustafa Günay - Kişisel Blog',
+        description: 'Siber güvenlik, network, yazılım ve teknoloji üzerine kişisel notlar ve teknik yazılar.',
+        feed_url: `${siteBaseUrl}/feed.xml`,
+        site_url: siteBaseUrl,
+        image_url: `${siteBaseUrl}/assets/images/logo.svg`,
+        language: 'tr',
+        pubDate: new Date(),
+        copyright: `${new Date().getFullYear()} Mustafa Günay`,
+    });
+
+    for (const post of allPosts) {
+        feed.item({
+            title: post.title,
+            description: post.description,
+            url: `${siteBaseUrl}/${post.path}`,
+            guid: `${siteBaseUrl}/${post.path}`, // her yazı için benzersiz bir kimlik
+            author: 'Mustafa Günay',
+            date: post.date,
+        });
+    }
+
+    const xml = feed.xml({ indent: true });
+    await fs.writeFile(path.join(outputDir, 'feed.xml'), xml);
+
+    console.log('Site başarıyla, özel 404 sayfası ve RSS feed ile birlikte hatasız oluşturuldu!');
 }
 
 buildSite();
