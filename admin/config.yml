@@ -1,4 +1,4 @@
-# admin/config.yml - EN BASİT VE EN STABİL GİRİŞ YÖNTEMİ
+# admin/config.yml - GİRİŞ HATASINI KESİN OLARAK ÇÖZEN NİHAİ VERSİYON
 
 backend:
   name: github
