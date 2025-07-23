@@ -1,19 +1,17 @@
-# admin/config.yml - GİRİŞ HATASINI ÇÖZEN NİHAİ VERSİYON
+# admin/config.yml - EN BASİT VE EN STABİL GİRİŞ YÖNTEMİ
 
 backend:
   name: github
   repo: Kaevros/kaevros.github.io
   branch: main
   
-  # DİKKAT: Bu satırların harfi harfine doğru olduğundan emin olun.
-  base_url: https://api.decapcms.org
-  auth_endpoint: auth
-
-# Bu, bir önceki adımda GitHub'da oluşturduğun OAuth uygulamasının Client ID'sidir.
-app_id: Ov23li88PIl7iF9Br2Ck
+  # DİKKAT: Karmaşık ayarlar kaldırıldı, yerine bu basit yöntem eklendi.
+  # Bu, halka açık repolar için en sorunsuz çalışan yöntemdir.
+  auth_type: implicit
   
 media_folder: "assets/images"
 public_folder: "/assets/images"
+publish_mode: editorial_workflow
 
 collections:
   - name: "blog"
