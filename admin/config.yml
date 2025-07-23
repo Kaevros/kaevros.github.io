@@ -2,10 +2,15 @@
 
 backend:
   name: github
-  repo: Kaevros/kaevros.github.io  # BİLGİLERİNİZLE GÜNCELLENDİ
-  branch: main # veya master. Reponuzun ana dalı hangisiyse onu yazın.
+  repo: Kaevros/kaevros.github.io
+  branch: main
+  site_domain: kaevros.github.io
 
-media_folder: "assets/images" 
+# DİKKAT: app_id satırı eklendi.
+# Bu, GitHub'a kendi uygulamamız üzerinden bağlandığımızı söyler.
+app_id: Ov23li88PIl7iF9Br2Ck
+  
+media_folder: "assets/images"
 public_folder: "/assets/images"
 
 collections:
@@ -17,5 +22,7 @@ collections:
     fields:
       - { label: "Başlık", name: "title", widget: "string" }
       - { label: "Yayın Tarihi", name: "date", widget: "datetime" }
+      - { label: "Kısa Açıklama (SEO için)", name: "description", widget: "string" }
+      - { label: "Etiketler", name: "tags", widget: "list", required: false }
       - { label: "Kapak Fotoğrafı (İsteğe Bağlı)", name: "image", widget: "image", required: false }
       - { label: "İçerik", name: "body", widget: "markdown" }

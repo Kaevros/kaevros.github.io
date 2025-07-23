@@ -1,4 +1,4 @@
-// build.js - ADMIN PANELI 404 HATASINI GİDEREN NİHAİ VERSİYON
+// build.js - FAVICON 404 HATASINI GİDEREN NİHAİ VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -20,12 +20,12 @@ function createPageTemplate(pageTitle, mainContent, bodyClass = '') {
 async function buildSite() {
     await fs.emptyDir(outputDir);
 
-    // Statik klasörleri kopyala
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
+    if (await fs.pathExists(path.join(__dirname, 'admin'))) { await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin')); }
     
-    // EKSİK OLAN SATIR BURAYA EKLENDİ: Admin panelini de kopyala
-    if (await fs.pathExists(path.join(__dirname, 'admin'))) {
-        await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin'));
+    // DİKKAT: Favicon kopyalama satırı eklendi.
+    if (await fs.pathExists(path.join(__dirname, 'assets/icons/favicon.ico'))) {
+        await fs.copy(path.join(__dirname, 'assets/icons/favicon.ico'), path.join(outputDir, 'favicon.ico'));
     }
 
     const staticPagesDir = path.join(__dirname, '_pages');
@@ -77,5 +77,4 @@ async function buildSite() {
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate('Yazılar', postsPageContent));
     console.log('Site başarıyla ve hatasız oluşturuldu!');
 }
-
 buildSite();
