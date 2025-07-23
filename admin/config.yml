@@ -1,0 +1,21 @@
+# admin/config.yml
+
+backend:
+  name: github
+  repo: Kaevros/kaevros.github.io  # BİLGİLERİNİZLE GÜNCELLENDİ
+  branch: main # veya master. Reponuzun ana dalı hangisiyse onu yazın.
+
+media_folder: "assets/images" 
+public_folder: "/assets/images"
+
+collections:
+  - name: "blog"
+    label: "Yazılar"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Yayın Tarihi", name: "date", widget: "datetime" }
+      - { label: "Kapak Fotoğrafı (İsteğe Bağlı)", name: "image", widget: "image", required: false }
+      - { label: "İçerik", name: "body", widget: "markdown" }
