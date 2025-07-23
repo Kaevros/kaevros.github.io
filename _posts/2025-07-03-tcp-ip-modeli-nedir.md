@@ -18,8 +18,10 @@ TCP/IP modeli, teorik OSI modelinin aksine, günümüz internetinin temelini olu
 
 ---
 
+
 ## 🚀 OSI’nin Kardeşi TCP/IP
 TCP/IP Modeli, aslında internette kullandığımız **gerçek protokol modelidir**. OSI gibi 7 değil, **4 katmandan oluşur** (bazı kaynaklarda bu 5 katman olarak da geçer).
+
 
 ### 📌 Ezber Kodları
 
@@ -35,7 +37,9 @@ TCP/IP Modeli, aslında internette kullandığımız **gerçek protokol modelidi
 
 ---
 
+
 ### 🧱 Katman Katman TCP/IP Modeli
+
 
 #### 🔹 1. Application Layer (Uygulama Katmanı) — Uygulamanın Konuştuğu Yer
 Kullanıcının doğrudan etkileşimde bulunduğu katmandır. Web tarayıcıları, e-posta istemcileri gibi uygulamaların kullandığı protokolleri barındırır.
@@ -44,6 +48,7 @@ Kullanıcının doğrudan etkileşimde bulunduğu katmandır. Web tarayıcılar�
 - **🧠 OSI'deki Karşılığı:** Application, Presentation ve Session katmanlarının birleşimidir.
 - **Gerçek Hayat:** YouTube'a girip bir video izlemeye başlaman bu katmanda gerçekleşir.
 
+
 #### 🔹 2. Transport Layer (Taşıma Katmanı) — Verinin Sağlıklı Taşınması
 Uçtan uca bağlantıyı kurar ve verinin nasıl iletileceğini belirler: güvenli mi, yoksa hızlı mı?
 - **Protokoller:** TCP (güvenilir, bağlantı odaklı), UDP (hızlı, bağlantısız)
@@ -51,12 +56,14 @@ Uçtan uca bağlantıyı kurar ve verinin nasıl iletileceğini belirler: güven
 - **🧠 OSI'deki Karşılığı:** Transport katmanıyla birebir aynıdır.
 - **Gerçek Hayat:** WhatsApp mesajları (her harfin gitmesi gereken TCP), online oyunlar ve canlı yayınlar (hızın önemli olduğu UDP).
 
+
 #### 🔹 3. Internet Layer (İnternet Katmanı) — Yön Bulucu Katman
 Veri paketlerine IP adreslerini ekler ve bu paketleri ağlar arasında hedefe ulaştıracak en iyi yolu (routing) bulur.
 - **Protokoller:** IP (IPv4, IPv6), ICMP, ARP
 - **Görev:** Paketleme (packet), adresleme (addressing) ve yönlendirme (routing).
 - **🧠 OSI'deki Karşılığı:** Network katmanına denk gelir.
 - **Gerçek Hayat:** Gönderdiğiniz bir kargonun üzerine varış adresi etiketini yapıştırmak ve dağıtım ağında doğru kamyona yüklenmesi.
+
 
 #### 🔹 4. Network Access Layer (Ağ Erişim Katmanı) — Fiziksel Temas Noktası
 Paketlerin fiziksel olarak ağa (kablo, Wi-Fi) nasıl aktarılacağını tanımlar. MAC adresleri, kablolar, sinyaller bu katmanın konusudur.
@@ -68,7 +75,9 @@ Paketlerin fiziksel olarak ağa (kablo, Wi-Fi) nasıl aktarılacağını tanıml
 
 ---
 
+
 ### 📊 OSI vs. TCP/IP – Karşılaştırmalı Tablo
+
 
 | **OSI Modeli Katmanı** | **TCP/IP Modeli Karşılığı** |
 |:---------------------|:----------------------------|
@@ -82,11 +91,13 @@ Paketlerin fiziksel olarak ağa (kablo, Wi-Fi) nasıl aktarılacağını tanıml
 
 ---
 
+
 ### 🏠 Bir Kargo Teslimatı Gibi Özet
 - **Application** → Kargoyu hazırlayıp ne göndereceğine karar veren müşteri.
 - **Transport** → Kargonun sağlam ve güvenli bir şekilde paketlenmesi.
 - **Internet** → Kargonun hangi şehirler ve yollar üzerinden gideceğini belirleyen lojistik ağı.
 - **Network Access** → Motor kuryenin paketi alıp fiziksel olarak adrese teslim etmesi.
+
 
 ### 📌 TCP/IP Neden Bu Kadar Önemli?
 ✅ **Gerçek dünyada kullanılan modeldir:** İnternet bu yapı üzerine kuruludur.
