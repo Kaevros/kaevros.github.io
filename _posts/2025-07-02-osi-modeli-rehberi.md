@@ -1,82 +1,104 @@
 ---
-title: "💡 OSI Modeli: Açıklayıcı ve Eğlenceli Rehber"
-date: "2025-07-02"
-description: "Ağ iletişiminin 7 katmanlı anayasası olan OSI modelini, katmanların görevlerini, ezber kodlarını ve gerçek hayat benzetmelerini bu rehberde öğrenin."
+title: "OSI Modeli Nedir? Açıklayıcı ve Eğlenceli Rehber"
+date: "2025-07-23"
+description: "OSI modelinin 7 katmanını, eğlenceli ezber kodlarını ve gerçek hayat benzetmelerini keşfedin. Ağ temellerini anlamak için en basit rehber."
 tags:
+  - OSI
   - Network
-  - OSI Modeli
   - Temel Kavramlar
+  - Protokoller
+  - Ağ Modelleri
+image: /assets/images/posts/osi-model-diagram.png
 ---
 
 ## 🚀 OSI Modeline Giriş — Basit Kodlamayla Ezber
 
-OSI Modeli, ağ iletişimini 7 katmana bölen bir sistemdir. Her katman farklı bir iş yapar ama hepsi birlikte ağ iletişimini sağlar.
+OSI (Open Systems Interconnection) Modeli, ağ iletişimini standartlaştırmak için geliştirilmiş kavramsal bir çerçevedir. Farklı üreticilerin cihazlarının birbiriyle sorunsuzca konuşabilmesi için iletişimi **7 katmana** böler. Her katman farklı bir iş yapar ama hepsi birlikte mükemmel bir uyum içinde çalışır.
 
-> **Türkçe Ezber Kodu (Yukarıdan Aşağıya):**
+![OSI Modeli Katmanları](/assets/images/posts/osi-model-diagram.png)
+*OSI Modelinin 7 katmanı ve temel görevleri.*
+
+---
+
+### 📌 Ezber Kodları
+
+OSI katmanlarını akılda tutmak için kullanılan popüler anımsatıcılar (mnemonic codes) hayat kurtarır.
+
+> **Türkçe Ezber Kodları (Yukarıdan Aşağıya - 7'den 1'e):**
 >
-> "A Papatya Sevgiliye Taşınırken Ne Dediyse O!"
-> *(7-Application → 6-Presentation → 5-Session → 4-Transport → 3-Network → 2-Data Link → 1-Physical)*
+> **"A**h **P**aşam **S**ana **T**ac **N**asip **D**eğil **P**adişahım"
+> (Application, Presentation, Session, Transport, Network, Data Link, Physical)
+
+> **Türkçe Ezber Kodları (Aşağıdan Yukarıya - 1'den 7'ye):**
 >
-> **Türkçe Ezber Kodu (Aşağıdan Yukarıya):**
+> **"F**iziksel **D**atayı **N**etwork'e **T**aşıyıp, **S**ession'ı **P**resente **A**ttı"
+> (Physical, Data Link, Network, Transport, Session, Presentation, Application)
+
+> **İngilizce Ezber Kodları (Yukarıdan Aşağıya - 7'den 1'e):**
 >
-> “Fazla Dertli Nazlı Teyze Sabaha Pişi Açtı”
-> *(1-Fiziksel→ 2-Data Link→ 3-Network→ 4-Transport → 5-Session→ 6-Presantation→ 7-Aplication)*
+> **"A**ll **P**eople **S**eem **T**o **N**eed **D**ata **P**rocessing"
+> (Application, Presentation, Session, Transport, Network, Data Link, Physical)
+
+> **İngilizce Ezber Kodları (Aşağıdan Yukarıya - 1'den 7'ye):**
 >
-> **İngilizce Ezber Kodu (Yukarıdan Aşağıya):**
->
-> “All People Seem To Need Data Processing”
-> *(7-Application → 6-Presentation → 5-Session → 4-Transport → 3-Network → 2-Data Link → 1-Physical)*
+> **"P**lease **D**o **N**ot **T**hrow **S**ausage **P**izza **A**way"
+> (Physical, Data Link, Network, Transport, Session, Presentation, Application)
 
-*Bu kodlamalarla OSI modelini kafana kazımak çok daha kolay. Bu örneklere göre kendi kodlamalarınızı da oluşturabilirsiniz.*
+🧠 Bu kodlamalarla OSI modelini kafana kazımak çok daha kolay. Bu örneklere göre kendi kodlamalarınızı da oluşturabilirsiniz.
 
-## 🧱 Katmanlar
+---
 
-#### 🔹 7. Uygulama (Application) Katmanı — Kullanıcıyla İlk Temas
-💬 Web tarayıcıları, e-posta uygulamaları, anlık mesajlaşma platformları bu katmanda çalışır.
-* **Protokoller:** `HTTP`, `FTP`, `SMTP`
-* **Görev:** Kullanıcının yaptığı işlemi veriye dönüştürmek.
-* **Gerçek Hayat:** WhatsApp’ta “Naber?” yazmak bu katmanda başlar.
+### 🧱 Katman Katman Anlatım
 
-#### 🔹 6. Sunum (Presentation) Katmanı — Veriye Makyaj Yapan Katman
-🔐 Şifreleme, 🔄 sıkıştırma ve 🎨 veri formatlama burada gerçekleşir.
-* **Protokoller/Standartlar:** `SSL`, `TLS`, `JPEG`, `MPEG`
-* **Görev:** Veriyi ortak bir anlaşılabilir dile çevirir.
-* **Gerçek Hayat:** Fotoğrafı sıkıştırarak gönderdiğinde ya da veriyi şifrelediğinde bu katman çalışır.
+#### 🔹 7. Application Layer (Uygulama Katmanı) — Kullanıcıyla İlk Temas
+Kullanıcıya en yakın katmandır. Kullandığımız yazılımların ağ ile etkileşime girdiği yer burasıdır.
+- **Protokoller:** HTTP, HTTPS, FTP, SMTP, DNS
+- **Görev:** Kullanıcının etkileşimde bulunduğu uygulamalara ağ hizmetleri sağlamak.
+- **🧠 Gerçek Hayat:** Bir web tarayıcısını (Chrome, Firefox) açıp bir siteye girmen veya WhatsApp'ta "Naber?" yazman bu katmanda başlar.
 
-#### 🔹 5. Oturum (Session) Katmanı — Oturumu Açan Katman
-🕰️ İletişimin ne zaman başlayıp biteceğini belirler. Kim konuşuyor, kim susuyor, onu düzenler.
-* **Görev:** Oturumları başlatır, sürdürür, kapatır.
-* **Protokoller:** `NetBIOS`, `RPC`
-* **Gerçek Hayat:** Zoom’da “Bağlantı Kuruluyor” dediği an bu katman devrede.
+#### 🔹 6. Presentation Layer (Sunum Katmanı) — Veriye Makyaj Yapan Katman
+Uygulama katmanından gelen veriyi, ağın anlayacağı ortak bir formata çevirir. Veri çevirmeni gibidir.
+- **Protokoller/Standartlar:** SSL, TLS, JPEG, MPEG, ASCII
+- **Görev:** Veri formatlama, şifreleme (encryption) ve sıkıştırma (compression).
+- **🧠 Gerçek Hayat:** Bir fotoğrafı gönderirken `.jpeg` olarak formatlanması veya bir siteye girerken `HTTPS` ile verilerin şifrelenmesi bu katmanın işidir.
 
-#### 🔹 4. Taşıma (Transport) Katmanı — Paket Ustası
-📦 Verileri bölüp karşı tarafa güvenli ya da hızlı şekilde ulaştırır.
-* **Protokoller:** `TCP` (güvenilir) ve `UDP` (hızlı ama güvensiz)
-* **Kavramlar:** Portlar, segmentasyon, hata kontrolü
-* **Gerçek Hayat:** YouTube video akışı (UDP), WhatsApp mesajı (TCP)
+#### 🔹 5. Session Layer (Oturum Katmanı) — Oturumu Açan Katman
+İki cihaz arasındaki iletişim kanalını veya oturumu kurar, yönetir ve sonlandırır. Kimin ne zaman konuşacağını düzenler.
+- **Protokoller:** NetBIOS, RPC
+- **Görev:** Oturumları başlatmak, sürdürmek ve senkronizasyonu sağlamak.
+- **🧠 Gerçek Hayat:** Bir Zoom görüşmesinde "Bağlantı Kuruluyor..." dediği an veya bir online oyuna giriş yaptığınızda oturumun açılması bu katman sayesindedir.
 
-#### 🔹 3. Ağ (Network) Katmanı — Harita Çizen Katman
-🗺️ IP adresleriyle veri paketine “gideceği adresi” yazan katman.
-* **Protokoller:** `IP`, `ICMP`, `IGMP`
-* **Cihazlar:** Router’lar
-* **Gerçek Hayat:** Google Maps gibi verinin gideceği yönü çizer.
+#### 🔹 4. Transport Layer (Taşıma Katmanı) — Paket Ustası
+Veriyi segmentlere ayırır ve bu segmentlerin karşı tarafa güvenilir bir şekilde ulaşıp ulaşmadığını kontrol eder.
+- **Protokoller:** TCP (güvenilir, sıralı, hata kontrollü) ve UDP (hızlı ama güvensiz)
+- **Kavramlar:** Portlar, segmentasyon, hata kontrolü.
+- **🧠 Gerçek Hayat:** E-posta gönderirken TCP kullanılır (her harfin eksiksiz gitmesi gerekir). Online video izlerken veya oyun oynarken UDP kullanılır (birkaç kare atlasa da akış devam etmelidir).
 
-#### 🔹 2. Veri Bağlantı (Data Link) Katmanı — Komşuyla Konuşan Katman
-📡 Aynı ağdaki cihazlar arasındaki veri aktarımını sağlar. MAC adresleri ile çalışır.
-* **Protokoller:** `Ethernet`, `PPP`
-* **Cihazlar:** Switch’ler
-* **Görev:** Frame (çerçeve) oluşturmak
-* **Gerçek Hayat:** Aynı apartmandaki iki dairenin zil sistemi gibi.
+#### 🔹 3. Network Layer (Ağ Katmanı) — Harita Çizen Katman
+Veri paketlerine mantıksal adresler (IP adresleri) ekleyerek onları farklı ağlar üzerinden hedefe yönlendirir. En iyi yolu bulur.
+- **Protokoller:** IP (IPv4, IPv6), ICMP, IGMP
+- **Cihazlar:** Router'lar
+- **🧠 Gerçek Hayat:** Postaneye verdiğiniz bir mektubun üzerine yazdığınız adres gibidir. Router'lar da bu adrese bakarak mektubu doğru şehre yönlendiren postacılardır.
 
-#### 🔹 1. Fiziksel (Physical) Katmanı — Sinyallerin Dünyası
-⚡ Gerçek fiziksel bağlantıların olduğu katman: voltajlar, ışık sinyalleri, fiber kablolar…
-* **Cihazlar:** Kablolar, hub’lar, modemler
-* **Veri Türü:** Bit (1’ler ve 0’lar)
-* **Gerçek Hayat:** Elektrik sinyaliyle çalışan bir radyo gibi düşün.
+#### 🔹 2. Data Link Layer (Veri Bağlantı Katmanı) — Komşuyla Konuşan Katman
+Aynı yerel ağdaki (LAN) cihazlar arasındaki veri aktarımını yönetir. Fiziksel adresleri (MAC adresleri) kullanır.
+- **Protokoller:** Ethernet, PPP
+- **Cihazlar:** Switch'ler
+- **Görev:** Hata tespiti yapmak ve veriyi "frame" (çerçeve) adı verilen yapılara bölmek.
+- **🧠 Gerçek Hayat:** Aynı apartmandaki iki dairenin birbirine diyafonla ulaşması gibidir. Switch, apartmanın santralidir ve sadece doğru zili çalar.
 
-## 🤔 Neden OSI Modeli Bu Kadar Önemli?
-Çünkü farklı cihazların, sistemlerin ve uygulamaların birbirini anlayabilmesi için ortak bir kurallar kitabı gerekiyor. OSI Modeli, bu iletişim için bir standart sunar. Böylece yazılımcılar, donanım üreticileri, ağ uzmanları aynı dili konuşabilir.
+#### 🔹 1. Physical Layer (Fiziksel Katman) — Sinyallerin Dünyası
+Verinin fiziksel olarak iletildiği katmandır: elektrik sinyalleri, ışık sinyalleri, radyo dalgaları... Verinin kendisi değil, onu temsil eden 1'ler ve 0'lar burada yolculuk eder.
+- **Cihazlar:** Kablolar (Ethernet, Fiber Optik), Hub'lar, Modemler
+- **Veri Türü:** Bit (1'ler ve 0'lar)
+- **🧠 Gerçek Hayat:** Evinizdeki elektrik prizinden gelen elektrik akımı gibidir. Sadece sinyal vardır, anlamı üst katmanlar verir.
 
-> *Bir problem olduğunda hangi katmanda sorun olduğunu bilirsen, çözüm çok daha kolay olur.*
+---
 
-Aslında uygulamada `TCP/IP modeli` daha yaygın kullanılıyor. Ama OSI modeli, kavramsal olarak hâlâ ağ mühendisliğinin **temel taşıdır**. Network+ sınavından siber güvenlik eğitimine kadar her yerde karşına çıkar.
+### 🤔 Neden OSI Modeli Bu Kadar Önemli?
+Çünkü farklı cihazların, sistemlerin ve uygulamaların birbirini anlayabilmesi için ortak bir kurallar kitabına ihtiyaç vardır. OSI Modeli, bu evrensel dili sağlar. Böylece bir Apple bilgisayar, bir Windows sunucuyla veya bir Android telefonla sorunsuz iletişim kurabilir.
+
+Ağda bir sorun olduğunda, "Sorun hangi katmanda?" diye sorarak problemi izole etmek ve çözmek çok daha kolaylaşır.
+
+### 🔁 OSI ve Günümüz: Hâlâ Kullanılıyor mu?
+Pratikte ve günümüz internetinde **TCP/IP modeli** daha yaygın olarak kullanılır. Ancak OSI modeli, ağ mühendisliğinin ve siber güvenliğin temel taşıdır. Kavramsal olarak ağı anlamak, öğretmek ve sorun gidermek için hala en geçerli referans modelidir. Network+ sınavından siber güvenlik eğitimlerine kadar her yerde karşınıza çıkacaktır.
