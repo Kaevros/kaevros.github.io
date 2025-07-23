@@ -22,8 +22,8 @@ body.sidebar-open { overflow: hidden; }
 .sidebar-logo { max-width: 60%; max-height: 70px; transition: transform 0.3s ease, max-height 0.3s ease; }
 .sidebar:hover .sidebar-logo { max-width: 80%; max-height: 90px; }
 .logo-container a:hover .sidebar-logo { transform: scale(1.05); }
-.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; text-transform: uppercase; color: #666; width: 100%; text-align: center; padding: 10px 20px 25px; position: relative; height: 60px; opacity: 0; transition: opacity 0.3s ease 0.2s; white-space: nowrap; pointer-events: none; }
-.sidebar:hover .sidebar-slogan { opacity: 1; pointer-events: auto; }
+.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; text-transform: uppercase; color: #666; width: 100%; text-align: center; padding: 10px 20px 25px; position: absolute; top: 100%; left: 50%; transform: translate(-50%, 10px); opacity: 0; transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s; white-space: nowrap; pointer-events: none; }
+.sidebar:hover .sidebar-slogan { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 .sidebar-slogan span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; opacity: 0; }
 .sidebar-slogan .slogan-en { animation: fade-slogan 10s linear infinite; }
 .sidebar-slogan .slogan-tr { animation: fade-slogan 10s linear infinite; animation-delay: 5s; }
@@ -33,7 +33,7 @@ body.sidebar-open { overflow: hidden; }
 .sidebar:hover .search-container input { opacity: 1; }
 .search-container i { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: #888; transition: color 0.2s ease; }
 .sidebar:hover .search-container i { color: var(--text-color); }
-.sidebar-nav { width: 100%; }
+.sidebar-nav { width: 100%; margin-top: 70px; }
 .sidebar-nav ul { list-style: none; padding: 0; }
 .sidebar-nav .nav-item a { display: flex; align-items: center; padding: 15px 0; color: #a0a0a0; transition: background-color 0.2s ease, color 0.2s ease, border-right 0.2s ease; white-space: nowrap; text-decoration: none; border-right: 3px solid transparent; }
 .sidebar-nav .nav-item a:hover { background-color: rgba(232, 74, 39, 0.05); color: #ffffff; }
@@ -94,7 +94,7 @@ main { max-width: 960px; margin: 0 auto; }
 .styled-header h1 { font-size: 3.5em; }
 .styled-header h2, .section-title { font-size: 2.5em; }
 .styled-header h1::after, .styled-header h2::after, .section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 3px; background: var(--accent-color-primary); box-shadow: 0 0 10px var(--accent-color-primary); transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
-[data-aos=fade-down].aos-animate h2::after, [data-aos=fade-right].aos-animate h2::after { width: 60px; }
+.aos-animate .styled-header h2::after, .aos-animate .section-title::after { width: 60px; }
 .styled-header p.page-intro { border: none; padding: 0; margin-top: 20px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto; }
 .latest-posts-section .styled-header { text-align: left; }
 .posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
@@ -140,129 +140,3 @@ main { max-width: 960px; margin: 0 auto; }
 .contact-card i { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; display: block; transition: transform 0.3s ease; }
 .contact-card:hover i { transform: scale(1.1); }
 .contact-card span { font-size: 1.2rem; font-weight: bold; }
-```</pre>
-
-</div>
-
------
-
-#### 4\. Adım: Animasyonları Aktifleştirme (`assets/js/script.js`)
-
-Aşağıdaki kodun **TAMAMINI** kopyalayıp `assets/js/script.js` dosyanızın içeriğiyle **eksiksiz bir şekilde değiştirin.** Bu, AOS animasyonlarını doğru şekilde başlatacak ve arama penceresi animasyonunu etkinleştirecektir.
-
-<div align="center">
-
-**`assets/js/script.js` dosyasının TAMAMI:**
-
-<pre><code class="language-javascript">document.addEventListener('DOMContentLoaded', function() {
-    // AOS (Animasyon) kütüphanesini başlatıyoruz
-    AOS.init({
-        duration: 800, // Animasyonların süresi (milisaniye)
-        easing: 'ease-in-out-cubic', // Animasyon yumuşatma efekti
-        once: true, // Animasyonlar sadece bir kere tetiklensin
-        mirror: false // Aşağı kaydırıp yukarı çıkınca tekrar oynamasın
-    });
-
-    // Arama penceresi animasyonunu ve işlevselliğini ayarlıyoruz
-    const searchTrigger = document.getElementById('search-trigger');
-    const searchModal = document.getElementById('search-modal');
-    const searchModalInput = document.getElementById('search-modal-input');
-    const searchModalClose = document.getElementById('search-modal-close');
-
-    if (searchTrigger && searchModal && searchModalInput && searchModalClose) {
-        searchTrigger.addEventListener('click', () => {
-            searchModal.classList.add('active');
-            // Arama kutusuna odaklanmadan önce küçük bir gecikme ekliyoruz,
-            // bu sayede animasyon daha akıcı olur.
-            setTimeout(() => searchModalInput.focus(), 100);
-        });
-
-        searchModalClose.addEventListener('click', () => {
-            searchModal.classList.remove('active');
-        });
-
-        // Pencere dışında bir yere tıklandığında arama penceresini kapat
-        window.addEventListener('click', (event) => {
-            if (event.target === searchModal) {
-                searchModal.classList.remove('active');
-            }
-        });
-
-        // ESC tuşuna basıldığında arama penceresini kapat
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                searchModal.classList.remove('active');
-            }
-        });
-    }
-
-    // Okuma ilerleme çubuğunu ayarlıyoruz
-    const progressBar = document.getElementById('progress-bar');
-    if (progressBar) {
-        window.addEventListener('scroll', () => {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (window.scrollY / scrollHeight) * 100;
-            progressBar.style.width = progress + '%';
-        });
-    }
-
-    // Mobil menü açma/kapama işlevselliği
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-
-    if (mobileMenuToggle && sidebar && closeSidebarBtn) {
-        mobileMenuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
-    }
-
-    // Kod bloklarına "Kopyala" butonu ekliyoruz
-    document.querySelectorAll('pre code').forEach((block) => {
-        const pre = block.parentElement;
-        const button = document.createElement('button');
-        button.className = 'copy-code-button';
-        button.innerHTML = '<i class="far fa-copy"></i> Kopyala';
-        pre.appendChild(button);
-
-        button.addEventListener('click', () => {
-            navigator.clipboard.writeText(block.innerText).then(() => {
-                button.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
-                setTimeout(() => {
-                    button.innerHTML = '<i class="far fa-copy"></i> Kopyala';
-                }, 2000);
-            });
-        });
-    });
-
-    // Giriş animasyonunu tekrar oynatma
-    const replayAnimationBtn = document.getElementById('replay-animation-btn');
-    if (replayAnimationBtn) {
-        replayAnimationBtn.addEventListener('click', () => {
-            localStorage.removeItem('hasVisited');
-            window.location.reload();
-        });
-    }
-
-    // Sayfaya ilk giriş animasyonu
-    if (document.body.classList.contains('home') && !localStorage.getItem('hasVisited')) {
-        const welcomeScreen = document.getElementById('welcome-screen');
-        if (welcomeScreen) {
-            welcomeScreen.style.display = 'flex';
-            setTimeout(() => {
-                welcomeScreen.classList.add('hidden');
-                document.querySelector('.main-layout').classList.remove('hidden');
-                localStorage.setItem('hasVisited', 'true');
-            }, 5000); // 5 saniye sonra otomatik olarak kapanır
-        }
-    } else {
-        document.querySelector('.main-layout').classList.remove('hidden');
-    }
-});
-```</pre>
-
-</div>
