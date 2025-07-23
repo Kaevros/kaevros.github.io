@@ -1,14 +1,10 @@
-# .github/workflows/deploy.yml - İZİN HATASI DÜZELTİLMİŞ HALİ
-
 name: Build and Deploy Blog
 
 on:
   push:
     branches:
-      - main  # veya master
+      - main
 
-# YENİ EKLENEN İZİN BLOĞU
-# Bu blok, iş akışına repoya yazma (yeni dal oluşturma) izni verir.
 permissions:
   contents: write
 

@@ -1,4 +1,4 @@
-// build.js - SON TASARIM GÜNCELLEMELERİ
+// build.js - NİHAİ VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
