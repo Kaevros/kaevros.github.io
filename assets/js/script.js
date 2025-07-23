@@ -37,17 +37,17 @@ function replayIntro() { localStorage.removeItem('hasVisited'); window.location.
 function setupReplayButton() { const replayButton = document.getElementById('replay-animation-btn'); const logoLink = document.getElementById('logo-link'); const mobileLogoLink = document.getElementById('mobile-logo-link'); if (replayButton) { replayButton.addEventListener('click', replayIntro); } if (logoLink) { logoLink.addEventListener('click', (e) => { e.preventDefault(); replayIntro(); }); } if (mobileLogoLink) { mobileLogoLink.addEventListener('click', (e) => { e.preventDefault(); replayIntro(); }); } }
 function setupReadingProgressBar() { const progressBar = document.getElementById('progress-bar'); if (!progressBar) return; window.addEventListener('scroll', () => { const scrollTop = document.documentElement.scrollTop || document.body.scrollTop; const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrollPercent = (scrollTop / scrollHeight) * 100; progressBar.style.width = scrollPercent + '%'; }); }
 function setupSearch() {
-    const searchInput = document.getElementById('search-input');
+    const searchTrigger = document.getElementById('search-trigger');
     const searchModal = document.getElementById('search-modal');
     const searchModalInput = document.getElementById('search-modal-input');
     const searchModalClose = document.getElementById('search-modal-close');
     const resultsList = document.getElementById('search-results-list');
-    if (!searchInput || !searchModal) return;
+    if (!searchTrigger || !searchModal) return;
     let idx, searchDocs; let dataFetched = false;
     async function initializeSearch() { if(dataFetched) return; try { const [idxResponse, docsResponse] = await Promise.all([fetch('/search-index.json'), fetch('/search-docs.json')]); const serializedIdx = await idxResponse.json(); searchDocs = await docsResponse.json(); idx = lunr.Index.load(serializedIdx); dataFetched = true; } catch (error) { console.error("Arama verileri yüklenemedi:", error); } }
-    function openSearch() { initializeSearch(); searchModal.classList.add('active'); document.body.style.overflow = 'hidden'; searchModalInput.focus(); }
-    function closeSearch() { searchModal.classList.remove('active'); document.body.style.overflow = ''; searchInput.value = ''; searchModalInput.value = ''; resultsList.innerHTML = ''; }
-    searchInput.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+    function openSearch() { initializeSearch(); searchModal.classList.add('active'); document.body.style.overflow = 'hidden'; setTimeout(() => searchModalInput.focus(), 300); }
+    function closeSearch() { searchModal.classList.remove('active'); document.body.style.overflow = ''; searchModalInput.value = ''; resultsList.innerHTML = ''; }
+    searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
     searchModalClose.addEventListener('click', closeSearch);
     searchModal.addEventListener('click', (e) => { if (e.target === searchModal) { closeSearch(); } });
     document.addEventListener('keydown', (e) => { if (e.key === "Escape" && searchModal.classList.contains('active')) { closeSearch(); } });
