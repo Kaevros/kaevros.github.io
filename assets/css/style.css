@@ -175,3 +175,68 @@ main { max-width: 960px; margin: 0 auto; }
     50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; } 
 }
+
+/* =============================================== */
+/* 404 HATA SAYFASI STİLLERİ             */
+/* =============================================== */
+
+.error-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.error-page-container .error-code {
+    font-family: 'Oxanium', sans-serif;
+    font-size: clamp(8rem, 25vw, 12rem);
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    /* .animated-gradient-text'ten gelen animasyonu kullanır */
+}
+
+.error-page-container .error-title {
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    letter-spacing: 3px;
+    color: var(--text-color);
+    margin-top: -1rem; /* 404 yazısına biraz daha yakın olsun */
+    margin-bottom: 1.5rem;
+}
+
+.error-page-container .error-message {
+    max-width: 500px;
+    color: #bbb;
+    margin-bottom: 2.5rem;
+}
+
+.error-page-container .error-actions {
+    margin-bottom: 3rem;
+}
+
+.error-page-container .error-recent-posts h3 {
+    margin-bottom: 1rem;
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+.error-page-container .error-recent-posts ul {
+    list-style: none;
+    padding: 0;
+}
+
+.error-page-container .error-recent-posts li a {
+    color: var(--accent-color-primary);
+    text-decoration: none;
+    line-height: 2;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.error-page-container .error-recent-posts li a:hover {
+    color: var(--link-hover-color);
+    text-shadow: 0 0 5px rgba(255, 111, 66, 0.5);
+}
