@@ -1,4 +1,4 @@
-// build.js - NİHAİ VERSİYON (SEO Meta Etiketleri Eklenmiş)
+// build.js - NİHAİ VERSİYON (Dinamik 404 Sayfası Eklenmiş)
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -8,14 +8,12 @@ const lunr = require('lunr');
 const readingTime = require('reading-time');
 
 const outputDir = path.join(__dirname, '_site');
-const siteBaseUrl = 'https://kaevros.github.io'; // YENİ: Kolay yönetim için site URL'sini buraya ekledik.
+const siteBaseUrl = 'https://kaevros.github.io'; 
 
-// GÜNCELLENDİ: Fonksiyon artık tek bir `meta` objesi alıyor.
 function createPageTemplate(meta, mainContent, bodyClass = '') {
-    // YENİ: Meta etiketleri için varsayılan değerler ve dinamik oluşturma
     const pageTitle = meta.title ? `${meta.title} - Mustafa Günay` : 'Mustafa Günay - Kişisel Blog';
     const pageDescription = meta.description || 'Siber güvenlik, network, yazılım ve teknoloji üzerine kişisel notlar ve teknik yazılar.';
-    const pageImage = meta.image ? `${siteBaseUrl}${meta.image}` : `${siteBaseUrl}/assets/images/logo.svg`; // Tam URL olmalı
+    const pageImage = meta.image ? `${siteBaseUrl}${meta.image}` : `${siteBaseUrl}/assets/images/logo.svg`;
     const pageUrl = `${siteBaseUrl}${meta.url || ''}`;
     const pageKeywords = meta.keywords || 'siber güvenlik, blog, mustafa günay, kaevros, teknoloji, network, yazılım';
 
@@ -50,7 +48,6 @@ async function buildSite() {
     if (await fs.pathExists(path.join(__dirname, 'admin'))) { await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin')); }
     if (await fs.pathExists(path.join(__dirname, 'assets/icons/favicon.ico'))) { await fs.copy(path.join(__dirname, 'assets/icons/favicon.ico'), path.join(outputDir, 'favicon.ico')); }
     
-    // YENİ: Statik sayfalar için meta objeleri oluşturuyoruz
     const staticPagesDir = path.join(__dirname, '_pages');
     if (await fs.pathExists(staticPagesDir)) {
         for (const pageFile of await fs.readdir(staticPagesDir)) {
@@ -95,18 +92,16 @@ async function buildSite() {
 
     const createPostCard = (post, index) => `<div class="post-card" data-aos="fade-up" data-aos-delay="${index * 100}"><a href="/${post.path}" class="post-card-link"><div class="post-card-content"><h3>${post.title}</h3><p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p><p class="post-card-description">${post.description || ''}</p></div><span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span></a></div>`;
     
-    // DEĞİŞTİ: Yazı sayfaları için dinamik meta objesi oluşturuluyor
     for (const post of allPosts) {
         const safeTags = (post.tags || []).map(tag => tag.toLowerCase().replace(/[ \/]/g, '-'));
         const tagLinks = (post.tags || []).map((tag, i) => `<a href="/tags/${safeTags[i]}.html" class="tag">${tag}</a>`).join('');
         const shareLinks = `<div class="share-buttons"><a href="https://twitter.com/intent/tweet?url=${siteBaseUrl}/${post.path}&text=${encodeURIComponent(post.title)}" target="_blank" aria-label="Twitter'da paylaş"><i class="fab fa-twitter"></i></a><a href="https://www.linkedin.com/shareArticle?mini=true&url=${siteBaseUrl}/${post.path}" target="_blank" aria-label="LinkedIn'de paylaş"><i class="fab fa-linkedin"></i></a></div>`;
         const postPageContent = `<article class="post-detail"><header class="post-header styled-header"><h1 data-aos="fade-down" data-aos-anchor-placement="top-bottom">${post.title}</h1><div class="post-meta" data-aos="fade-up" data-aos-delay="100"><span>${post.date.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</span> • <span><i class="fas fa-clock"></i> ${post.readingTime}</span></div><div class="tag-list" data-aos="fade-up" data-aos-delay="200">${tagLinks}</div></header><section class="post-content" data-aos="fade-up" data-aos-delay="300">${post.htmlContent}</section><footer><div class="post-end-separator"></div>${shareLinks}</footer></article>`;
         
-        // YENİ: Her yazı için meta objesi
         const postMeta = {
             title: post.title,
             description: post.description,
-            image: post.image, // Markdown'dan gelen 'image' alanı kullanılacak
+            image: post.image,
             url: `/${post.path}`,
             keywords: post.tags ? post.tags.join(', ') : ''
         };
@@ -118,7 +113,6 @@ async function buildSite() {
         const tagName = tag.toLowerCase().replace(/[ \/]/g, '-');
         const tagPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down" data-aos-anchor-placement="top-bottom">'${tag}' Etiketli Yazılar</h2></div><div class="posts-grid">${tagsMap[tag].map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
         
-        // YENİ: Etiket sayfaları için meta objesi
         const tagMeta = {
             title: `'${tag}' Etiketli Yazılar`,
             description: `'${tag}' etiketiyle ilgili tüm yazıları bu sayfada bulabilirsiniz.`,
@@ -128,7 +122,6 @@ async function buildSite() {
         await fs.writeFile(path.join(outputDir, 'tags', `${tagName}.html`), createPageTemplate(tagMeta, tagPageContent));
     }
     
-    // DEĞİŞTİ: Ana sayfa ve tüm yazılar sayfası için de meta objeleri oluşturuldu
     const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle">Teknolojiyi Anlamak, Güvenliği Sağlamak.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title" data-aos-anchor-placement="top-bottom" data-aos="fade-right">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up" data-aos-delay="200"><p>Daha derine inmeye hazır mısın?</p><div class="cta-buttons"><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
     const indexMeta = { title: 'Mustafa Günay - Kişisel Blog', url: '/index.html' };
     await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate(indexMeta, indexContent, 'home'));
@@ -137,7 +130,34 @@ async function buildSite() {
     const postsMeta = { title: 'Tüm Yazılar', description: 'Siber güvenlik, yazılım ve teknoloji üzerine yazılmış tüm yazıların arşivi.', url: '/posts.html' };
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate(postsMeta, postsPageContent));
 
-    console.log('Site başarıyla ve SEO meta etiketleri eklenerek hatasız oluşturuldu!');
+    // YENİ: 404 SAYFASI OLUŞTURMA BÖLÜMÜ
+    const recentPostsFor404 = allPosts.slice(0, 3)
+        .map(post => `<li><a href="/${post.path}">${post.title}</a></li>`)
+        .join('');
+
+    const notFoundContent = `
+        <div class="error-page-container">
+            <h1 class="error-code animated-gradient-text">404</h1>
+            <h2 class="error-title">SAYFA BULUNAMADI</h2>
+            <p class="error-message">
+                Aradığınız sayfa ya hiç var olmadı ya da bir bit-flip kurbanı oldu.
+                Endişelenme, en iyi sistemlerde bile olur.
+            </p>
+            <div class="error-actions">
+                <a href="/index.html" class="cta-button">Ana Sayfaya Dön</a>
+            </div>
+            <div class="error-recent-posts">
+                <h3>Belki bunlardan birini arıyordun?</h3>
+                <ul>
+                    ${recentPostsFor404}
+                </ul>
+            </div>
+        </div>
+    `;
+    const notFoundMeta = { title: '404 - Sayfa Bulunamadı', url: '/404.html' };
+    await fs.writeFile(path.join(outputDir, '404.html'), createPageTemplate(notFoundMeta, notFoundContent, 'error-page'));
+    
+    console.log('Site başarıyla ve özel 404 sayfasıyla birlikte hatasız oluşturuldu!');
 }
 
 buildSite();
