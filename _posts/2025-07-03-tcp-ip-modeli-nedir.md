@@ -9,19 +9,6 @@ tags:
   - Temel Kavramlar
 ---
 
-Bu yazıda hem internetin çalışma a---
-title: "🌐 TCP/IP Modeli Nedir? Eğlenceli ve Açıklayıcı Rehber"
-date: "2025-07-24"
-description: "İnternetin gerçek dünyadaki çalışma modeli olan TCP/IP'nin 4 katmanını, OSI ile farklarını ve gerçek hayat benzetmelerini bu rehberde keşfedin."
-tags:
-  - TCP/IP
-  - Network
-  - OSI
-  - Protokoller
-  - Ağ Modelleri
-image: /assets/images/posts/network-layers.png
----
-
 TCP/IP modeli, teorik OSI modelinin aksine, günümüz internetinin temelini oluşturan pratik ve yaşayan bir modeldir. Bu yazıda hem bu modeli anlayacaksın, hem de gerçek hayat örnekleriyle öğrenmenin ne kadar kolay olabileceğini göreceksin.
 
 ![TCP/IP ve OSI Modeli Karşılaştırması](/assets/images/posts/network-layers.png)
