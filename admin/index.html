@@ -5,7 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>İçerik Yöneticisi</title>
   
-  </head>
+  <script type="text/yaml">
+    backend:
+      name: github
+      repo: Kaevros/kaevros.github.io
+      branch: main
+      # Bu, halka açık repolar için en sorunsuz çalışan kimlik doğrulama yöntemidir.
+      auth_type: implicit
+      
+    media_folder: "assets/images"
+    public_folder: "/assets/images"
+    publish_mode: editorial_workflow
+
+    collections:
+      - name: "blog"
+        label: "Yazılar"
+        folder: "_posts"
+        create: true
+        slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+        fields:
+          - { label: "Başlık", name: "title", widget: "string" }
+          - { label: "Yayın Tarihi", name: "date", widget: "datetime" }
+          - { label: "Kısa Açıklama (SEO için)", name: "description", widget: "string" }
+          - { label: "Etiketler", name: "tags", widget: "list", required: false }
+          - { label: "Kapak Fotoğrafı (İsteğe Bağlı)", name: "image", widget: "image", required: false }
+          - { label: "İçerik", name: "body", widget: "markdown" }
+  </script>
+</head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
