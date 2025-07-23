@@ -5,8 +5,7 @@ backend:
   repo: Kaevros/kaevros.github.io
   branch: main
   
-  # DİKKAT: EKLENEN YENİ SATIRLAR
-  # Bu ayarlar, Decap CMS'e Netlify yerine kendi servisini kullanmasını söyler.
+  # DİKKAT: Bu satırların harfi harfine doğru olduğundan emin olun.
   base_url: https://api.decapcms.org
   auth_endpoint: auth
 
