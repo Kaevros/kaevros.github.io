@@ -1,4 +1,4 @@
-/* style.css - AŞAMA 2 NİHAİ SÜRÜM (TAM) */
+/* style.css - NİHAİ, TAM VE EKSİKSİZ SÜRÜM */
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=VT323&display=swap');
 
 :root,
@@ -14,7 +14,6 @@ html[data-theme="dark"] {
     --code-bg-color: #282c34;
 }
 
-/* GÖZ YORMAYAN AÇIK TEMA RENKLERİ */
 html[data-theme="light"] {
     --main-bg-color: #fafafa;
     --sidebar-bg-color: #ffffff;
@@ -194,6 +193,7 @@ html[data-theme="light"] .post-content blockquote { color: #555; }
 .share-buttons a .fa-whatsapp { color: #25D366; }
 .share-buttons a .fa-telegram { color: #0088cc; }
 html[data-theme="light"] .share-buttons a i { color: inherit; }
+html[data-theme="light"] .share-buttons a:hover i { color: #fff; }
 .share-buttons a:hover .fa-whatsapp { background-color: #25D366; }
 .share-buttons a:hover .fa-telegram { background-color: #0088cc; }
 .contact-page .page-intro { text-align: center; border: none; padding-left: 0; max-width: 600px; margin-left: auto; margin-right: auto; }
