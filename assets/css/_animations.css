@@ -1,0 +1,33 @@
+/* TÜM @KEYFRAMES ANİMASYONLARI */
+
+@keyframes breath { 
+    from { text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2); transform: scale(1); } 
+    to { text-shadow: 0 0 20px rgba(232, 74, 39, 0.8), 0 0 40px rgba(232, 74, 39, 0.5); transform: scale(1.03); } 
+}
+
+@keyframes blink-caret { 
+    from, to { border-color: transparent } 
+    50% { border-color: var(--accent-color-primary); } 
+}
+
+@keyframes fade-slogan { 
+    0%, 100% { opacity: 0; } 
+    10%, 40% { opacity: 1; } 
+    50%, 90% { opacity: 0; } 
+}
+
+@keyframes moveGrid { 
+    from { transform: translate(0, 0); } 
+    to { transform: translate(-50px, -50px); } 
+}
+
+@keyframes rotate { 
+    from { transform: rotate(0deg); } 
+    to { transform: rotate(360deg); } 
+}
+
+@keyframes move-gradient { 
+    0% { background-position: 0% 50%; } 
+    50% { background-position: 100% 50%; } 
+    100% { background-position: 0% 50%; } 
+}
