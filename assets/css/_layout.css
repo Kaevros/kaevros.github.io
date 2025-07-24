@@ -1,4 +1,4 @@
-/* ANA YERLEŞİM VE SIDEBAR - GÜNCELLENMİŞ TAM SÜRÜM */
+/* ANA YERLEŞİM VE SIDEBAR - NİHAİ SÜRÜM */
 .main-layout { 
     display: flex; 
     opacity: 1; 
@@ -13,7 +13,7 @@
     flex-grow: 1; 
     padding: clamp(20px, 4vw, 40px); 
     margin-left: var(--sidebar-width-collapsed);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); /* margin-left yerine transform */
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 main { 
@@ -21,9 +21,8 @@ main {
     margin: 0 auto;
 }
 
-/* --- SIDEBAR (JS & CSS KONTROLLÜ) --- */
 .sidebar {
-    width: var(--sidebar-width-expanded); /* Genişliği sabitliyoruz */
+    width: var(--sidebar-width-expanded);
     background-color: var(--sidebar-bg-color);
     border-right: 1px solid var(--border-color);
     position: fixed; 
@@ -37,8 +36,12 @@ main {
     padding: 25px 0;
     overflow-y: auto;
     overflow-x: hidden;
-    transform: translateX(calc(-1 * (var(--sidebar-width-expanded) - var(--sidebar-width-collapsed)))); /* Daraltılmış pozisyona çekiyoruz */
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease; /* width yerine transform */
+    transform: translateX(calc(-1 * (var(--sidebar-width-expanded) - var(--sidebar-width-collapsed))));
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.sidebar-open { 
+    overflow: hidden; 
 }
 
 .sidebar-header, .search-container, .sidebar-nav, .sidebar-bottom-actions, .sidebar-footer {
@@ -148,48 +151,38 @@ main {
 /* MASAÜSTÜ GENİŞLEME KURALLARI (TAMAMEN CSS İLE) */
 @media (min-width: 769px) {
     .sidebar:hover {
-        transform: translateX(0); /* Fare üzerine gelince orijinal pozisyonuna getir */
+        transform: translateX(0);
     }
-
     .sidebar:hover .logo-container { transform: scale(1.1); }
     .sidebar:hover .sidebar-logo { max-width: 80%; max-height: 100px; }
-    
     .sidebar:hover .sidebar-slogan,
     .sidebar:hover .sidebar-nav .nav-text,
     .sidebar:hover .sidebar-footer {
         opacity: 1;
         visibility: visible;
-        transition-delay: 0.1s; /* Genişleme sonrası gelmesi için küçük bir gecikme */
+        transition-delay: 0.1s;
     }
-
     .sidebar:hover .nav-text {
         transform: translateX(0);
         visibility: visible;
         transition: opacity 0.2s ease 0.1s, visibility 0.2s ease 0.1s, transform 0.2s ease 0.1s;
     }
-    
     .sidebar:hover + .content-wrapper {
         transform: translateX(calc(var(--sidebar-width-expanded) - var(--sidebar-width-collapsed)));
-        margin-left: var(--sidebar-width-collapsed); /* Margin'i sabit tut */
+        margin-left: var(--sidebar-width-collapsed);
     }
 }
 
 /* MOBİL AÇILMA KURALLARI */
 @media (max-width: 768px) {
-    body.sidebar-open {
-        overflow: hidden;
-    }
-
     .sidebar { 
         width: 85%; 
         max-width: 300px;
         transform: translateX(-100%);
     }
-
     .sidebar.open { 
         transform: translateX(0); 
     }
-    
     .sidebar.open .sidebar-slogan,
     .sidebar.open .sidebar-nav .nav-text,
     .sidebar.open .sidebar-footer { 
@@ -198,11 +191,9 @@ main {
         pointer-events: auto; 
         transform: translateX(0); 
     }
-    
     .sidebar-nav .nav-item a { 
         padding: 15px 20px;
     }
-    
     .content-wrapper { 
         margin-left: 0; 
         transform: translateX(0);
