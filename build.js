@@ -1,4 +1,4 @@
-// build.js - NİHAİ, ONARILMIŞ VE TAM SÜRÜM
+// build.js - NİHAİ SIDEBAR DÜZELTMELİ TAM SÜRÜM
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -39,7 +39,42 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
     
-    const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div><aside class="sidebar" id="sidebar"><div class="sidebar-header"><div class="logo-container"><a href="/index.html" aria-label="Ana Sayfa" id="logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo"></a></div><div class="sidebar-slogan"><span class="slogan-en">Control is an illusion.</span><span class="slogan-tr">Kontrol bir illüzyondur.</span></div><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div><div class="search-container" id="search-trigger"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Blogda Ara..." readonly></div><nav class="sidebar-nav"><ul><li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li><li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li><li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li><li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li><li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li></ul></nav><button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button><button class="theme-toggle-btn" id="theme-toggle-btn" title="Temayı değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button><div class="sidebar-footer"><p>&copy; ${new Date().getFullYear()} Mustafa Günay</p></div></aside>`;
+    // NİHAİ DÜZELTME: Sidebar HTML yapısı daha sağlam hale getirildi.
+    const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-main">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <a href="/index.html" aria-label="Ana Sayfa" id="logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo"></a>
+                    </div>
+                    <div class="sidebar-slogan">
+                        <span class="slogan-en">Control is an illusion.</span>
+                        <span class="slogan-tr">Kontrol bir illüzyondur.</span>
+                    </div>
+                    <button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="search-container" id="search-trigger">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Blogda Ara..." readonly>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li>
+                        <li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li>
+                        <li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li>
+                        <li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li>
+                        <li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button>
+                <button class="theme-toggle-btn" id="theme-toggle-btn" title="Temayı değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+                <div class="sidebar-footer">
+                    <p>&copy; ${new Date().getFullYear()} Mustafa Günay</p>
+                </div>
+            </div>
+        </aside>`;
     
     const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button></div>` : '';
     const mainLayoutClass = bodyClass.includes('home') ? 'main-layout hidden' : 'main-layout';
@@ -48,19 +83,16 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     return `<!DOCTYPE html><html lang="tr" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}${backToTopButton}<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
 }
 
+// buildSite() fonksiyonunun geri kalanını (image processing, post generation etc.) tam haliyle alttaki gibi ekliyorum.
 async function buildSite() {
     console.log('>>> Build süreci başlatılıyor...');
-
     await fs.emptyDir(outputDir);
     console.log('--- Çıktı klasörü (_site) temizlendi.');
-
-    // Görsel İşleme
     const rawAssetsDir = path.join(__dirname, '_raw_assets');
     const assetsDir = path.join(__dirname, 'assets');
     const rawImagesDir = path.join(rawAssetsDir, 'images');
     const processedImagesDir = path.join(assetsDir, 'images', 'posts');
     await fs.ensureDir(processedImagesDir);
-
     if (await fs.pathExists(rawImagesDir)) {
         const imageFiles = await fs.readdir(rawImagesDir);
         if (imageFiles.length > 0) {
@@ -81,18 +113,14 @@ async function buildSite() {
              console.log('--- BİLGİ: `_raw_assets/images` klasörü boş, görsel işleme atlanıyor.');
         }
     } else {
-        console.log('--- UYARI: `_raw_assets/images` klasörü bulunamadı, görsel işleme atlanıyor.');
-        await fs.ensureDir(rawImagesDir); // Klasör yoksa oluştur, bir sonraki sefer için hazır olsun.
+        console.log('--- UYARI: `_raw_assets/images` klasörü bulunamadı, oluşturuluyor...');
+        await fs.ensureDir(rawImagesDir);
     }
-
     await fs.copy(assetsDir, path.join(outputDir, 'assets'));
     console.log('--- Assets klasörü kopyalandı.');
-    
     if (await fs.pathExists(path.join(assetsDir, 'icons', 'favicon.ico'))) {
         await fs.copy(path.join(assetsDir, 'icons', 'favicon.ico'), path.join(outputDir, 'favicon.ico'));
     }
-
-    // Statik Sayfalar
     const staticPagesDir = path.join(__dirname, '_pages');
     if (await fs.pathExists(staticPagesDir)) {
         const staticPageFiles = await fs.readdir(staticPagesDir);
@@ -104,14 +132,11 @@ async function buildSite() {
         }
         console.log(`--- ${staticPageFiles.length} adet statik sayfa oluşturuldu.`);
     }
-
-    // Yazılar
     await fs.ensureDir(path.join(outputDir, 'posts'));
     await fs.ensureDir(path.join(outputDir, 'tags'));
     const postsDir = path.join(__dirname, '_posts');
     let allPosts = [];
     const tagsMap = {};
-
     if (await fs.pathExists(postsDir)) {
         const postFiles = await fs.readdir(postsDir);
         const renderer = new marked.Renderer();
@@ -123,7 +148,6 @@ async function buildSite() {
             return `<a href="${finalHref}" class="glightbox" data-title="${title || text}"><img src="${finalHref}" alt="${text}" title="${title || text}" loading="lazy" decoding="async"></a>`;
         };
         marked.setOptions({ renderer });
-        
         for (const postFile of postFiles) {
             if (path.extname(postFile) !== '.md') continue;
             const fileContent = await fs.readFile(path.join(postsDir, postFile), 'utf8');
@@ -141,17 +165,12 @@ async function buildSite() {
     } else {
         console.log('--- UYARI: `_posts` klasörü bulunamadı. Hiçbir yazı oluşturulmayacak.');
     }
-    
-    // Arama İndeksi
     const searchIndex = lunr(function () { this.ref('path'); this.field('title', { boost: 10 }); this.field('content'); this.field('tags', { boost: 5 }); allPosts.forEach(doc => { this.add(doc); }); });
     await fs.writeFile(path.join(outputDir, 'search-index.json'), JSON.stringify(searchIndex));
     const searchDocs = allPosts.reduce((acc, doc) => { acc[doc.path] = { title: doc.title, description: doc.description }; return acc; }, {});
     await fs.writeFile(path.join(outputDir, 'search-docs.json'), JSON.stringify(searchDocs));
     console.log('--- Arama indeksi oluşturuldu.');
-
-    // Post HTML'lerini Oluştur
     const createPostCard = (post, index) => `<div class="post-card" data-aos="fade-up" data-aos-delay="${index * 100}"><a href="/${post.path}" class="post-card-link"><div class="post-card-content"><h3>${post.title}</h3><p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p><p class="post-card-description">${post.description || ''}</p></div><span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span></a></div>`;
-    
     for (const post of allPosts) {
         const postUrl = `${siteBaseUrl}/${post.path}`;
         const encodedTitle = encodeURIComponent(post.title);
@@ -162,8 +181,6 @@ async function buildSite() {
         await fs.writeFile(path.join(outputDir, post.path), createPageTemplate(postMeta, postPageContent));
     }
     console.log('--- Yazı sayfaları oluşturuldu.');
-
-    // Etiket Sayfaları
     for (const tag in tagsMap) {
         const tagName = tag.toLowerCase().replace(/[ \/]/g, '-');
         const tagPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down">'${tag}' Etiketli Yazılar</h2></div><div class="posts-grid">${tagsMap[tag].map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
@@ -171,31 +188,23 @@ async function buildSite() {
         await fs.writeFile(path.join(outputDir, 'tags', `${tagName}.html`), createPageTemplate(tagMeta, tagPageContent));
     }
     console.log('--- Etiket sayfaları oluşturuldu.');
-
-    // Ana Sayfa ve Yazılar Sayfası
     const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle">Teknolojiyi Anlamak, Güvenliği Sağlamak.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title" data-aos="fade-right">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up" data-aos-delay="200"><p>Daha derine inmeye hazır mısın?</p><div class="cta-buttons"><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
     await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Mustafa Günay - Kişisel Blog', url: '/index.html' }, indexContent, 'home'));
-    
     const postsPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down">Tüm Yazılar</h2></div><div class="posts-grid">${allPosts.map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
     const postsMeta = { title: 'Tüm Yazılar', description: 'Tüm yazıların arşivi.', url: '/posts.html' };
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate(postsMeta, postsPageContent));
     console.log('--- Ana sayfa ve Yazılar sayfası oluşturuldu.');
-
-    // 404 Sayfası
     const recentPostsFor404 = allPosts.slice(0, 3).map(post => `<li><a href="/${post.path}">${post.title}</a></li>`).join('');
     const notFoundContent = `<div class="error-page-container"><h1 class="error-code animated-gradient-text">404</h1><h2 class="error-title">SAYFA BULUNAMADI</h2><p class="error-message">Aradığın sayfa ya hiç var olmadı ya da bir bit-flip kurbanı oldu. Endişelenme, en iyi sistemlerde bile olur.</p><div class="error-actions"><a href="/index.html" class="cta-button">Ana Sayfaya Dön</a></div><div class="error-recent-posts"><h3>Belki bunlardan birini arıyordun?</h3><ul>${recentPostsFor404}</ul></div></div>`;
     const notFoundMeta = { title: '404 - Sayfa Bulunamadı', url: '/404.html' };
     await fs.writeFile(path.join(outputDir, '404.html'), createPageTemplate(notFoundMeta, notFoundContent, 'error-page'));
     console.log('--- 404 sayfası oluşturuldu.');
-
-    // RSS Feed
     const feed = new RSS({ title: 'Mustafa Günay - Kişisel Blog', description: 'Siber güvenlik ve teknoloji üzerine yazılar.', feed_url: `${siteBaseUrl}/feed.xml`, site_url: siteBaseUrl, image_url: `${siteBaseUrl}/assets/images/logo.svg`, language: 'tr', pubDate: new Date(), copyright: `${new Date().getFullYear()} Mustafa Günay`, });
     for (const post of allPosts) {
         feed.item({ title: post.title, description: post.description, url: `${siteBaseUrl}/${post.path}`, guid: `${siteBaseUrl}/${post.path}`, author: 'Mustafa Günay', date: post.date, });
     }
     await fs.writeFile(path.join(outputDir, 'feed.xml'), feed.xml({ indent: true }));
     console.log('--- RSS feed oluşturuldu.');
-
     console.log('>>> Build süreci başarıyla tamamlandı!');
 }
 
