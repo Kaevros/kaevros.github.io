@@ -1,0 +1,7 @@
+# Otomatik oluşturulan dosyaları ve bağımlılıkları görmezden gel
+_site/
+node_modules/
+
+# İşletim sistemi dosyaları
+.DS_Store
+Thumbs.db
