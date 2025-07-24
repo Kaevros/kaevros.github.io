@@ -1,0 +1,75 @@
+/* SAYFAYA ÖZEL STİLLER: Hero, Yazı Detayı, İletişim, Hizmetler vb. */
+
+#mobile-menu-toggle { display: none; }
+#close-sidebar-btn { display: none; }
+@media (max-width: 768px) {
+    #mobile-menu-toggle { display: flex; }
+    #close-sidebar-btn { display: block; }
+}
+
+.hero-section { text-align: center; min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; padding: 40px 20px; background-color: #1a1a1a; }
+.hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 200%; height: 200%; background-image: linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(42, 42, 42, 0.5) 10px, rgba(42, 42, 42, 0.5) 12px); animation: moveGrid 20s linear infinite; z-index: 0; }
+.hero-subtitle { font-size: clamp(1.8rem, 4vw, 2.5em); font-weight: 700; color: var(--text-color); position: relative; z-index: 1; }
+
+.styled-header { padding-bottom: 20px; margin-bottom: 40px; }
+.content-page .styled-header { text-align: center; }
+.styled-header h1, .styled-header h2, .section-title { font-weight: 700; line-height: 1.2; text-transform: uppercase; color: var(--text-color); position: relative; padding-bottom: 15px; }
+.styled-header h1 { font-size: clamp(2rem, 5vw, 3.5em); }
+.styled-header h2, .section-title { font-size: clamp(1.8rem, 4vw, 2.5em); }
+.styled-header h1::after, .styled-header h2::after, .section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 3px; background: var(--accent-color-primary); box-shadow: 0 0 10px var(--accent-color-primary); transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
+.content-page .styled-header h2::after { left: 50%; transform: translateX(-50%); }
+.aos-animate .styled-header h2::after, .aos-animate .section-title::after { width: 60px; }
+.styled-header p.page-intro { border: none; padding: 0; margin-top: 20px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto; }
+.latest-posts-section .styled-header { text-align: left; }
+.posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+
+.cta-section { text-align: center; background-color: var(--sidebar-bg-color); padding: 60px 20px; border-radius: 8px; margin-top: 40px; border: 1px solid var(--border-color); overflow: hidden; position: relative; transition: background-color 0.3s ease, border-color 0.3s ease; }
+.cta-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, rgba(232, 74, 39, 0.3), transparent 30%); animation: rotate 4s linear infinite; }
+.cta-section p { font-size: clamp(1.5rem, 3.5vw, 1.8em); margin-bottom: 25px; font-weight: bold; color: var(--text-color); text-shadow: 0 2px 4px rgba(0,0,0,0.5); position: relative; z-index: 1; }
+html[data-theme="light"] .cta-section p { text-shadow: none; }
+.cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; position: relative; z-index: 1; }
+
+.post-header { border-bottom: none; }
+.post-meta { color: #888; font-size: 0.9em; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.post-meta span i { margin-right: 8px; }
+.tag-list { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+.post-content { line-height: 1.9; color: var(--text-color-light); transition: color 0.3s ease; }
+.post-content p { margin-bottom: 1.5em; letter-spacing: 0.5px; }
+.post-content a { color: var(--accent-color-primary); text-decoration: none; transition: color 0.3s ease, text-shadow 0.3s ease; }
+.post-content a:hover { color: var(--link-hover-color); text-shadow: 0 0 5px rgba(255, 111, 66, 0.5); }
+.post-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 2em auto; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: zoom-in; }
+.post-content blockquote { border-left: 3px solid var(--accent-color-primary); padding-left: 25px; margin: 40px 0; color: #a0a0a0; font-style: italic; font-size: 1.2em; transition: color 0.3s ease, border-color 0.3s ease; }
+html[data-theme="light"] .post-content blockquote { color: #555; }
+.post-end-separator { height: 1px; width: 80%; max-width: 200px; background: var(--border-color); margin: 50px auto 30px; transition: background-color 0.3s ease; }
+.share-buttons { text-align: center; }
+
+.contact-page .page-intro { text-align: center; border: none; padding-left: 0; max-width: 600px; margin-left: auto; margin-right: auto; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px; }
+.contact-card { background-color: var(--sidebar-bg-color); color: var(--text-color); text-decoration: none; padding: 30px 20px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); transition: all 0.3s ease-out; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.contact-card:hover { transform: translateY(-10px); background-color: var(--accent-color-secondary); box-shadow: 0 10px 25px rgba(232, 74, 39, 0.2); }
+.contact-card i { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; display: block; transition: transform 0.3s ease; }
+.contact-card:hover i { transform: scale(1.1); }
+.contact-card span { font-size: 1.2rem; font-weight: bold; }
+
+.services-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+.service-card { background-color: var(--sidebar-bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; text-align: center; transition: all 0.3s ease; }
+.service-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.15), 0 0 15px rgba(232, 74, 39, 0.1); }
+.service-card .service-icon { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; }
+.service-card h3 { font-size: clamp(1.4rem, 3vw, 1.6em); margin-bottom: 15px; color: var(--text-color); }
+.service-card p { color: var(--text-color-light); line-height: 1.8; }
+
+.post-detail .styled-header h1 { background: linear-gradient( 90deg, var(--accent-color-primary), var(--text-color), var(--accent-color-primary) ); background-size: 250% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: move-gradient 8s ease-in-out infinite; }
+.animated-gradient-container { display: flex; justify-content: center; align-items: center; text-align: center; min-height: 60vh; padding: 20px; }
+.animated-gradient-text { font-family: 'Oxanium', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; background: linear-gradient(90deg, var(--text-color), var(--accent-color-primary), var(--text-color)); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: move-gradient 8s ease-in-out infinite; }
+
+.error-page-container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 80vh; padding: 20px; }
+.error-page-container .error-code { font-family: 'Oxanium', sans-serif; font-size: clamp(8rem, 25vw, 12rem); font-weight: 700; line-height: 1; margin: 0; }
+.error-page-container .error-title { font-family: 'VT323', monospace; font-size: clamp(1.5rem, 4vw, 2rem); letter-spacing: 3px; color: var(--text-color); margin-top: -1rem; margin-bottom: 1.5rem; }
+.error-page-container .error-message { max-width: 500px; color: var(--text-color-light); margin-bottom: 2.5rem; }
+.error-page-container .error-actions { margin-bottom: 3rem; }
+.error-page-container .error-recent-posts h3 { margin-bottom: 1rem; color: #ccc; font-size: 1.1rem; }
+html[data-theme="light"] .error-page-container .error-recent-posts h3 { color: #555; }
+.error-page-container .error-recent-posts ul { list-style: none; padding: 0; }
+.error-page-container .error-recent-posts li a { color: var(--accent-color-primary); text-decoration: none; line-height: 2; transition: color 0.2s, text-shadow 0.2s; }
+.error-page-container .error-recent-posts li a:hover { color: var(--link-hover-color); text-shadow: 0 0 5px rgba(255, 111, 66, 0.5); }
