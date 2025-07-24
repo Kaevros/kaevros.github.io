@@ -1,4 +1,4 @@
-/* style.css - NİHAİ SIDEBAR GARANTİ ÇÖZÜMÜ (TAM SÜRÜM) */
+/* style.css - NİHAİ JS KONTROLLÜ SIDEBAR (TAM SÜRÜM) */
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=VT323&display=swap');
 
 :root,
@@ -80,12 +80,11 @@ body { font-family: 'Oxanium', sans-serif; background-color: var(--main-bg-color
 .theme-toggle-btn .fa-moon { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-sun { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
-
 .sidebar-footer { margin-top: 0; padding-top: 10px; color: #666; font-size: 0.8em; opacity: 0; visibility: hidden; transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s; }
 
 /* --- TETİKLEYİCİLER --- */
 
-/* MASAÜSTÜ İÇİN KESİN ÇÖZÜM: Sadece 769px ve üstünde çalışacak hover kuralları */
+/* MASAÜSTÜ İÇİN KESİN ÇÖZÜM: Sadece 769px ve üstünde çalışacak JS kontrollü kurallar */
 @media (min-width: 769px) {
     .sidebar.sidebar-expanded { width: var(--sidebar-width-expanded); }
     .sidebar.sidebar-expanded .logo-container { transform: scale(1.1); }
@@ -111,9 +110,9 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
     .sidebar.open .replay-animation-btn, .sidebar.open .theme-toggle-btn { opacity: 1; visibility: visible; pointer-events: auto; }
     .sidebar-header { padding-top: 25px; }
     .sidebar.open .sidebar-slogan, .sidebar.open .sidebar-footer { opacity: 1; visibility: visible; }
+    .sidebar.open .search-container input { opacity: 1; visibility: visible; }
     .sidebar.open .nav-item a .nav-text { opacity: 1; visibility: visible; transform: translateX(0); }
     #close-sidebar-btn { display: block; position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-color); font-size: 2rem; cursor: pointer; }
-    .sidebar .logo-container, .sidebar .search-container input { opacity: 1; visibility: visible; }
     .sidebar .search-container { padding: 0 20px; }
     .sidebar .search-container i { left: 35px; }
     .sidebar-nav .nav-item a { padding: 15px 20px; }
@@ -121,7 +120,7 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
     .content-wrapper { margin-left: 0; }
 }
 
-/* ... (Geri kalan tüm stiller aynı) ... */
+/* ... (Diğer tüm CSS kuralları aynı kalacak) ... */
 .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 0%; z-index: 3000; transition: width 0.1s linear; box-shadow: 0 0 10px var(--accent-color-primary); }
 .content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 main { max-width: 960px; margin: 0 auto; }
