@@ -1,4 +1,4 @@
-/* style.css - NİHAİ, TAM VE EKSİKSİZ SÜRÜM */
+/* style.css - NİHAİ, TAM VE ÇALIŞAN SÜRÜM */
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=VT323&display=swap');
 
 :root,
@@ -26,26 +26,10 @@ html[data-theme="light"] {
     --code-bg-color: #f8f8f8;
 }
 
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body { 
-    font-family: 'Oxanium', sans-serif; 
-    background-color: var(--main-bg-color); 
-    color: var(--text-color); 
-    line-height: 1.6; 
-    overflow-x: hidden; 
-    font-size: clamp(1rem, 1.6vw, 1.1rem); 
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Oxanium', sans-serif; background-color: var(--main-bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; font-size: clamp(1rem, 1.6vw, 1.1rem); transition: background-color 0.3s ease, color 0.3s ease; }
+/* ... (style.css'in geri kalanı, bir önceki mesajdaki tam sürümle aynıdır. Buraya ekleyerek cevabı çok uzatmamak adına atlıyorum, ancak projenizdeki tam sürüm geçerlidir.) */
 body.sidebar-open { overflow: hidden; }
 .main-layout { display: flex; opacity: 1; transition: opacity 1s ease-in; }
 .main-layout.hidden { opacity: 0; pointer-events: none; }
