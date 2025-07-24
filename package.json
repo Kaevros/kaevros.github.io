@@ -1,6 +1,6 @@
 {
   "name": "kaevros-blog",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Blog build script",
   "main": "build.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "lunr": "^2.3.9",
     "marked": "^9.0.0",
     "reading-time": "^1.5.0",
-    "rss": "^1.2.2"
+    "rss": "^1.2.2",
+    "sharp": "^0.33.4"
   }
 }

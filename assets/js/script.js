@@ -1,7 +1,11 @@
 // /assets/js/script.js - AŞAMA 1 GÜNCELLEMESİ (TAM SÜRÜM)
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Mevcut fonksiyonlar
+    if (document.documentElement.getAttribute('data-theme') === null) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    setupThemeToggle();
+
     if (document.body.classList.contains('home')) {
         if (!localStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
@@ -15,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupReplayButton();
     setupReadingProgressBar();
     setupSearch();
-    
-    // YENİ EKLENEN FONKSİYONLAR
-    setupThemeToggle();
     setupBackToTopButton();
     setupLightbox();
 
