@@ -47,15 +47,35 @@ async function buildSite() {
         if (imageFiles.length > 0) {
             console.log(`>>> ${imageFiles.length} adet ham görsel işleniyor...`);
             const supportedExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.tiff', '.webp'];
+            let processedCount = 0;
             for (const imageFile of imageFiles) {
                 const extension = path.extname(imageFile).toLowerCase();
                 if (!supportedExtensions.includes(extension)) {
                     console.log(`--- UYARI: Desteklenmeyen dosya formatı atlanıyor: ${imageFile}`);
                     continue;
                 }
+                
                 const rawPath = path.join(rawImagesDir, imageFile);
                 const processedPath = path.join(processedImagesDir, path.parse(imageFile).name + '.webp');
-                await sharp(rawPath).resize({ width: 800, withoutEnlargement: true }).webp({ quality: 80 }).toFile(processedPath);
+
+                let shouldProcess = true;
+                if (await fs.pathExists(processedPath)) {
+                    const rawStat = await fs.stat(rawPath);
+                    const processedStat = await fs.stat(processedPath);
+                    if (rawStat.mtime <= processedStat.mtime) {
+                        shouldProcess = false; // Orijinal dosya daha yeni değil, işlemeye gerek yok
+                    }
+                }
+
+                if (shouldProcess) {
+                    await sharp(rawPath).resize({ width: 800, withoutEnlargement: true }).webp({ quality: 80 }).toFile(processedPath);
+                    processedCount++;
+                }
+            }
+            if(processedCount > 0) {
+                console.log(`--- ${processedCount} adet yeni/güncel görsel işlendi.`);
+            } else {
+                console.log('--- Tüm görseller güncel, görsel işleme atlanıyor.');
             }
             console.log('--- Görsel işleme tamamlandı.');
         } else {
