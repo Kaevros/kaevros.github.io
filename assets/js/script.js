@@ -1,12 +1,11 @@
-// /assets/js/script.js - NİHAİ, TAM VE ÇALIŞAN SÜRÜM
+// /assets/js/script.js - NİHAİ, KUSURSUZ VE TAM SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
     // Sayfa ilk yüklendiğinde localStorage'ı kontrol et ve temayı uygula.
-    // Bu, script.js'in en başına taşındı ki diğer fonksiyonlar çalışmadan tema belli olsun.
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // Diğer tüm fonksiyonları çağır
+    // Tüm fonksiyonları çağır
     if (document.body.classList.contains('home')) {
         if (!localStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
@@ -14,18 +13,62 @@ document.addEventListener('DOMContentLoaded', () => {
             skipWelcomeScreen();
         }
     }
-    setupSidebar();
+    setupSidebar(); // Bu, yeni ve düzeltilmiş fonksiyonu çağıracak
     enhanceCodeBlocks();
     setActiveSidebarLink();
     setupReplayButton();
     setupReadingProgressBar();
     setupSearch();
-    setupThemeToggle(); // Tema butonu çağrısı burada
+    setupThemeToggle();
     setupBackToTopButton();
     setupLightbox();
 
     if (typeof AOS !== 'undefined') { AOS.init({ duration: 800, once: true, offset: 50 }); }
 });
+
+// NİHAİ VE DÜZELTİLMİŞ SIDEBAR FONKSİYONU
+function setupSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    // --- Mobil için Tıklama Olayları ---
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    
+    if (mobileMenuToggle && closeSidebarBtn) {
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.add('open');
+        });
+        closeSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
+
+    // --- Masaüstü için Fare Olayları (HOVER) ---
+    // Bu fonksiyonlar sadece masaüstü genişliğinde çalışacak event listener'lar ekler.
+    const setupDesktopHover = () => {
+        if (window.innerWidth > 768) {
+            sidebar.addEventListener('mouseenter', handleMouseEnter);
+            sidebar.addEventListener('mouseleave', handleMouseLeave);
+        } else {
+            sidebar.removeEventListener('mouseenter', handleMouseEnter);
+            sidebar.removeEventListener('mouseleave', handleMouseLeave);
+        }
+    };
+    
+    const handleMouseEnter = () => sidebar.classList.add('sidebar-expanded');
+    const handleMouseLeave = () => sidebar.classList.remove('sidebar-expanded');
+
+    // Sayfa yüklendiğinde ve pencere yeniden boyutlandırıldığında listener'ları ayarla
+    setupDesktopHover();
+    window.addEventListener('resize', setupDesktopHover);
+}
 
 function setupWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
@@ -43,8 +86,6 @@ function setupWelcomeScreen() {
 }
 
 function skipWelcomeScreen() { const welcomeScreen = document.getElementById('welcome-screen'); const mainLayout = document.querySelector('.main-layout'); if (welcomeScreen) { welcomeScreen.classList.add('hidden'); setTimeout(() => { welcomeScreen.style.display = 'none'; }, 1000); } if (mainLayout) { mainLayout.classList.remove('hidden'); } }
-
-function setupSidebar() { const sidebar = document.getElementById('sidebar'); const mobileMenuToggle = document.getElementById('mobile-menu-toggle'); const closeSidebarBtn = document.getElementById('close-sidebar-btn'); if (!sidebar || !mobileMenuToggle || !closeSidebarBtn) return; mobileMenuToggle.addEventListener('click', (e) => { e.stopPropagation(); sidebar.classList.add('open'); }); closeSidebarBtn.addEventListener('click', () => { sidebar.classList.remove('open'); }); document.addEventListener('click', (event) => { if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) { sidebar.classList.remove('open'); } }); }
 
 function enhanceCodeBlocks() { if (typeof hljs === 'undefined') { return; } document.querySelectorAll('pre code').forEach((block) => { hljs.highlightElement(block); }); document.querySelectorAll('pre').forEach(block => { const codeElement = block.querySelector('code'); if (!codeElement) return; const copyButton = document.createElement('button'); copyButton.className = 'copy-code-button'; copyButton.textContent = 'Kopyala'; block.appendChild(copyButton); copyButton.addEventListener('click', () => { navigator.clipboard.writeText(codeElement.innerText).then(() => { copyButton.textContent = 'Kopyalandı!'; copyButton.style.backgroundColor = 'var(--accent-color-primary)'; setTimeout(() => { copyButton.textContent = 'Kopyala'; copyButton.style.backgroundColor = ''; }, 2000); }); }); }); }
 
