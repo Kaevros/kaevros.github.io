@@ -1,19 +1,28 @@
-// /assets/js/script.js - NİHAİ, KUSURSUZ VE TAM SÜRÜM
+// /assets/js/script.js - NİHAİ, ONARILMIŞ VE TAM SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Sayfa ilk yüklendiğinde localStorage'ı kontrol et ve temayı uygula.
+    // Önce temayı belirle, sonra diğer her şeyi yap
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // Tüm fonksiyonları çağır
+    // Ana sayfa ise intro mantığını çalıştır
     if (document.body.classList.contains('home')) {
         if (!localStorage.getItem('hasVisited')) {
-            setupWelcomeScreen();
+            setupWelcomeScreen(showMainContent);
         } else {
-            skipWelcomeScreen();
+            // Ziyaret edildiyse direkt ana içeriği göster
+            showMainContent();
+        }
+    } else {
+        // Ana sayfa değilse, ana içeriği direkt göster (hidden class'ını kaldır)
+        const mainLayout = document.querySelector('.main-layout');
+        if (mainLayout) {
+            mainLayout.classList.remove('hidden');
         }
     }
-    setupSidebar(); // Bu, yeni ve düzeltilmiş fonksiyonu çağıracak
+
+    // Geri kalan tüm kurulum fonksiyonlarını çağır
+    setupSidebar();
     enhanceCodeBlocks();
     setActiveSidebarLink();
     setupReplayButton();
@@ -23,10 +32,81 @@ document.addEventListener('DOMContentLoaded', () => {
     setupBackToTopButton();
     setupLightbox();
 
-    if (typeof AOS !== 'undefined') { AOS.init({ duration: 800, once: true, offset: 50 }); }
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 800, once: true, offset: 50 });
+    }
 });
 
-// NİHAİ VE DÜZELTİLMİŞ SIDEBAR FONKSİYONU
+// Intro ve ana içerik arasındaki geçişi yöneten fonksiyon
+function showMainContent() {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const mainLayout = document.querySelector('.main-layout');
+    
+    if (welcomeScreen && welcomeScreen.style.display !== 'none') {
+        welcomeScreen.classList.add('hidden');
+        // Transition bittikten sonra DOM'dan kaldır
+        welcomeScreen.addEventListener('transitionend', () => {
+            welcomeScreen.style.display = 'none';
+        }, { once: true });
+    }
+    
+    if (mainLayout) {
+        mainLayout.classList.remove('hidden');
+    }
+}
+
+// Intro'yu kuran fonksiyon, bittiğinde callback çağırır
+function setupWelcomeScreen(onComplete) {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    if (!welcomeScreen) {
+        if (onComplete) onComplete();
+        return;
+    }
+
+    welcomeScreen.style.display = 'flex';
+    const welcomeMessage = document.getElementById('welcome-message');
+    const skipButton = document.getElementById('skip-button');
+    const messages = ["Sistemler insanlar tarafından yapılır ve insanlar kusurludur.", "Kontrol bir yanılsamadır."];
+    let typingInterval;
+
+    function typeWriterEffect(element, text, callback) {
+        if (!element) return;
+        element.textContent = '';
+        let i = 0;
+        typingInterval = setInterval(() => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingInterval);
+                if (callback) callback();
+            }
+        }, 85);
+    }
+
+    function startAnimation() {
+        if (!welcomeMessage) return;
+        welcomeMessage.style.opacity = '1';
+        typeWriterEffect(welcomeMessage, messages[0], () => {
+            setTimeout(finishIntro, 2500); // Mesaj bittikten sonra bekle
+        });
+        if (skipButton) skipButton.classList.add('visible');
+    }
+
+    function finishIntro() {
+        if (typingInterval) clearInterval(typingInterval);
+        localStorage.setItem('hasVisited', 'true');
+        if (onComplete) onComplete();
+    }
+
+    if (skipButton) {
+        skipButton.addEventListener('click', finishIntro);
+    }
+
+    setTimeout(startAnimation, 1500); // Başlangıç gecikmesi
+}
+
+// NİHAİ VE KUSURSUZ SIDEBAR FONKSİYONU
 function setupSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
@@ -40,9 +120,7 @@ function setupSidebar() {
             e.stopPropagation();
             sidebar.classList.add('open');
         });
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
+        closeSidebarBtn.addEventListener('click', () => sidebar.classList.remove('open'));
         document.addEventListener('click', (event) => {
             if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
                 sidebar.classList.remove('open');
@@ -50,8 +128,10 @@ function setupSidebar() {
         });
     }
 
-    // --- Masaüstü için Fare Olayları (HOVER) ---
-    // Bu fonksiyonlar sadece masaüstü genişliğinde çalışacak event listener'lar ekler.
+    // --- Masaüstü için Fare ile Genişletme ---
+    const handleMouseEnter = () => sidebar.classList.add('sidebar-expanded');
+    const handleMouseLeave = () => sidebar.classList.remove('sidebar-expanded');
+
     const setupDesktopHover = () => {
         if (window.innerWidth > 768) {
             sidebar.addEventListener('mouseenter', handleMouseEnter);
@@ -62,30 +142,9 @@ function setupSidebar() {
         }
     };
     
-    const handleMouseEnter = () => sidebar.classList.add('sidebar-expanded');
-    const handleMouseLeave = () => sidebar.classList.remove('sidebar-expanded');
-
-    // Sayfa yüklendiğinde ve pencere yeniden boyutlandırıldığında listener'ları ayarla
     setupDesktopHover();
     window.addEventListener('resize', setupDesktopHover);
 }
-
-function setupWelcomeScreen() {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    if (!welcomeScreen) return;
-    welcomeScreen.style.display = 'flex';
-    const welcomeMessage = document.getElementById('welcome-message');
-    const skipButton = document.getElementById('skip-button');
-    const messages = ["Sistemler insanlar tarafından yapılır ve insanlar kusurludur.", "Kontrol bir yanılsamadır.", "Sıfırlar ve birler... Dünyayı yöneten ikili."];
-    let typingInterval;
-    function typeWriterEffect(element, text, onComplete) { if (!element) return; element.textContent = ''; let i = 0; typingInterval = setInterval(() => { if (i < text.length) { element.textContent += text.charAt(i); i++; } else { clearInterval(typingInterval); if (onComplete) onComplete(); } }, 85); }
-    function startMessageCycle() { if (!welcomeMessage) return; welcomeMessage.style.opacity = '1'; typeWriterEffect(welcomeMessage, messages[0], () => { setTimeout(enterBlog, 3000); }); if (skipButton) skipButton.classList.add('visible'); }
-    function enterBlog() { if (typingInterval) clearInterval(typingInterval); localStorage.setItem('hasVisited', 'true'); skipWelcomeScreen(); }
-    if (skipButton) { skipButton.addEventListener('click', enterBlog); }
-    setTimeout(startMessageCycle, 1500);
-}
-
-function skipWelcomeScreen() { const welcomeScreen = document.getElementById('welcome-screen'); const mainLayout = document.querySelector('.main-layout'); if (welcomeScreen) { welcomeScreen.classList.add('hidden'); setTimeout(() => { welcomeScreen.style.display = 'none'; }, 1000); } if (mainLayout) { mainLayout.classList.remove('hidden'); } }
 
 function enhanceCodeBlocks() { if (typeof hljs === 'undefined') { return; } document.querySelectorAll('pre code').forEach((block) => { hljs.highlightElement(block); }); document.querySelectorAll('pre').forEach(block => { const codeElement = block.querySelector('code'); if (!codeElement) return; const copyButton = document.createElement('button'); copyButton.className = 'copy-code-button'; copyButton.textContent = 'Kopyala'; block.appendChild(copyButton); copyButton.addEventListener('click', () => { navigator.clipboard.writeText(codeElement.innerText).then(() => { copyButton.textContent = 'Kopyalandı!'; copyButton.style.backgroundColor = 'var(--accent-color-primary)'; setTimeout(() => { copyButton.textContent = 'Kopyala'; copyButton.style.backgroundColor = ''; }, 2000); }); }); }); }
 
