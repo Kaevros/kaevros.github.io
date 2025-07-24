@@ -1,11 +1,11 @@
-/* SAYFAYA ÖZEL STİLLER: Hero, Yazı Detayı, İletişim, Hizmetler vb. */
+/* SAYFAYA ÖZEL STİLLER */
 
-#mobile-menu-toggle { display: none; }
-#close-sidebar-btn { display: none; }
-@media (max-width: 768px) {
-    #mobile-menu-toggle { display: flex; }
-    #close-sidebar-btn { display: block; }
-}
+.welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--main-bg-color); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; opacity: 1; transition: opacity 1s ease-out, visibility 1s; }
+.welcome-screen.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
+.welcome-screen #blog-title { font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: clamp(4rem, 9vw, 8rem); text-align: center; color: var(--accent-color-primary); margin-bottom: 40px; animation: breath 3s ease-in-out infinite alternate; }
+.welcome-screen #welcome-message { font-family: 'VT323', monospace; font-size: clamp(1.5rem, 3vw, 1.8rem); color: var(--text-color); margin-bottom: 50px; min-height: 1.2em; text-align: center; padding: 0 20px; opacity: 0; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; transition: opacity 0.5s ease-in-out; animation: blink-caret .75s step-end infinite; }
+.welcome-screen #skip-button { background: transparent; border: none; color: var(--accent-color-primary); font-size: 3rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 20px; visibility: hidden; }
+.welcome-screen #skip-button.visible { opacity: 1; visibility: visible; }
 
 .hero-section { text-align: center; min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; padding: 40px 20px; background-color: #1a1a1a; }
 .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 200%; height: 200%; background-image: linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(42, 42, 42, 0.5) 10px, rgba(42, 42, 42, 0.5) 12px); animation: moveGrid 20s linear infinite; z-index: 0; }
