@@ -1,4 +1,4 @@
-// build.js - AŞAMA 1 GÜNCELLEMESİ (TAM SÜRÜM)
+// build.js - AŞAMA 1 HATA DÜZELTME (TAM SÜRÜM)
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -9,7 +9,7 @@ const readingTime = require('reading-time');
 const RSS = require('rss');
 
 const outputDir = path.join(__dirname, '_site');
-const siteBaseUrl = 'https://kaevros.github.io';
+const siteBaseUrl = 'https://kaevros.github.io'; 
 
 function createPageTemplate(meta, mainContent, bodyClass = '') {
     const pageTitle = meta.title ? `${meta.title} - Mustafa Günay` : 'Mustafa Günay - Kişisel Blog';
@@ -38,7 +38,8 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
     
-    const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div><aside class="sidebar" id="sidebar"><div class="sidebar-header"><div class="logo-container"><a href="/index.html" aria-label="Ana Sayfa" id="logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo"></a></div><div class="sidebar-slogan"><span class="slogan-en">Control is an illusion.</span><span class="slogan-tr">Kontrol bir illüzyondur.</span></div><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div><div class="search-container" id="search-trigger"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Blogda Ara..." readonly></div><nav class="sidebar-nav"><ul><li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li><li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li><li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li><li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li><li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li></ul></nav><div class="sidebar-actions"><button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button><button class="theme-toggle-btn" id="theme-toggle-btn" title="Temayı değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button></div><div class="sidebar-footer"><p>&copy; ${new Date().getFullYear()} Mustafa Günay</p></div></aside>`;
+    // DÜZELTME: Sidebar HTML'i basitleştirildi, .sidebar-actions div'i kaldırıldı.
+    const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div><aside class="sidebar" id="sidebar"><div class="sidebar-header"><div class="logo-container"><a href="/index.html" aria-label="Ana Sayfa" id="logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo"></a></div><div class="sidebar-slogan"><span class="slogan-en">Control is an illusion.</span><span class="slogan-tr">Kontrol bir illüzyondur.</span></div><button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button></div><div class="search-container" id="search-trigger"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Blogda Ara..." readonly></div><nav class="sidebar-nav"><ul><li class="nav-item"><a href="/index.html"><span class="icon"><i class="fas fa-home-alt"></i></span><span class="nav-text">Ana Sayfa</span></a></li><li class="nav-item"><a href="/about.html"><span class="icon"><i class="fas fa-user-secret"></i></span><span class="nav-text">Hakkında</span></a></li><li class="nav-item"><a href="/posts.html"><span class="icon"><i class="fas fa-file-alt"></i></span><span class="nav-text">Yazılar</span></a></li><li class="nav-item"><a href="/hizmetler.html"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="nav-text">Hizmetler</span></a></li><li class="nav-item"><a href="/contact.html"><span class="icon"><i class="fas fa-paper-plane"></i></span><span class="nav-text">İletişim</span></a></li></ul></nav><button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button><button class="theme-toggle-btn" id="theme-toggle-btn" title="Temayı değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button><div class="sidebar-footer"><p>&copy; ${new Date().getFullYear()} Mustafa Günay</p></div></aside>`;
     
     const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button></div>` : '';
     const mainLayoutClass = bodyClass.includes('home') ? 'main-layout hidden' : 'main-layout';
@@ -48,6 +49,9 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
 }
 
 async function buildSite() {
+    // Bu fonksiyonun geri kalanında hiçbir değişiklik yok, projedeki haliyle aynı kalabilir.
+    // ... (build.js dosyasının geri kalanı) ...
+    // ...
     await fs.emptyDir(outputDir);
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
     if (await fs.pathExists(path.join(__dirname, 'admin'))) { await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin')); }
