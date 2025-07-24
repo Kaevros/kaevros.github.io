@@ -52,9 +52,7 @@ main {
 .sidebar-nav .nav-item a.active { color: var(--text-color); border-right-color: var(--accent-color-primary); }
 .sidebar-nav .nav-item a.active .nav-text, .sidebar-nav .nav-item a:hover .nav-text { color: var(--accent-color-primary); }
 .sidebar-nav .nav-item a .icon { font-size: 1.5rem; min-width: var(--sidebar-width-collapsed); text-align: center; }
-.sidebar-nav .nav-item a .nav-text { margin-left: 10px; font-family: 'VT323', monospace; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: opacity 0.2s ease 0.1s, visibility 0.2s ease 0.1s, transform 0.2s ease 0.1s; }
-
-.sidebar-footer { padding-top: 15px; color: #666; font-size: 0.8em; opacity: 0; visibility: hidden; transition: opacity 0.3s ease 0.1s; }
+.sidebar-nav .nav-item a .nav-text { margin-left: 10px; font-family: 'VT323', monospace; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: opacity 0.2s ease 0.1s, visibility 0s 0.3s, transform 0.2s ease 0.1s; }
 
 /* MASAÜSTÜ GENİŞLEME KURALLARI */
 @media (min-width: 769px) {
@@ -67,23 +65,18 @@ main {
         opacity: 1;
         visibility: visible;
     }
-    .sidebar.sidebar-expanded .nav-text { transform: translateX(0); }
+    .sidebar.sidebar-expanded .nav-text { transform: translateX(0); transition-delay: 0s; visibility: visible; }
     .sidebar.sidebar-expanded + .content-wrapper { margin-left: var(--sidebar-width-expanded); }
 }
 
 /* MOBİL AÇILMA KURALLARI */
 @media (max-width: 768px) {
     body { padding-top: var(--mobile-header-height); }
-    #mobile-menu-toggle { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: var(--mobile-header-height); background-color: var(--sidebar-bg-color); align-items: center; padding: 0 20px; z-index: 1001; border-bottom: 1px solid var(--border-color); }
-    #mobile-menu-toggle .mobile-logo-container { margin-left: auto; }
-    #mobile-menu-toggle .mobile-logo { max-height: 50px; }
-    #mobile-menu-toggle .fa-bars { font-size: 1.8rem; color: var(--accent-color-primary); cursor: pointer; }
     .sidebar { width: 85%; max-width: 300px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
     .sidebar.open { transform: translateX(0); }
     .sidebar.open .sidebar-slogan,
     .sidebar.open .sidebar-nav .nav-text,
     .sidebar.open .sidebar-footer { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0); }
-    #close-sidebar-btn { display: block; position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-color); font-size: 2rem; cursor: pointer; }
     .sidebar-nav .nav-item a { padding: 15px 20px; }
     .content-wrapper { margin-left: 0; }
 }
