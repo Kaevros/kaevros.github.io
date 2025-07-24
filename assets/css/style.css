@@ -1,4 +1,4 @@
-/* style.css - NİHAİ JS KONTROLLÜ SIDEBAR (TAM SÜRÜM) */
+/* style.css - NİHAİ ONARIM SÜRÜMÜ (TAM) */
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=VT323&display=swap');
 
 :root,
@@ -29,98 +29,117 @@ html[data-theme="light"] {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Oxanium', sans-serif; background-color: var(--main-bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; font-size: clamp(1rem, 1.6vw, 1.1rem); transition: background-color 0.3s ease, color 0.3s ease; }
+body.sidebar-open { overflow: hidden; }
+.main-layout { display: flex; opacity: 1; transition: opacity 1s ease-in; }
+.main-layout.hidden { opacity: 0; pointer-events: none; }
+.welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--main-bg-color); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; opacity: 1; transition: opacity 1s ease-out, visibility 1s; }
+.welcome-screen.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
+.welcome-screen #blog-title { font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: clamp(4rem, 9vw, 8rem); text-align: center; color: var(--accent-color-primary); margin-bottom: 40px; animation: breath 3s ease-in-out infinite alternate; }
+@keyframes breath { from { text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2); transform: scale(1); } to { text-shadow: 0 0 20px rgba(232, 74, 39, 0.8), 0 0 40px rgba(232, 74, 39, 0.5); transform: scale(1.03); } }
+.welcome-screen #welcome-message { font-family: 'VT323', monospace; font-size: clamp(1.5rem, 3vw, 1.8rem); color: var(--text-color); margin-bottom: 50px; min-height: 1.2em; text-align: center; padding: 0 20px; opacity: 0; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; transition: opacity 0.5s ease-in-out; animation: blink-caret .75s step-end infinite; }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color-primary); } }
+.welcome-screen #skip-button { background: transparent; border: none; color: var(--accent-color-primary); font-size: 3rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 20px; visibility: hidden; }
+.welcome-screen #skip-button.visible { opacity: 1; visibility: visible; }
 
-/* --- SIDEBAR ANA YAPI --- */
+/* --- SIDEBAR (JS KONTROLLÜ) --- */
 .sidebar {
     width: var(--sidebar-width-collapsed);
     background-color: var(--sidebar-bg-color);
     border-right: 1px solid var(--border-color);
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
+    position: fixed; top: 0; left: 0; height: 100%;
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
     padding: 25px 0;
     transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.sidebar-main, .sidebar-bottom { display: flex; flex-direction: column; align-items: center; width: 100%; }
-.sidebar-header { width: 100%; text-align: center; }
-.logo-container { width: 100%; padding: 0 15px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; }
+.sidebar-header, .search-container, .sidebar-nav, .sidebar-bottom-actions, .sidebar-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sidebar-bottom-actions { margin-top: auto; padding-top: 20px; }
+.sidebar-footer { padding-bottom: 0; }
+
+.logo-container { padding: 0 15px; cursor: pointer; transition: transform 0.3s ease; }
 .sidebar-logo { max-width: 60%; max-height: 75px; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; text-transform: uppercase; color: #666; width: 100%; text-align: center; padding: 10px 20px 0; position: relative; height: 40px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s; }
+.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; text-transform: uppercase; color: #666; padding: 10px 20px 0; height: 40px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease; }
 .sidebar-slogan span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; opacity: 0; animation: fade-slogan 10s linear infinite; }
 .sidebar-slogan .slogan-tr { animation-delay: 5s; }
 @keyframes fade-slogan { 0%, 100% { opacity: 0; } 10%, 40% { opacity: 1; } 50%, 90% { opacity: 0; } }
 
-.search-container { position: relative; width: 100%; padding: 0 10px; margin-top: 15px; cursor: pointer; }
+.search-container { position: relative; padding: 0 10px; margin-top: 15px; }
 .search-container input { background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color); width: 100%; height: 40px; border-radius: 5px; padding: 0 15px 0 40px; font-family: 'Oxanium', sans-serif; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
 .search-container i { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: #888; transition: color 0.2s ease; }
 
-.sidebar-nav { width: 100%; margin-top: 15px; }
+.sidebar-nav { margin-top: 15px; }
 .sidebar-nav ul { list-style: none; padding: 0; }
 .sidebar-nav .nav-item a { display: flex; align-items: center; padding: 15px 0; color: #a0a0a0; transition: background-color 0.2s ease, color 0.2s ease, border-right 0.2s ease; white-space: nowrap; text-decoration: none; border-right: 3px solid transparent; }
 .sidebar-nav .nav-item a:hover { background-color: rgba(232, 74, 39, 0.05); color: var(--text-color); }
 .sidebar-nav .nav-item a.active { color: var(--text-color); border-right-color: var(--accent-color-primary); }
 .sidebar-nav .nav-item a.active .nav-text, .sidebar-nav .nav-item a:hover .nav-text { color: var(--accent-color-primary); }
 .sidebar-nav .nav-item a .icon { font-size: 1.5rem; min-width: var(--sidebar-width-collapsed); text-align: center; }
-.sidebar-nav .nav-item a .nav-text { margin-left: 10px; font-family: 'VT323', monospace; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: opacity 0.2s ease 0.1s, visibility 0.2s ease 0.1s, transform 0.2s ease 0.1s, color 0.2s ease; }
+.sidebar-nav .nav-item a .nav-text { margin-left: 10px; font-family: 'VT323', monospace; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: opacity 0.2s ease 0.1s, visibility 0.2s ease 0.1s, transform 0.2s ease 0.1s; }
 
-.sidebar-bottom { padding-bottom: 0; }
-.replay-animation-btn, .theme-toggle-btn { margin-bottom: 15px; background: none; border: none; color: var(--accent-color-primary); cursor: pointer; padding: 10px; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
-.theme-toggle-btn { border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; color: var(--text-color); }
+.replay-animation-btn, .theme-toggle-btn { background: none; border: none; color: var(--accent-color-primary); cursor: pointer; padding: 10px; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
+.theme-toggle-btn { margin-top: 15px; border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; color: var(--text-color); }
 .replay-animation-btn:hover, .theme-toggle-btn:hover { opacity: 1; transform: scale(1.1); }
 .theme-toggle-btn:hover { color: var(--accent-color-primary); border-color: var(--accent-color-primary); transform: scale(1.1) rotate(15deg); }
 .theme-toggle-btn .fa-sun { display: none; }
 .theme-toggle-btn .fa-moon { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-sun { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
-.sidebar-footer { margin-top: 0; padding-top: 10px; color: #666; font-size: 0.8em; opacity: 0; visibility: hidden; transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s; }
+.sidebar-footer { padding-top: 15px; color: #666; font-size: 0.8em; opacity: 0; visibility: hidden; transition: opacity 0.3s ease 0.1s; }
 
-/* --- TETİKLEYİCİLER --- */
-
-/* MASAÜSTÜ İÇİN KESİN ÇÖZÜM: Sadece 769px ve üstünde çalışacak JS kontrollü kurallar */
+/* MASAÜSTÜ GENİŞLEME KURALLARI */
 @media (min-width: 769px) {
     .sidebar.sidebar-expanded { width: var(--sidebar-width-expanded); }
     .sidebar.sidebar-expanded .logo-container { transform: scale(1.1); }
     .sidebar.sidebar-expanded .sidebar-logo { max-width: 80%; max-height: 100px; }
-    .sidebar.sidebar-expanded .sidebar-slogan { opacity: 1; visibility: visible; }
-    .sidebar.sidebar-expanded .search-container input { opacity: 1; visibility: visible; }
+    .sidebar.sidebar-expanded .sidebar-slogan,
+    .sidebar.sidebar-expanded .search-container input,
+    .sidebar.sidebar-expanded .sidebar-nav .nav-text,
+    .sidebar.sidebar-expanded .replay-animation-btn,
+    .sidebar.sidebar-expanded .theme-toggle-btn,
+    .sidebar.sidebar-expanded .sidebar-footer {
+        opacity: 1;
+        visibility: visible;
+    }
+    .sidebar.sidebar-expanded .nav-text { transform: translateX(0); }
     .sidebar.sidebar-expanded .search-container i { color: var(--text-color); }
-    .sidebar.sidebar-expanded .nav-item a .nav-text { opacity: 1; visibility: visible; transform: translateX(0); }
-    .sidebar.sidebar-expanded .replay-animation-btn, .sidebar.sidebar-expanded .theme-toggle-btn { opacity: 0.6; visibility: visible; pointer-events: auto; }
-    .sidebar.sidebar-expanded .sidebar-footer { opacity: 1; visibility: visible; }
+    .sidebar.sidebar-expanded .replay-animation-btn,
+    .sidebar.sidebar-expanded .theme-toggle-btn { pointer-events: auto; }
     .sidebar.sidebar-expanded + .content-wrapper { margin-left: var(--sidebar-width-expanded); }
 }
 
-/* MOBİL İÇİN JS KONTROLLÜ KURALLAR */
+/* MOBİL AÇILMA KURALLARI */
 @media (max-width: 768px) {
     body { padding-top: var(--mobile-header-height); }
     #mobile-menu-toggle { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: var(--mobile-header-height); background-color: var(--sidebar-bg-color); align-items: center; padding: 0 20px; z-index: 1001; border-bottom: 1px solid var(--border-color); }
     #mobile-menu-toggle .mobile-logo-container { margin-left: auto; }
     #mobile-menu-toggle .mobile-logo { max-height: 50px; }
     #mobile-menu-toggle .fa-bars { font-size: 1.8rem; color: var(--accent-color-primary); cursor: pointer; }
-    .sidebar { width: 85%; max-width: 300px; height: 100%; position: fixed; top: 0; left: 0; z-index: 1002; transform: translateX(-100%); transition: transform 0.3s ease-in-out; justify-content: flex-start; padding: 0; }
+    .sidebar { width: 85%; max-width: 300px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
     .sidebar.open { transform: translateX(0); }
-    .sidebar.open .replay-animation-btn, .sidebar.open .theme-toggle-btn { opacity: 1; visibility: visible; pointer-events: auto; }
-    .sidebar-header { padding-top: 25px; }
-    .sidebar.open .sidebar-slogan, .sidebar.open .sidebar-footer { opacity: 1; visibility: visible; }
-    .sidebar.open .search-container input { opacity: 1; visibility: visible; }
-    .sidebar.open .nav-item a .nav-text { opacity: 1; visibility: visible; transform: translateX(0); }
+    .sidebar.open .sidebar-slogan,
+    .sidebar.open .search-container input,
+    .sidebar.open .sidebar-nav .nav-text,
+    .sidebar.open .replay-animation-btn,
+    .sidebar.open .theme-toggle-btn,
+    .sidebar.open .sidebar-footer { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0); }
     #close-sidebar-btn { display: block; position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-color); font-size: 2rem; cursor: pointer; }
-    .sidebar .search-container { padding: 0 20px; }
-    .sidebar .search-container i { left: 35px; }
+    .search-container { padding: 0 20px; }
+    .search-container i { left: 35px; }
     .sidebar-nav .nav-item a { padding: 15px 20px; }
-    .sidebar .sidebar-bottom { padding: 20px; }
     .content-wrapper { margin-left: 0; }
 }
 
-/* ... (Diğer tüm CSS kuralları aynı kalacak) ... */
+/* ... (Geri kalan tüm stiller önceki mesajdakiyle aynı) ... */
 .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 0%; z-index: 3000; transition: width 0.1s linear; box-shadow: 0 0 10px var(--accent-color-primary); }
 .content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 main { max-width: 960px; margin: 0 auto; }
