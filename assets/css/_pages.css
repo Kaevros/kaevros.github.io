@@ -1,15 +1,8 @@
-/* SAYFAYA ÖZEL STİLLER */
-
-.welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--main-bg-color); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; opacity: 1; transition: opacity 1s ease-out, visibility 1s; }
-.welcome-screen.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
-.welcome-screen #blog-title { font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: clamp(4rem, 9vw, 8rem); text-align: center; color: var(--accent-color-primary); margin-bottom: 40px; animation: breath 3s ease-in-out infinite alternate; }
-.welcome-screen #welcome-message { font-family: 'VT323', monospace; font-size: clamp(1.5rem, 3vw, 1.8rem); color: var(--text-color); margin-bottom: 50px; min-height: 1.2em; text-align: center; padding: 0 20px; opacity: 0; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; transition: opacity 0.5s ease-in-out; animation: blink-caret .75s step-end infinite; }
-.welcome-screen #skip-button { background: transparent; border: none; color: var(--accent-color-primary); font-size: 3rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 20px; visibility: hidden; }
-.welcome-screen #skip-button.visible { opacity: 1; visibility: visible; }
+/* SAYFAYA ÖZEL STİLLER - NİHAİ SÜRÜM */
 
 .hero-section { text-align: center; min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; padding: 40px 20px; background-color: #1a1a1a; }
 .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 200%; height: 200%; background-image: linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(42, 42, 42, 0.5) 10px, rgba(42, 42, 42, 0.5) 12px); animation: moveGrid 20s linear infinite; z-index: 0; }
-.hero-subtitle { font-size: clamp(1.8rem, 4vw, 2.5em); font-weight: 700; color: var(--text-color); position: relative; z-index: 1; }
+.hero-subtitle { font-size: clamp(1.8rem, 4vw, 2.5em); font-weight: 700; position: relative; z-index: 1; }
 
 .styled-header { padding-bottom: 20px; margin-bottom: 40px; }
 .content-page .styled-header { text-align: center; }
@@ -53,15 +46,62 @@ html[data-theme="light"] .post-content blockquote { color: #555; }
 .contact-card span { font-size: 1.2rem; font-weight: bold; }
 
 .services-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-.service-card { background-color: var(--sidebar-bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; text-align: center; transition: all 0.3s ease; }
-.service-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.15), 0 0 15px rgba(232, 74, 39, 0.1); }
-.service-card .service-icon { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; }
+
+/* --- GÜNCELLENMİŞ HİZMET KARTI ANİMASYONLARI --- */
+.service-card {
+    background-color: var(--sidebar-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    border-color: rgba(232, 74, 39, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 15px rgba(232, 74, 39, 0.3);
+}
+
+.service-card .service-icon {
+    font-size: 3rem;
+    color: var(--accent-color-primary);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+    transform: scale(1.15) rotate(-5deg);
+}
+
 .service-card h3 { font-size: clamp(1.4rem, 3vw, 1.6em); margin-bottom: 15px; color: var(--text-color); }
 .service-card p { color: var(--text-color-light); line-height: 1.8; }
+/* --- HİZMET KARTI SONU --- */
 
-.post-detail .styled-header h1 { background: linear-gradient( 90deg, var(--accent-color-primary), var(--text-color), var(--accent-color-primary) ); background-size: 250% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: move-gradient 8s ease-in-out infinite; }
-.animated-gradient-container { display: flex; justify-content: center; align-items: center; text-align: center; min-height: 60vh; padding: 20px; }
-.animated-gradient-text { font-family: 'Oxanium', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; background: linear-gradient(90deg, var(--text-color), var(--accent-color-primary), var(--text-color)); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: move-gradient 8s ease-in-out infinite; }
+.animated-gradient-text,
+.post-detail .styled-header h1,
+.hero-subtitle,
+.content-page .styled-header h2,
+.error-page-container .error-code {
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent !important;
+    animation: move-gradient 8s ease-in-out infinite;
+}
+
+.post-detail .styled-header h1 {
+    background-image: linear-gradient( 90deg, var(--accent-color-primary), var(--text-color), var(--accent-color-primary) );
+}
+
+.hero-subtitle,
+.content-page .styled-header h2,
+.error-page-container .error-code {
+    background-image: linear-gradient(90deg, var(--accent-color-primary), var(--link-hover-color), var(--accent-color-primary));
+}
 
 .error-page-container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 80vh; padding: 20px; }
 .error-page-container .error-code { font-family: 'Oxanium', sans-serif; font-size: clamp(8rem, 25vw, 12rem); font-weight: 700; line-height: 1; margin: 0; }

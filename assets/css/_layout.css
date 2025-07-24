@@ -44,16 +44,13 @@ body.sidebar-open {
     overflow: hidden; 
 }
 
-.sidebar-header, .search-container, .sidebar-nav, .sidebar-bottom-actions, .sidebar-footer {
+.sidebar-header, .search-container, .sidebar-nav, .sidebar-bottom, .sidebar-footer {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.sidebar-bottom-actions { 
-    margin-top: auto; 
-    padding-top: 20px; 
-}
+
 .sidebar-footer { 
     padding-bottom: 0; 
 }
@@ -67,30 +64,6 @@ body.sidebar-open {
     max-width: 60%; 
     max-height: 75px; 
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.sidebar-slogan { 
-    font-family: 'VT323', monospace; 
-    font-size: 1rem; 
-    text-transform: uppercase; 
-    color: #666; 
-    padding: 10px 20px 0; 
-    height: 40px; 
-    white-space: nowrap;
-    opacity: 0; 
-    visibility: hidden; 
-    transition: opacity 0.2s ease, visibility 0.2s ease; 
-}
-.sidebar-slogan span { 
-    position: absolute; 
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    width: 100%; 
-    opacity: 0; 
-    animation: fade-slogan 10s linear infinite; 
-}
-.sidebar-slogan .slogan-tr { 
-    animation-delay: 5s; 
 }
 
 .sidebar-nav { 
@@ -127,16 +100,37 @@ body.sidebar-open {
     min-width: var(--sidebar-width-collapsed); 
     text-align: center; 
 }
-.sidebar-nav .nav-item a .nav-text { 
+
+/* --- GÜNCELLENMİŞ NAVİGASYON FONTU --- */
+.sidebar-nav .nav-item a .nav-text {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 1.05rem;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-weight: 600;
     margin-left: 10px;
-    font-family: 'VT323', monospace; 
-    font-size: 1.2rem; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    opacity: 0; 
-    visibility: hidden; 
+    opacity: 0;
+    visibility: hidden;
     transform: translateX(-10px);
-    transition: opacity 0.2s ease, visibility 0s 0.3s, transform 0.2s ease; 
+    transition: opacity 0.2s ease, visibility 0s 0.3s, transform 0.2s ease;
+}
+
+/* --- YENİ EKLENEN ALT BÖLÜM VE SLOGAN STİLLERİ --- */
+.sidebar-bottom {
+    margin-top: auto;
+    width: 100%;
+    padding: 0 20px 20px 20px;
+}
+
+.sidebar-slogan {
+    font-family: 'VT323', monospace;
+    color: #666;
+    text-align: center;
+    font-size: 1rem;
+    padding: 15px 0;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.2s;
 }
 
 .sidebar-footer { 
@@ -148,7 +142,6 @@ body.sidebar-open {
     transition: opacity 0.3s ease 0.1s, visibility 0s 0.4s;
 }
 
-/* MASAÜSTÜ GENİŞLEME KURALLARI (TAMAMEN CSS İLE) */
 @media (min-width: 769px) {
     .sidebar:hover {
         transform: translateX(0);
@@ -173,7 +166,6 @@ body.sidebar-open {
     }
 }
 
-/* MOBİL AÇILMA KURALLARI */
 @media (max-width: 768px) {
     .sidebar { 
         width: 85%; 
@@ -190,6 +182,9 @@ body.sidebar-open {
         visibility: visible; 
         pointer-events: auto; 
         transform: translateX(0); 
+    }
+    .sidebar.open .sidebar-slogan {
+        opacity: 1;
     }
     .sidebar-nav .nav-item a { 
         padding: 15px 20px;
