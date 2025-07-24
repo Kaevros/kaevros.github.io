@@ -1,8 +1,25 @@
 /* TÜM @KEYFRAMES ANİMASYONLARI */
 
+/* Giriş ekranındaki başlık için */
+.welcome-screen .animated-title {
+    animation: breath 2s ease-in-out infinite alternate;
+}
+
 @keyframes breath { 
-    from { text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2); transform: scale(1); } 
-    to { text-shadow: 0 0 20px rgba(232, 74, 39, 0.8), 0 0 40px rgba(232, 74, 39, 0.5); transform: scale(1.03); } 
+    from { 
+        text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2);
+        transform: scale(1); 
+    } 
+    to { 
+        text-shadow: 0 0 20px rgba(232, 74, 39, 0.8), 0 0 40px rgba(232, 74, 39, 0.5);
+        transform: scale(1.03); 
+    } 
+}
+
+/* Daktilo efekti için yanıp sönen imleç */
+.welcome-message {
+    border-right: .15em solid var(--accent-color-primary);
+    animation: blink-caret .75s step-end infinite;
 }
 
 @keyframes blink-caret { 
@@ -10,22 +27,26 @@
     50% { border-color: var(--accent-color-primary); } 
 }
 
+/* Sidebar'daki slogan için geçiş animasyonu */
 @keyframes fade-slogan { 
     0%, 100% { opacity: 0; } 
     10%, 40% { opacity: 1; } 
     50%, 90% { opacity: 0; } 
 }
 
+/* Hero bölümündeki grid animasyonu */
 @keyframes moveGrid { 
     from { transform: translate(0, 0); } 
     to { transform: translate(-50px, -50px); } 
 }
 
+/* Hover efektlerindeki dönme animasyonu */
 @keyframes rotate { 
     from { transform: rotate(0deg); } 
     to { transform: rotate(360deg); } 
 }
 
+/* Gradyan metinler için animasyon */
 @keyframes move-gradient { 
     0% { background-position: 0% 50%; } 
     50% { background-position: 100% 50%; } 
