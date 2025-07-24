@@ -1,11 +1,12 @@
-// /assets/js/script.js - AŞAMA 1 GÜNCELLEMESİ (TAM SÜRÜM)
+// /assets/js/script.js - NİHAİ, TAM VE ÇALIŞAN SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.documentElement.getAttribute('data-theme') === null) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    setupThemeToggle();
+    // Sayfa ilk yüklendiğinde localStorage'ı kontrol et ve temayı uygula.
+    // Bu, script.js'in en başına taşındı ki diğer fonksiyonlar çalışmadan tema belli olsun.
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
 
+    // Diğer tüm fonksiyonları çağır
     if (document.body.classList.contains('home')) {
         if (!localStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupReplayButton();
     setupReadingProgressBar();
     setupSearch();
+    setupThemeToggle(); // Tema butonu çağrısı burada
     setupBackToTopButton();
     setupLightbox();
 
@@ -46,7 +48,7 @@ function setupSidebar() { const sidebar = document.getElementById('sidebar'); co
 
 function enhanceCodeBlocks() { if (typeof hljs === 'undefined') { return; } document.querySelectorAll('pre code').forEach((block) => { hljs.highlightElement(block); }); document.querySelectorAll('pre').forEach(block => { const codeElement = block.querySelector('code'); if (!codeElement) return; const copyButton = document.createElement('button'); copyButton.className = 'copy-code-button'; copyButton.textContent = 'Kopyala'; block.appendChild(copyButton); copyButton.addEventListener('click', () => { navigator.clipboard.writeText(codeElement.innerText).then(() => { copyButton.textContent = 'Kopyalandı!'; copyButton.style.backgroundColor = 'var(--accent-color-primary)'; setTimeout(() => { copyButton.textContent = 'Kopyala'; copyButton.style.backgroundColor = ''; }, 2000); }); }); }); }
 
-function setActiveSidebarLink() { const currentPath = window.location.pathname; document.querySelectorAll('.sidebar-nav a').forEach(link => { const linkHref = link.getAttribute('href'); if (linkHref === currentPath || (currentPath === '/' && linkHref === '/index.html')) { link.classList.add('active'); } }); }
+function setActiveSidebarLink() { const currentPath = window.location.pathname; document.querySelectorAll('.sidebar-nav a').forEach(link => { const linkHref = link.getAttribute('href'); if (linkHref === currentPath || (currentPath === '/' && linkHref === '/index.html') || (currentPath.startsWith('/posts/') && linkHref === '/posts.html')) { link.classList.add('active'); } }); }
 
 function replayIntro() { localStorage.removeItem('hasVisited'); window.location.href = '/index.html'; }
 
@@ -73,32 +75,20 @@ function setupSearch() {
     function displayResults(results) { let resultsHTML = ''; if (results.length > 0) { results.forEach(result => { const doc = searchDocs[result.ref]; resultsHTML += `<li><a href="/${result.ref}"><h3>${doc.title}</h3><p>${doc.description || ''}</p></a></li>`; }); } else { resultsHTML = '<li class="no-results">Sonuç bulunamadı.</li>'; } resultsList.innerHTML = resultsHTML; }
 }
 
-// YENİ: Tema Değiştirme Fonksiyonu
 function setupThemeToggle() {
     const themeToggleButton = document.getElementById('theme-toggle-btn');
     if (!themeToggleButton) return;
-
-    // Sayfa yüklenir yüklenmez doğru temayı uygula
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', currentTheme);
-
     themeToggleButton.addEventListener('click', () => {
-        let theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'dark') {
-            theme = 'light';
-        } else {
-            theme = 'dark';
-        }
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        let currentTheme = document.documentElement.getAttribute('data-theme');
+        let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
     });
 }
 
-// YENİ: Yukarı Dön Butonu Fonksiyonu
 function setupBackToTopButton() {
     const backToTopButton = document.getElementById('back-to-top');
     if (!backToTopButton) return;
-
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopButton.classList.add('visible');
@@ -106,35 +96,12 @@ function setupBackToTopButton() {
             backToTopButton.classList.remove('visible');
         }
     });
-
     backToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
 
-// YENİ: Lightbox Fonksiyonu
 function setupLightbox() {
-    // Yazı içindeki resimleri lightbox'a uygun hale getir
-    const postImages = document.querySelectorAll('.post-content img');
-    postImages.forEach(img => {
-        // Resmin bir link içinde olup olmadığını ve zaten bir glightbox linki olmadığını kontrol et
-        if (img.parentElement.tagName !== 'A' || !img.parentElement.classList.contains('glightbox')) {
-            const link = document.createElement('a');
-            link.href = img.src;
-            link.classList.add('glightbox');
-            // Resmin bir başlığı varsa altyazı olarak ekle
-            if (img.title) {
-                link.setAttribute('data-title', img.title);
-            }
-            img.parentNode.insertBefore(link, img);
-            link.appendChild(img);
-        }
-    });
-    
-    // GLightbox'ı başlat
     if (typeof GLightbox !== 'undefined') {
         const lightbox = GLightbox({
             selector: '.glightbox',
