@@ -45,9 +45,13 @@ html[data-theme="light"] .post-content blockquote { color: #555; }
 .contact-card:hover i { transform: scale(1.1); }
 .contact-card span { font-size: 1.2rem; font-weight: bold; }
 
-.services-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
-
-/* --- GÜNCELLENMİŞ HİZMET KARTI ANİMASYONLARI --- */
+/* --- BU BÖLÜMÜ GÜNCELLEYİN --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
 .service-card {
     background-color: var(--sidebar-bg-color);
     border: 1px solid var(--border-color);
@@ -58,27 +62,30 @@ html[data-theme="light"] .post-content blockquote { color: #555; }
     position: relative;
     overflow: hidden;
 }
-
 .service-card:hover {
     transform: translateY(-12px) scale(1.02);
     border-color: rgba(232, 74, 39, 0.5);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 15px rgba(232, 74, 39, 0.3);
 }
-
 .service-card .service-icon {
     font-size: 3rem;
     color: var(--accent-color-primary);
     margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
-
 .service-card:hover .service-icon {
     transform: scale(1.15) rotate(-5deg);
 }
-
-.service-card h3 { font-size: clamp(1.4rem, 3vw, 1.6em); margin-bottom: 15px; color: var(--text-color); }
-.service-card p { color: var(--text-color-light); line-height: 1.8; }
-/* --- HİZMET KARTI SONU --- */
+.service-card h3 {
+    font-size: clamp(1.4rem, 3vw, 1.6em);
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+.service-card p {
+    color: var(--text-color-light);
+    line-height: 1.8;
+}
+/* --- GÜNCELLEME BİTİŞİ --- */
 
 .animated-gradient-text,
 .post-detail .styled-header h1,
