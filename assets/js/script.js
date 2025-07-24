@@ -1,11 +1,9 @@
-// /assets/js/script.js - GÜNCELLENMİŞ TAM SÜRÜM
+// /assets/js/script.js - NİHAİ, ONARILMIŞ VE TAM SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Önce temayı belirle, sonra diğer her şeyi yap
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // Ana sayfa ise intro mantığını çalıştır
     if (document.body.classList.contains('home')) {
         if (!localStorage.getItem('hasVisited')) {
             setupWelcomeScreen(showMainContent);
@@ -13,15 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
             showMainContent();
         }
     } else {
-        // Ana sayfa değilse, ana içeriği direkt göster (hidden class'ını kaldır)
         const mainLayout = document.querySelector('.main-layout');
         if (mainLayout) {
             mainLayout.classList.remove('hidden');
         }
     }
 
-    // Geri kalan tüm kurulum fonksiyonlarını çağır
-    setupSidebar(); // <-- GÜNCELLENEN FONKSİYON ÇAĞIRILIYOR
+    setupSidebar();
     enhanceCodeBlocks();
     setActiveSidebarLink();
     setupReplayButton();
@@ -35,14 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Intro ve ana içerik arasındaki geçişi yöneten fonksiyon
 function showMainContent() {
     const welcomeScreen = document.getElementById('welcome-screen');
     const mainLayout = document.querySelector('.main-layout');
     
     if (welcomeScreen && welcomeScreen.style.display !== 'none') {
         welcomeScreen.classList.add('hidden');
-        // Transition bittikten sonra DOM'dan kaldır
         welcomeScreen.addEventListener('transitionend', () => {
             welcomeScreen.style.display = 'none';
         }, { once: true });
@@ -53,7 +47,6 @@ function showMainContent() {
     }
 }
 
-// Intro'yu kuran fonksiyon, bittiğinde callback çağırır
 function setupWelcomeScreen(onComplete) {
     const welcomeScreen = document.getElementById('welcome-screen');
     if (!welcomeScreen) {
@@ -85,7 +78,7 @@ function setupWelcomeScreen(onComplete) {
         if (!welcomeMessage) return;
         welcomeMessage.style.opacity = '1';
         typeWriterEffect(welcomeMessage, messages[0], () => {
-            setTimeout(finishIntro, 2500); // Mesaj bittikten sonra bekle
+            setTimeout(finishIntro, 2500);
         });
         if (skipButton) skipButton.classList.add('visible');
     }
@@ -100,10 +93,9 @@ function setupWelcomeScreen(onComplete) {
         skipButton.addEventListener('click', finishIntro);
     }
 
-    setTimeout(startAnimation, 1500); // Başlangıç gecikmesi
+    setTimeout(startAnimation, 1500);
 }
 
-// --- YENİ VE OPTİMİZE EDİLMİŞ SIDEBAR FONKSİYONU ---
 function setupSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
@@ -111,12 +103,11 @@ function setupSidebar() {
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
     
-    // Sadece mobil menü tıklama olaylarını yönet
     if (mobileMenuToggle && closeSidebarBtn) {
         mobileMenuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             sidebar.classList.add('open');
-            document.body.classList.add('sidebar-open'); // Kaydırmayı engellemek için
+            document.body.classList.add('sidebar-open');
         });
 
         const closeMenu = () => {
@@ -126,16 +117,13 @@ function setupSidebar() {
 
         closeSidebarBtn.addEventListener('click', closeMenu);
         
-        // Dışarı tıklandığında menüyü kapat
         document.addEventListener('click', (event) => {
-            // Sadece menü açıkken ve mobil görünümdeyken çalış
             if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
                 closeMenu();
             }
         });
     }
 }
-
 
 function enhanceCodeBlocks() { if (typeof hljs === 'undefined') { return; } document.querySelectorAll('pre code').forEach((block) => { hljs.highlightElement(block); }); document.querySelectorAll('pre').forEach(block => { const codeElement = block.querySelector('code'); if (!codeElement) return; const copyButton = document.createElement('button'); copyButton.className = 'copy-code-button'; copyButton.textContent = 'Kopyala'; block.appendChild(copyButton); copyButton.addEventListener('click', () => { navigator.clipboard.writeText(codeElement.innerText).then(() => { copyButton.textContent = 'Kopyalandı!'; setTimeout(() => { copyButton.textContent = 'Kopyala'; }, 2000); }); }); }); }
 function setActiveSidebarLink() { const currentPath = window.location.pathname; document.querySelectorAll('.sidebar-nav a').forEach(link => { const linkHref = link.getAttribute('href'); if (linkHref === currentPath || (currentPath === '/' && linkHref === '/index.html') || (currentPath.startsWith('/posts/') && linkHref === '/posts.html')) { link.classList.add('active'); } }); }
