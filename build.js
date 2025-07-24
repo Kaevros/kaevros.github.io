@@ -1,4 +1,4 @@
-// build.js - NİHAİ, TAM VE ÇALIŞAN SÜRÜM
+// build.js - NİHAİ, TAM VE HATASIZ SÜRÜM
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -23,7 +23,7 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
     
-    // --- GÜNCELLENMİŞ SIDEBAR HTML'i ---
+    // --- TAMAMEN YENİLENMİŞ, DOĞRU SIRALAMALI VE ANİMASYONLU SLOGANLI SIDEBAR ---
     const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div>
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -43,14 +43,14 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
             </ul>
         </nav>
 
-        <div class="search-container" id="search-trigger">
-            <i class="fas fa-search"></i>
-            <input type="text" id="search-input" placeholder="Blogda Ara..." readonly>
-        </div>
-
         <div class="sidebar-bottom">
             <div class="sidebar-slogan">
+                <span class="slogan-en">Control is an illusion.</span>
                 <span class="slogan-tr">Kontrol bir illüzyondur.</span>
+            </div>
+            <div class="search-container" id="search-trigger">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Blogda Ara..." readonly>
             </div>
             <div class="sidebar-bottom-actions">
                 <button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button>
@@ -69,9 +69,6 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}${backToTopButton}<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
 }
 
-// buildSite fonksiyonunun geri kalanı aynı, burada tekrar yazmaya gerek yok...
-// ... ( önceki yanıtlardaki buildSite fonksiyonunun tam ve doğru halini kullanın ) ...
-// (Bu, yanıtı kısa tutmak içindir, önceki yanıttaki tam buildSite fonksiyonu geçerlidir)
 
 async function buildSite() {
     console.log('>>> Build süreci başlatılıyor...');
