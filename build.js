@@ -1,4 +1,4 @@
-// build.js - TÜM TASARIM GÜNCELLEMELERİNİ İÇEREN NİHAİ VERSİYON
+// build.js - TÜM UI/UX İSTEKLERİNİ İÇEREN NİHAİ VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -9,7 +9,7 @@ const readingTime = require('reading-time');
 const RSS = require('rss');
 
 const outputDir = path.join(__dirname, '_site');
-const siteBaseUrl = 'https://kaevros.github.io';
+const siteBaseUrl = 'https://kaevros.github.io'; // Replace with your actual domain if you have one
 
 function createPageTemplate(meta, mainContent, bodyClass = '') {
     const pageTitle = meta.title ? `${meta.title} - Mustafa Günay` : 'Mustafa Günay - Kişisel Blog';
@@ -17,12 +17,12 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     const pageImage = meta.image ? `${siteBaseUrl}${meta.image}` : `${siteBaseUrl}/assets/images/logo.svg`;
     const pageUrl = `${siteBaseUrl}${meta.url || ''}`;
     const pageKeywords = meta.keywords || 'siber güvenlik, blog, mustafa günay, kaevros, teknoloji, network, yazılım';
+    
     const metaTagsHTML = `<meta name="description" content="${pageDescription}"><meta name="keywords" content="${pageKeywords}"><meta name="author" content="Mustafa Günay"><meta property="og:type" content="website"><meta property="og:title" content="${meta.title || 'Mustafa Günay - Kişisel Blog'}"><meta property="og:description" content="${pageDescription}"><meta property="og:image" content="${pageImage}"><meta property="og:url" content="${pageUrl}"><meta property="og:site_name" content="Mustafa Günay - Kişisel Blog"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${meta.title || 'Mustafa Günay - Kişisel Blog'}"><meta name="twitter:description" content="${pageDescription}"><meta name="twitter:image" content="${pageImage}">`;
     const rssLinkHTML = `<link rel="alternate" type="application/rss+xml" title="Mustafa Günay - Kişisel Blog RSS Feed" href="/feed.xml">`;
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     
-    // YENİ SIRALAMA VE TASARIMA SAHİP NİHAİ SIDEBAR
-    const sidebarHTML = `<div class="progress-bar" id="progress-bar"></div>
+    const sidebarHTML = `
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="/index.html" aria-label="Ana Sayfa" id="logo-link" class="logo-container">
@@ -32,13 +32,9 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
         </div>
         
         <div class="sidebar-content">
-            <div class="sidebar-slogan">
-                <span class="slogan-en">Control is an illusion.</span>
-                <span class="slogan-tr">Kontrol bir illüzyondur.</span>
-            </div>
             <div class="search-container" id="search-trigger">
                 <i class="fas fa-search"></i>
-                <input type="text" id="search-input" placeholder="Blogda Ara..." readonly>
+                <input type="text" id="search-input" placeholder="Buralarda bir şeyler var mı acaba?" readonly>
             </div>
             <nav class="sidebar-nav">
                 <ul>
@@ -61,14 +57,18 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     </aside>`;
     
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
+    
+    // Welcome screen is only added if the bodyClass is 'home'
     const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button></div>` : '';
+    
     const mainLayoutClass = bodyClass.includes('home') ? 'main-layout hidden' : 'main-layout';
-    return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
+    const backToTopButtonHTML = `<button id="back-to-top" class="back-to-top-btn" title="Yukarı dön"><i class="fas fa-arrow-up"></i></button>`;
+    const progressBarHTML = `<div class="progress-bar" id="progress-bar"></div>`;
+
+    return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${progressBarHTML}${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}${backToTopButtonHTML}<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
 }
 
 async function buildSite() {
-    // ... buildSite fonksiyonunun geri kalanı önceki stabil versiyon ile aynı kalabilir ...
-    // Bu fonksiyonun tam ve doğru hali önceki cevaplarda mevcuttur.
     console.log('>>> Build süreci başlatılıyor...');
     await fs.emptyDir(outputDir);
     await fs.copy(path.join(__dirname, 'assets'), path.join(outputDir, 'assets'));
@@ -76,15 +76,19 @@ async function buildSite() {
     if (await fs.pathExists(path.join(__dirname, 'admin'))) {
         await fs.copy(path.join(__dirname, 'admin'), path.join(outputDir, 'admin'));
     }
+
     const staticPagesDir = path.join(__dirname, '_pages');
     if (await fs.pathExists(staticPagesDir)) {
         for (const pageFile of await fs.readdir(staticPagesDir)) {
             const fileContent = await fs.readFile(path.join(staticPagesDir, pageFile), 'utf8');
             const { data: meta, content: mainContent } = matter(fileContent);
             if (!meta.url) meta.url = `/${pageFile}`;
-            await fs.writeFile(path.join(outputDir, pageFile), createPageTemplate(meta, mainContent));
+            // Ensure non-home pages do not get the 'home' body class
+            const bodyClass = pageFile === 'index.html' ? 'home' : ''; 
+            await fs.writeFile(path.join(outputDir, pageFile), createPageTemplate(meta, mainContent, bodyClass));
         }
     }
+
     await fs.ensureDir(path.join(outputDir, 'posts'));
     await fs.ensureDir(path.join(outputDir, 'tags'));
     const postsDir = path.join(__dirname, '_posts');
@@ -103,11 +107,14 @@ async function buildSite() {
         if (data.tags && Array.isArray(data.tags)) { data.tags.forEach(tag => { if (!tagsMap[tag]) tagsMap[tag] = []; tagsMap[tag].push(postData); }); }
     }
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     const searchIndex = lunr(function () { this.ref('path'); this.field('title', { boost: 10 }); this.field('content'); this.field('tags', { boost: 5 }); allPosts.forEach(doc => { this.add(doc); }); });
     await fs.writeFile(path.join(outputDir, 'search-index.json'), JSON.stringify(searchIndex));
     const searchDocs = allPosts.reduce((acc, doc) => { acc[doc.path] = { title: doc.title, description: doc.description }; return acc; }, {});
     await fs.writeFile(path.join(outputDir, 'search-docs.json'), JSON.stringify(searchDocs));
+
     const createPostCard = (post, index) => `<div class="post-card" data-aos="fade-up" data-aos-delay="${index * 50}"><a href="/${post.path}" class="post-card-link"><div class="post-card-content"><h3>${post.title}</h3><p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p><p class="post-card-description">${post.description || ''}</p></div><div class="post-card-footer"><span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span></div></a></div>`;
+    
     for (const post of allPosts) {
         const postMeta = { title: post.title, description: post.description, image: post.image, url: `/${post.path}`, keywords: post.tags ? post.tags.join(', ') : '' };
         const shareLinks = `<div class="share-buttons"><a href="https://twitter.com/intent/tweet?url=${siteBaseUrl}/${post.path}&text=${encodeURIComponent(post.title)}" target="_blank" aria-label="X'te paylaş"><i class="fab fa-twitter"></i></a><a href="https://www.linkedin.com/shareArticle?mini=true&url=${siteBaseUrl}/${post.path}" target="_blank" aria-label="LinkedIn'de paylaş"><i class="fab fa-linkedin"></i></a><a href="https://wa.me/?text=${encodeURIComponent(post.title)}%20${siteBaseUrl}/${post.path}" target="_blank" aria-label="WhatsApp'ta paylaş"><i class="fab fa-whatsapp"></i></a><a href="https://t.me/share/url?url=${siteBaseUrl}/${post.path}&text=${encodeURIComponent(post.title)}" target="_blank" aria-label="Telegram'da paylaş"><i class="fab fa-telegram"></i></a></div>`;
@@ -115,6 +122,7 @@ async function buildSite() {
         const postPageContent = `<article class="post-detail"><header class="post-header styled-header"><h1 data-aos="fade-down" class="animated-gradient-text">${post.title}</h1><div class="post-meta" data-aos="fade-up" data-aos-delay="100"><span>${post.date.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</span> • <span><i class="fas fa-clock"></i> ${post.readingTime}</span></div><div class="tag-list" data-aos="fade-up" data-aos-delay="200">${tagLinks}</div></header><section class="post-content" data-aos="fade-up" data-aos-delay="300">${post.htmlContent}</section><footer><div class="post-end-separator"></div>${shareLinks}</footer></article>`;
         await fs.writeFile(path.join(outputDir, post.path), createPageTemplate(postMeta, postPageContent));
     }
+
     for (const tag in tagsMap) {
         const tagName = tag.toLowerCase().replace(/[ \/]/g, '-');
         const tagPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down" class="animated-gradient-text orange-heavy">'${tag}' Etiketli Yazılar</h2></div><div class="posts-grid">${tagsMap[tag].map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
@@ -122,8 +130,7 @@ async function buildSite() {
         await fs.writeFile(path.join(outputDir, 'tags', `${tagName}.html`), createPageTemplate(tagMeta, tagPageContent));
     }
     
-    // YENİ SLOGAN
-    const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle animated-gradient-text">Dijital Dünyanın Kodları Arasında Güvenliği İnşa Etmek.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title" data-aos="fade-right">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up" data-aos-delay="200"><p>Daha derine inmeye hazır mısın?</p><div class="cta-buttons"><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
+    const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle animated-gradient-text">Dijital Dünyanın Kodları Arasında Güvenliği İnşa Etmek.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up"><div class="cta-content"><h3>Daha Derine İnmeye Hazır Mısın?</h3><p>Teknoloji ve siber güvenlik dünyasındaki tüm yazılarıma göz atın.</p><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
     await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Ana Sayfa', url: '/index.html' }, indexContent, 'home'));
 
     const postsPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down" class="animated-gradient-text orange-heavy">Tüm Yazılar</h2></div><div class="posts-grid">${allPosts.map((post, i) => createPostCard(post, i)).join('')}</div></section>`;

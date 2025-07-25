@@ -1,29 +1,34 @@
-// /assets/js/script.js - NİHAİ, STABİL VE HATASIZ SÜRÜM
+// /assets/js/script.js - NİHAİ, TÜM FONKSİYONLARI İÇEREN SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Önce temayı belirle, sonra diğer her şeyi yap
+    // Apply theme first to avoid flash of unstyled content
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
+    // Run intro animation only on the homepage
     if (document.body.classList.contains('home')) {
-        // hasVisited kontrolü, daha önce ziyaret edilip edilmediğini kontrol eder
         if (!sessionStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
         } else {
             skipWelcomeScreen();
         }
     } else {
-        skipWelcomeScreen(); // Diğer sayfalarda intro'yu direkt geç
+        // If not on the homepage, skip the intro immediately
+        const mainLayout = document.querySelector('.main-layout');
+        if (mainLayout) {
+            mainLayout.classList.remove('hidden');
+        }
     }
 
+    // Initialize all site-wide components
     setupSidebar();
     enhanceCodeBlocks();
     setActiveSidebarLink();
     setupReplayButton();
     setupReadingProgressBar();
     setupSearch();
-    setupThemeToggle(); // Tema butonu fonksiyonu
-    setupBackToTopButton(); // Yukarı çık butonu
+    setupThemeToggle();
+    setupBackToTopButton();
     
     if (typeof GLightbox !== 'undefined') {
         GLightbox({ selector: '.glightbox' });
@@ -67,14 +72,14 @@ function setupWelcomeScreen() {
         if (!welcomeMessage) return;
         welcomeMessage.style.opacity = '1';
         typeWriterEffect(welcomeMessage, messages[0], () => {
-            setTimeout(enterBlog, 2500); // Mesaj bittikten sonra bekle ve gir
+            setTimeout(enterBlog, 2500);
         });
         if (skipButton) skipButton.classList.add('visible');
     }
 
     function enterBlog() {
         if (typingInterval) clearInterval(typingInterval);
-        sessionStorage.setItem('hasVisited', 'true'); // Sayfa yenilenince tekrar çıkmasın diye sessionStorage
+        sessionStorage.setItem('hasVisited', 'true');
         skipWelcomeScreen();
     }
 
@@ -82,7 +87,7 @@ function setupWelcomeScreen() {
         skipButton.addEventListener('click', enterBlog);
     }
 
-    setTimeout(startMessageCycle, 1500); // Başlangıç gecikmesi
+    setTimeout(startMessageCycle, 1500);
 }
 
 function skipWelcomeScreen() {
@@ -90,7 +95,6 @@ function skipWelcomeScreen() {
     const mainLayout = document.querySelector('.main-layout');
     if (welcomeScreen) {
         welcomeScreen.classList.add('hidden');
-        // DOM'dan kaldırmak için transition bitimini bekle
         welcomeScreen.addEventListener('transitionend', () => {
             welcomeScreen.style.display = 'none';
         }, { once: true });
@@ -100,7 +104,6 @@ function skipWelcomeScreen() {
     }
 }
 
-// SADECE MOBİL İÇİN ÇALIŞAN, STABİL SIDEBAR KONTROLÜ
 function setupSidebar() {
     const sidebar = document.getElementById('sidebar');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -108,24 +111,31 @@ function setupSidebar() {
 
     if (!sidebar || !mobileMenuToggle || !closeSidebarBtn) return;
 
-    // Mobil menü açma butonu
     mobileMenuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         sidebar.classList.add('open');
-        document.body.classList.add('sidebar-open'); // Arka plan kaymasını engelle
+        document.body.classList.add('sidebar-open');
     });
 
-    // Sidebar içindeki kapatma butonu
-    closeSidebarBtn.addEventListener('click', () => {
+    const closeMenu = () => {
         sidebar.classList.remove('open');
         document.body.classList.remove('sidebar-open');
+    };
+
+    closeSidebarBtn.addEventListener('click', closeMenu);
+
+    document.addEventListener('click', (event) => {
+        if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+            closeMenu();
+        }
     });
 }
 
 function enhanceCodeBlocks() {
-    if (typeof hljs === 'undefined') return;
     document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightElement(block);
+        if (typeof hljs !== 'undefined') {
+            hljs.highlightElement(block);
+        }
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-code-button';
         copyButton.innerHTML = '<i class="far fa-copy"></i> Kopyala';
@@ -142,7 +152,7 @@ function enhanceCodeBlocks() {
 }
 
 function setActiveSidebarLink() {
-    const currentPath = window.location.pathname.endsWith('/') ? '/index.html' : window.location.pathname;
+    const currentPath = window.location.pathname.endsWith('/') || window.location.pathname === '' ? '/index.html' : window.location.pathname;
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
         if (link.getAttribute('href') === currentPath) {
             link.classList.add('active');
@@ -162,6 +172,10 @@ function setupReplayButton() {
     if (replayButton) {
         replayButton.addEventListener('click', replayIntro);
     }
+    const logoLink = document.getElementById('logo-link');
+    const mobileLogoLink = document.getElementById('mobile-logo-link');
+    if(logoLink) logoLink.addEventListener('click', (e) => { e.preventDefault(); replayIntro(); });
+    if(mobileLogoLink) mobileLogoLink.addEventListener('click', (e) => { e.preventDefault(); replayIntro(); });
 }
 
 function setupReadingProgressBar() {
@@ -171,7 +185,7 @@ function setupReadingProgressBar() {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollPercent = (scrollTop / scrollHeight) * 100;
-        progressBar.style.width = scrollPercent + '%';
+        progressBar.style.width = `${scrollPercent}%`;
     });
 }
 
@@ -194,29 +208,24 @@ function setupSearch() {
             searchDocs = await docsResponse.json();
             idx = lunr.Index.load(serializedIdx);
             dataFetched = true;
-        } catch (error) {
-            console.error("Arama verileri yüklenemedi:", error);
-        }
+        } catch (error) { console.error("Arama verileri yüklenemedi:", error); }
     }
 
-    function openSearch() {
+    const openSearch = () => {
         initializeSearch();
         searchModal.classList.add('active');
         document.body.style.overflow = 'hidden';
         setTimeout(() => searchModalInput.focus(), 300);
-    }
+    };
 
-    function closeSearch() {
+    const closeSearch = () => {
         searchModal.classList.remove('active');
         document.body.style.overflow = '';
         searchModalInput.value = '';
         resultsList.innerHTML = '';
-    }
+    };
 
-    searchTrigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        openSearch();
-    });
+    searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
     searchModalClose.addEventListener('click', closeSearch);
     searchModal.addEventListener('click', (e) => { if (e.target === searchModal) closeSearch(); });
     document.addEventListener('keydown', (e) => { if (e.key === "Escape" && searchModal.classList.contains('active')) closeSearch(); });
@@ -228,24 +237,15 @@ function setupSearch() {
             return;
         }
         const results = idx.search(query + '*');
-        displayResults(results);
-    });
-
-    function displayResults(results) {
         resultsList.innerHTML = results.length > 0 ?
             results.map(result => `<li><a href="/${result.ref}"><h3>${searchDocs[result.ref].title}</h3><p>${searchDocs[result.ref].description || ''}</p></a></li>`).join('') :
             '<li class="no-results">Sonuç bulunamadı.</li>';
-    }
+    });
 }
 
 function setupThemeToggle() {
     const themeToggleButton = document.getElementById('theme-toggle-btn');
     if (!themeToggleButton) return;
-    
-    // Sayfa yüklenirken temayı uygula
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', currentTheme);
-
     themeToggleButton.addEventListener('click', () => {
         let newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
@@ -254,13 +254,8 @@ function setupThemeToggle() {
 }
 
 function setupBackToTopButton() {
-    const backToTopButton = document.createElement('button');
-    backToTopButton.id = 'back-to-top';
-    backToTopButton.className = 'back-to-top-btn';
-    backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    backToTopButton.title = "Yukarı dön";
-    document.body.appendChild(backToTopButton);
-
+    const backToTopButton = document.getElementById('back-to-top');
+    if (!backToTopButton) return;
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopButton.classList.add('visible');
@@ -268,7 +263,6 @@ function setupBackToTopButton() {
             backToTopButton.classList.remove('visible');
         }
     });
-
     backToTopButton.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });

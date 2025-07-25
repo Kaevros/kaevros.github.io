@@ -1,29 +1,25 @@
 /* TÜM BİLEŞENLERİN STİLLERİ - NİHAİ SÜRÜM */
 
 /* --- SIDEBAR İÇİ ELEMANLAR --- */
-.sidebar-header, .sidebar-footer, .sidebar-content { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.sidebar-header, .sidebar-footer, .sidebar-content { display: flex; flex-direction: column; align-items: center; }
 .close-sidebar-btn { display: none; }
-.logo-container { display: flex; justify-content: center; align-items: center; width: 100%; }
-.sidebar-logo { max-width: 45px; transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-.sidebar:hover .sidebar-logo { max-width: 100px; }
+.logo-container { display: flex; justify-content: center; align-items: center; width: 100%; text-decoration: none; }
+.sidebar-logo { max-width: 40px; /* Kapalı halde küçültülmüş logo */ transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.sidebar:hover .sidebar-logo { max-width: 90px; }
 
-.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; color: #777; text-align: center; height: 1.2em; position: relative; width: 100%; white-space: nowrap; margin: 15px 0; opacity: 0; transition: opacity 0.2s ease; }
-.sidebar-slogan span { position: absolute; left: 50%; transform: translateX(-50%); opacity: 0; animation: fade-slogan 8s linear infinite; }
-.sidebar-slogan .slogan-tr { animation-delay: 4s; }
-.sidebar:hover .sidebar-slogan { opacity: 1; transition-delay: 0.1s; }
-
-.search-container { width: 90%; margin-bottom: 20px; opacity: 0; transition: opacity 0.2s ease; }
+.search-container { width: 90%; margin: 20px 0; opacity: 0; transition: opacity 0.2s ease; position: relative; }
 .sidebar:hover .search-container { opacity: 1; transition-delay: 0.1s; }
-.search-container input { width: 100%; height: 38px; background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding-left: 40px; padding-right: 15px; color: var(--text-color); font-family: 'Oxanium', sans-serif; transition: border-color 0.2s; }
-.search-container input:focus { outline: none; border-color: var(--accent-color-primary); }
-.search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; }
+.search-container input { width: 100%; height: 40px; background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding-left: 40px; padding-right: 15px; color: var(--text-color); font-family: 'Oxanium', sans-serif; transition: border-color 0.2s; cursor: pointer; }
+.search-container input:focus, .search-container:hover input { outline: none; border-color: var(--accent-color-primary); }
+.search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
 
 .sidebar-nav { width: 100%; }
 .sidebar-nav ul { list-style: none; }
-.sidebar-nav .nav-item a { display: flex; align-items: center; padding: 12px 0; color: var(--text-color-light); white-space: nowrap; }
-.sidebar-nav .nav-item a:hover { color: var(--text-color); }
-.sidebar-nav .nav-item a.active { color: var(--accent-color-primary); }
-.sidebar-nav .nav-item a .icon { font-size: 1.6rem; min-width: var(--sidebar-width-collapsed); text-align: center; }
+.sidebar-nav .nav-item a { display: flex; align-items: center; padding: 13px 0; color: var(--text-color-light); white-space: nowrap; position: relative; text-decoration: none; }
+.sidebar-nav .nav-item a::after { content: ''; position: absolute; left: var(--sidebar-width-collapsed); bottom: 5px; width: 0; height: 2px; background-color: var(--accent-color-primary); transition: width 0.3s ease; }
+.sidebar:hover .sidebar-nav .nav-item a:hover::after { width: calc(100% - var(--sidebar-width-collapsed) - 20px); }
+.sidebar-nav .nav-item a:hover, .sidebar-nav .nav-item a.active { color: var(--text-color); }
+.sidebar-nav .nav-item a .icon { font-size: 1.5rem; /* Büyütülmüş ikonlar */ min-width: var(--sidebar-width-collapsed); text-align: center; }
 .sidebar-nav .nav-item a .nav-text { margin-left: 15px; font-size: 1rem; opacity: 0; transition: opacity 0.2s ease; }
 .sidebar:hover .sidebar-nav .nav-item a .nav-text { opacity: 1; transition-delay: 0.1s; }
 
@@ -35,35 +31,47 @@
 .theme-toggle-btn .fa-moon { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-sun { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
-
 .copyright { font-size: 0.8em; color: #666; text-align: center; opacity: 0; transition: opacity 0.2s ease; }
 .sidebar:hover .copyright { opacity: 1; transition-delay: 0.1s; }
 
 @media (max-width: 768px) {
     .close-sidebar-btn { display: block; position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-color); font-size: 1.8rem; cursor: pointer; }
-    .sidebar.open .sidebar-slogan, .sidebar.open .search-container, .sidebar.open .sidebar-bottom-actions, .sidebar.open .copyright, .sidebar.open .nav-text { opacity: 1; }
-    .sidebar-logo { max-width: 100px; }
+    .sidebar.open .search-container, .sidebar.open .sidebar-bottom-actions, .sidebar.open .copyright, .sidebar.open .nav-text { opacity: 1; }
+    .sidebar-logo { max-width: 90px; }
     .sidebar-nav .nav-item a { padding: 12px 25px; }
 }
 
-/* --- ARAMA MODALI --- */
-.search-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 4000; visibility: hidden; opacity: 0; transition: opacity 0.4s ease, visibility 0s 0.4s, backdrop-filter 0.4s ease; backdrop-filter: blur(0px); display: flex; align-items: center; justify-content: center; }
+/* --- ARAMA MODALI (DÜZELTİLMİŞ)--- */
+.search-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 5000; visibility: hidden; opacity: 0; transition: opacity 0.4s ease, backdrop-filter 0.4s ease; backdrop-filter: blur(0px); display: flex; align-items: center; justify-content: center; }
 .search-modal-overlay.active { visibility: visible; opacity: 1; backdrop-filter: blur(5px); }
 .search-modal-content { background-color: var(--sidebar-bg-color); width: 90%; max-width: 700px; border-radius: 8px; transform: scale(0.95) translateY(-20px); opacity: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease; }
 .search-modal-overlay.active .search-modal-content { transform: scale(1) translateY(0); opacity: 1; }
-/* ... (Diğer modal stilleri aynı kalabilir) ... */
+/* ... (Diğer modal stilleri aynı) ... */
 
-/* --- YAZI KARTLARI --- */
+/* --- YENİLENMİŞ YAZI KARTLARI --- */
 .post-card { background: var(--sidebar-bg-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; }
-.post-card a.post-card-link { text-decoration: none; display: flex; flex-direction: column; height: 100%; }
-.post-card:hover { transform: translateY(-12px); box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 15px rgba(232, 74, 39, 0.15); }
+.post-card a.post-card-link { text-decoration: none; display: flex; flex-direction: column; height: 100%; color: var(--text-color); }
+.post-card:hover { transform: translateY(-12px); box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 25px rgba(255, 122, 0, 0.2); }
 .post-card-content { padding: 30px; flex-grow: 1; }
-.post-card h3 { font-size: 1.5em; color: var(--text-color); margin-bottom: 10px; transition: color 0.2s ease; }
+.post-card h3 { font-size: 1.5em; margin-bottom: 10px; transition: color 0.2s ease; }
 .post-card:hover h3 { color: var(--accent-color-primary); }
 .post-card-meta { color: #888; font-size: 0.8em; margin-bottom: 15px; }
 .post-card-description { color: var(--text-color-light); }
-.post-card-footer { margin-top: auto; padding: 20px 30px; border-top: 1px solid var(--border-color); }
-.read-more { color: var(--text-color-light); font-weight: bold; display: flex; align-items: center; gap: 8px; transition: color 0.3s ease; }
+.post-card-footer { border-top: 1px solid var(--border-color); padding: 15px 30px; margin-top: auto; background-color: var(--accent-color-secondary); }
+.read-more { font-weight: bold; display: flex; align-items: center; gap: 8px; color: var(--accent-color-primary); transition: color 0.3s ease; }
 .read-more i { transition: transform 0.3s ease; }
-.post-card:hover .read-more { color: var(--accent-color-primary); }
 .post-card:hover .read-more i { transform: translateX(5px); }
+
+/* --- INTRO EKRANI --- */
+.welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--main-bg-color); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 6000; opacity: 1; transition: opacity 1s ease-out; }
+.welcome-screen.hidden { opacity: 0; pointer-events: none; }
+.animated-title { font-size: clamp(2.5rem, 8vw, 5rem); animation: breath 2s ease-in-out infinite alternate; }
+.welcome-message { font-family: 'VT323', monospace; font-size: 1.5rem; min-height: 1.2em; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; animation: blink-caret .75s step-end infinite; }
+.skip-button { background: transparent; border: none; color: var(--accent-color-primary); font-size: 2.5rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 30px; visibility: hidden; }
+.skip-button.visible { opacity: 1; visibility: visible; }
+
+/* --- YUKARI ÇIK BUTONU VE PROGRESS BAR --- */
+.progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 0%; z-index: 7000; transition: width 0.1s linear; }
+.back-to-top-btn { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background-color: #FF7A00; color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; visibility: hidden; transform: translateY(100px); transition: all 0.4s ease; }
+.back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top-btn:hover { background-color: #fff; color: #FF7A00; transform: scale(1.1); }
