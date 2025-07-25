@@ -1,4 +1,4 @@
-// build.js - TÜM YAPISAL GÜNCELLEMELERİ İÇEREN NİHAİ VERSİYON
+// build.js - TÜM YAPISAL VE İÇERİKSEL GÜNCELLEMELERİ İÇEREN NİHAİ VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -62,7 +62,6 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
     
-    // Animate "Kaevros" by splitting it into letters
     const animatedTitleHTML = 'Kaevros'.split('').map((char, index) => `<span style="--char-index: ${index};">${char}</span>`).join('');
     
     const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><div class="welcome-content"><h1 class="animated-title" id="blog-title">${animatedTitleHTML}</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-chevron-right"></i></button></div></div>` : '';
@@ -89,7 +88,7 @@ async function buildSite() {
             const fileContent = await fs.readFile(path.join(staticPagesDir, pageFile), 'utf8');
             const { data: meta, content: mainContent } = matter(fileContent);
             if (!meta.url) meta.url = `/${pageFile}`;
-            const bodyClass = pageFile === 'index.html' ? 'home' : '';
+            const bodyClass = pageFile.includes('index.html') ? 'home' : '';
             await fs.writeFile(path.join(outputDir, pageFile), createPageTemplate(meta, mainContent, bodyClass));
         }
     }
@@ -136,7 +135,7 @@ async function buildSite() {
     }
     
     const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle animated-gradient-text">Dijital Dünyanın Kodları Arasında Güvenliği İnşa Etmek.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up"><div class="cta-content"><h3>Daha Derine İnmeye Hazır Mısın?</h3><p>Teknoloji ve siber güvenlik dünyasındaki tüm yazılarıma göz atın.</p><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
-    await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Ana Sayfa', url: '/index.html' }, 'home'));
+    await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Ana Sayfa', url: '/index.html' }, indexContent, 'home'));
 
     const postsPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down" class="animated-gradient-text orange-heavy">Tüm Yazılar</h2></div><div class="posts-grid">${allPosts.map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate({ title: 'Tüm Yazılar', url: '/posts.html' }, postsPageContent));

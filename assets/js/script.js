@@ -85,7 +85,7 @@ function setupWelcomeScreen() {
         skipButton.addEventListener('click', enterBlog);
     }
 
-    setTimeout(startMessageCycle, 2000); // Animasyonlu başlığın görünmesi için biraz bekle
+    setTimeout(startMessageCycle, 2000); // Harf animasyonundan sonra başlaması için bekle
 }
 
 function skipWelcomeScreen() {
@@ -134,18 +134,6 @@ function enhanceCodeBlocks() {
         if (typeof hljs !== 'undefined') {
             hljs.highlightElement(block);
         }
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-code-button';
-        copyButton.innerHTML = '<i class="far fa-copy"></i> Kopyala';
-        block.parentElement.appendChild(copyButton);
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(block.innerText).then(() => {
-                copyButton.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
-                setTimeout(() => {
-                    copyButton.innerHTML = '<i class="far fa-copy"></i> Kopyala';
-                }, 2000);
-            });
-        });
     });
 }
 
@@ -154,10 +142,11 @@ function setActiveSidebarLink() {
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
         link.classList.remove('active');
         const linkHref = link.getAttribute('href');
+        
         if (linkHref === currentPath) {
             link.classList.add('active');
         } 
-        else if (currentPath.startsWith('/posts/') && linkHref === '/posts.html') {
+        else if (currentPath.startsWith('/posts/') && linkHref.includes('posts.html')) {
             link.classList.add('active');
         }
     });
