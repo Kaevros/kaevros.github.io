@@ -1,33 +1,48 @@
-/* ANA YERLEŞİM VE SIDEBAR - NİHAİ SÜRÜM */
+/* ANA YERLEŞİM VE SIDEBAR - NİHAİ SÜRÜM (TRANSFORM ANİMASYONLU) */
 
+/* --- Ana Yapı --- */
 .main-layout { display: flex; opacity: 1; transition: opacity 1s ease-in; }
 .main-layout.hidden { opacity: 0; pointer-events: none; }
-.content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.content-wrapper { 
+    flex-grow: 1; 
+    padding: clamp(20px, 4vw, 40px); 
+    margin-left: var(--sidebar-width-collapsed);
+    /* Animasyon artık margin'i değil, transform'u hedefleyecek */
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
 main { max-width: 960px; margin: 0 auto; }
 body.sidebar-open { overflow: hidden; }
 
+
+/* --- Sidebar İskeleti (Transform Animasyonlu) --- */
 .sidebar {
-    width: var(--sidebar-width-collapsed);
+    width: var(--sidebar-width-expanded); /* Genişliği sabitliyoruz */
     background-color: var(--sidebar-bg-color);
     border-right: 1px solid var(--border-color);
     position: fixed; top: 0; left: 0; height: 100vh; z-index: 1000;
     display: flex; flex-direction: column;
-    overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Kapalıyken kendini sola doğru kaydırır */
+    transform: translateX(calc(-1 * (var(--sidebar-width-expanded) - var(--sidebar-width-collapsed))));
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar-header { flex-shrink: 0; padding: 20px 0; }
 .sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; align-items: center; }
 .sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; margin-top: auto; }
 
+
+/* --- PC Görünümü: Fare ile Kayarak Açılma --- */
 @media (min-width: 769px) {
     .sidebar:hover {
-        width: var(--sidebar-width-expanded);
+        transform: translateX(0); /* Orijinal pozisyonuna geri kaydır */
     }
     .sidebar:hover + .content-wrapper {
-        margin-left: var(--sidebar-width-expanded);
+        /* İçeriği de sidebar'ın açıldığı miktar kadar sağa kaydır */
+        transform: translateX(calc(var(--sidebar-width-expanded) - var(--sidebar-width-collapsed)));
     }
 }
 
+/* --- Mobil Görünüm: JS ile Kontrol (Bu kısım aynı kalıyor) --- */
 @media (max-width: 768px) {
     body { padding-top: var(--mobile-header-height); }
     .sidebar {
@@ -37,7 +52,10 @@ body.sidebar-open { overflow: hidden; }
         overflow-y: auto;
     }
     .sidebar.open { transform: translateX(0); }
-    .content-wrapper { margin-left: 0; }
+    .content-wrapper { 
+        margin-left: 0;
+        transform: translateX(0); /* Mobil için transform sıfırlanır */
+    }
     #mobile-menu-toggle {
         display: flex; position: fixed; top: 0; left: 0;
         width: 100%; height: var(--mobile-header-height);
