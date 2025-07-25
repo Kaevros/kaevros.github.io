@@ -59,7 +59,6 @@ async function processPosts(outputDir) {
     
     console.log(`--- ${allPosts.length} adet yazı işlendi.`);
     
-    // Etiket sayfalarını oluştur
     const createPostCard = (post, index) => `<div class="post-card" data-aos="fade-up" data-aos-delay="${index * 50}"><a href="/${post.path}" class="post-card-link"><div class="post-card-content"><h3>${post.title}</h3><p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p><p class="post-card-description">${post.description || ''}</p></div><div class="post-card-footer"><span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span></div></a></div>`;
     for (const tag in tagsMap) {
         const tagName = tag.toLowerCase().replace(/[ \/]/g, '-');
