@@ -6,7 +6,7 @@
     --sidebar-bg-color: #1c1c1c;
     --text-color: #e0e0e0;
     --text-color-light: #bbb;
-    --accent-color-primary: #FF7A00; /* Updated Orange */
+    --accent-color-primary: #FF7A00;
     --accent-color-secondary: #2a2a2a;
     --border-color: #3A3A3A;
     --link-hover-color: #ff9d40;
@@ -33,7 +33,7 @@ html[data-theme="light"] {
     padding: 0;
 }
 
-/* Scrollbar'ı her zaman görünür kılarak sayfa kaydırma sorununu çözer */
+/* Fixes content shifting when scrollbar appears */
 html {
     scroll-behavior: smooth;
     overflow-y: scroll;

@@ -32,9 +32,13 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
         </div>
         
         <div class="sidebar-content">
+            <div class="sidebar-slogan">
+                <span class="slogan-en">Control is an illusion.</span>
+                <span class="slogan-tr">Kontrol bir illüzyondur.</span>
+            </div>
             <div class="search-container" id="search-trigger">
                 <i class="fas fa-search"></i>
-                <input type="text" id="search-input" placeholder="Buralarda bir şeyler var mı acaba?" readonly>
+                <input type="text" id="search-input" placeholder="Nereye baktın en son?" readonly>
             </div>
             <nav class="sidebar-nav">
                 <ul>
@@ -57,10 +61,7 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     </aside>`;
     
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
-    
-    // Welcome screen is only added if the bodyClass is 'home'
-    const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-play"></i></button></div>` : '';
-    
+    const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><div class="welcome-content"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç">GEÇ</button></div></div>` : '';
     const mainLayoutClass = bodyClass.includes('home') ? 'main-layout hidden' : 'main-layout';
     const backToTopButtonHTML = `<button id="back-to-top" class="back-to-top-btn" title="Yukarı dön"><i class="fas fa-arrow-up"></i></button>`;
     const progressBarHTML = `<div class="progress-bar" id="progress-bar"></div>`;
@@ -83,7 +84,6 @@ async function buildSite() {
             const fileContent = await fs.readFile(path.join(staticPagesDir, pageFile), 'utf8');
             const { data: meta, content: mainContent } = matter(fileContent);
             if (!meta.url) meta.url = `/${pageFile}`;
-            // Ensure non-home pages do not get the 'home' body class
             const bodyClass = pageFile === 'index.html' ? 'home' : ''; 
             await fs.writeFile(path.join(outputDir, pageFile), createPageTemplate(meta, mainContent, bodyClass));
         }

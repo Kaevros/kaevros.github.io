@@ -1,13 +1,13 @@
 /* ANA YERLEŞİM VE SIDEBAR - NİHAİ SÜRÜM */
 
-/* --- ANA YAPI --- */
+/* --- Main Layout --- */
 .main-layout { display: flex; opacity: 1; transition: opacity 1s ease-in; }
 .main-layout.hidden { opacity: 0; pointer-events: none; }
-.content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
 main { max-width: 960px; margin: 0 auto; }
 body.sidebar-open { overflow: hidden; }
 
-/* --- SIDEBAR İSKELETİ --- */
+/* --- Sidebar Skeleton --- */
 .sidebar {
     width: var(--sidebar-width-collapsed);
     background-color: var(--sidebar-bg-color);
@@ -15,29 +15,30 @@ body.sidebar-open { overflow: hidden; }
     position: fixed; top: 0; left: 0; height: 100vh; z-index: 1000;
     display: flex; flex-direction: column;
     overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .sidebar-header { flex-shrink: 0; padding: 20px 0; }
 .sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; align-items: center; }
-.sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; }
+.sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; margin-top: auto; }
 
-/* --- PC GÖRÜNÜMÜ: FARE İLE AÇILMA MANTIĞI --- */
+/* --- Desktop Hover Logic --- */
 @media (min-width: 769px) {
     .sidebar:hover {
         width: var(--sidebar-width-expanded);
+        overflow-y: auto;
     }
     .sidebar:hover + .content-wrapper {
         margin-left: var(--sidebar-width-expanded);
     }
 }
 
-/* --- MOBİL GÖRÜNÜM: JS İLE KONTROL --- */
+/* --- Mobile Sliding Logic --- */
 @media (max-width: 768px) {
     body { padding-top: var(--mobile-header-height); }
     .sidebar {
         width: 85%; max-width: 300px;
         transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         overflow-y: auto;
     }
     .sidebar.open { transform: translateX(0); }

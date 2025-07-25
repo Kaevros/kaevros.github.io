@@ -1,11 +1,9 @@
 // /assets/js/script.js - NİHAİ, TÜM FONKSİYONLARI İÇEREN SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Apply theme first to avoid flash of unstyled content
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // Run intro animation only on the homepage
     if (document.body.classList.contains('home')) {
         if (!sessionStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
@@ -13,14 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
             skipWelcomeScreen();
         }
     } else {
-        // If not on the homepage, skip the intro immediately
         const mainLayout = document.querySelector('.main-layout');
         if (mainLayout) {
             mainLayout.classList.remove('hidden');
         }
     }
 
-    // Initialize all site-wide components
     setupSidebar();
     enhanceCodeBlocks();
     setActiveSidebarLink();
@@ -71,10 +67,11 @@ function setupWelcomeScreen() {
     function startMessageCycle() {
         if (!welcomeMessage) return;
         welcomeMessage.style.opacity = '1';
+        // When the typewriter effect finishes, only show the skip button.
+        // The automatic timeout to enter the blog is removed.
         typeWriterEffect(welcomeMessage, messages[0], () => {
-            setTimeout(enterBlog, 2500);
+             if (skipButton) skipButton.classList.add('visible');
         });
-        if (skipButton) skipButton.classList.add('visible');
     }
 
     function enterBlog() {
@@ -154,9 +151,17 @@ function enhanceCodeBlocks() {
 function setActiveSidebarLink() {
     const currentPath = window.location.pathname.endsWith('/') || window.location.pathname === '' ? '/index.html' : window.location.pathname;
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
+        // Remove existing active class from all links first
+        link.classList.remove('active');
+        
+        const linkHref = link.getAttribute('href');
+
+        // Check for exact match or homepage case
+        if (linkHref === currentPath) {
             link.classList.add('active');
-        } else if (currentPath.startsWith('/posts') && link.getAttribute('href') === '/posts.html') {
+        } 
+        // Special case for posts page: if we are on a post detail, highlight "Yazılar"
+        else if (currentPath.startsWith('/posts/') && linkHref === '/posts.html') {
             link.classList.add('active');
         }
     });
