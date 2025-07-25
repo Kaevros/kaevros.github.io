@@ -1,11 +1,9 @@
 // /assets/js/script.js - NİHAİ, TÜM FONKSİYONLARI İÇEREN SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Önce temayı uygula
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // Giriş animasyonunu sadece ana sayfada çalıştır
     if (document.body.classList.contains('home')) {
         if (!sessionStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
@@ -19,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Tüm bileşenleri başlat
-    setupSidebar();
+    setupSidebar(); // v1.0 sidebar fonksiyonu
     enhanceCodeBlocks();
     setActiveSidebarLink();
     setupReplayButton();
@@ -29,18 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setupThemeToggle();
     setupBackToTopButton();
     
-    if (typeof GLightbox !== 'undefined') {
-        GLightbox({ selector: '.glightbox' });
-    }
-    
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 50
-        });
-    }
+    if (typeof GLightbox !== 'undefined') GLightbox({ selector: '.glightbox' });
+    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true, offset: 50 });
 });
+
 
 function setupWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
@@ -122,8 +111,9 @@ function setupSidebar() {
 
     closeSidebarBtn.addEventListener('click', closeMenu);
 
+    // Dışarıya tıklayınca kapatma (sadece mobilde çalışır)
     document.addEventListener('click', (event) => {
-        if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+        if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
             closeMenu();
         }
     });
