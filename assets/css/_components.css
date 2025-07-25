@@ -7,21 +7,21 @@
 .sidebar-logo { max-width: 38px; transition: max-width 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
 .sidebar:hover .sidebar-logo { max-width: 90px; }
 
-.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; color: #777; text-align: center; height: 1.2em; position: relative; width: 100%; white-space: nowrap; margin: 20px 0; opacity: 0; transition: opacity 0.3s ease; }
-.sidebar:hover .sidebar-slogan { opacity: 1; transition-delay: 0.1s; }
+.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; color: #777; text-align: center; height: 1.2em; position: relative; width: 100%; white-space: nowrap; margin: 15px 0; opacity: 0; transition: opacity 0.3s ease; }
+.sidebar:hover .sidebar-slogan { opacity: 1; transition-delay: 0.15s; }
 
-.search-container { width: 100%; margin-bottom: 25px; opacity: 0; transition: opacity 0.3s ease; position: relative; }
-.sidebar:hover .search-container { opacity: 1; transition-delay: 0.1s; }
-.search-container input { width: 100%; height: 40px; background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding-left: 40px; padding-right: 15px; color: var(--text-color); font-family: 'Oxanium', sans-serif; transition: border-color 0.2s; cursor: pointer; text-align: left; }
-.sidebar:not(:hover) .search-container input { text-align: center; padding-left: 10px; }
+.search-container { width: 100%; padding: 0 15px; margin-bottom: 25px; opacity: 0; transition: opacity 0.3s ease; position: relative; }
+.sidebar:hover .search-container { opacity: 1; transition-delay: 0.15s; }
+.search-container input { width: 100%; height: 40px; background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding-left: 40px; color: var(--text-color); font-family: 'Oxanium', sans-serif; transition: border-color 0.2s; cursor: pointer; }
+.sidebar:not(:hover) .search-container input { background: transparent; border-color: transparent; }
 .search-container input:focus, .search-container:hover input { outline: none; border-color: var(--accent-color-primary); }
-.search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; transition: opacity 0.3s; }
-.sidebar:not(:hover) .search-container i { opacity: 0; }
+.search-container i { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--text-color-light); pointer-events: none; transition: color 0.3s; }
+.search-container:hover i { color: var(--accent-color-primary); }
 
 .sidebar-nav { width: 100%; }
 .sidebar-nav ul { list-style: none; }
 .sidebar-nav .nav-item a { display: flex; align-items: center; padding: 10px; margin: 5px 0; color: var(--text-color-light); white-space: nowrap; position: relative; text-decoration: none; border-radius: 8px; transition: color 0.3s ease, background-color 0.3s ease; }
-.sidebar-nav .nav-item a.active { color: var(--accent-color-primary); background-color: rgba(255, 122, 0, 0.1); }
+.sidebar-nav .nav-item a.active { color: #fff; background-color: var(--accent-color-primary); }
 .sidebar-nav .nav-item a:not(.active):hover { color: var(--text-color); background-color: var(--accent-color-secondary); }
 .sidebar-nav .nav-item a .icon { font-size: 1.6rem; min-width: calc(var(--sidebar-width-collapsed) - 20px); text-align: center; transition: transform 0.3s ease; }
 .sidebar-nav .nav-item a:hover .icon { transform: scale(1.1); }
@@ -29,7 +29,7 @@
 .sidebar:hover .sidebar-nav .nav-item a .nav-text { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
 
 .sidebar-bottom-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; opacity: 0; transition: opacity 0.3s ease; }
-.sidebar:hover .sidebar-bottom-actions { opacity: 1; transition-delay: 0.1s; }
+.sidebar:hover .sidebar-bottom-actions { opacity: 1; transition-delay: 0.15s; }
 .replay-animation-btn, .theme-toggle-btn { background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color-light); border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; }
 .replay-animation-btn:hover, .theme-toggle-btn:hover { color: var(--accent-color-primary); border-color: var(--accent-color-primary); transform: scale(1.1); }
 .theme-toggle-btn .fa-sun { display: none; }
@@ -37,7 +37,7 @@
 html[data-theme="light"] .theme-toggle-btn .fa-sun { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .copyright { font-size: 0.8em; color: #666; text-align: center; opacity: 0; transition: opacity 0.3s ease; }
-.sidebar:hover .copyright { opacity: 1; transition-delay: 0.1s; }
+.sidebar:hover .copyright { opacity: 1; transition-delay: 0.15s; }
 
 @media (max-width: 768px) {
     .close-sidebar-btn { display: block; position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-color); font-size: 1.8rem; cursor: pointer; }
@@ -51,7 +51,7 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .search-modal-overlay.active { visibility: visible; opacity: 1; backdrop-filter: blur(5px); }
 .search-modal-content { background-color: var(--sidebar-bg-color); width: 90%; max-width: 700px; border-radius: 8px; transform: scale(0.95) translateY(-20px); opacity: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease; }
 .search-modal-overlay.active .search-modal-content { transform: scale(1) translateY(0); opacity: 1; }
-/* ... (Other modal styles) ... */
+/* ... (Diğer modal stilleri aynı) ... */
 
 /* --- Post Tags (Styled) --- */
 .tag { background-color: transparent; color: #fff; text-decoration: none; font-size: 0.8em; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-color); transition: all 0.3s ease; }
@@ -64,13 +64,35 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 /* --- Intro Screen (Styled with Radar) --- */
 .welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--main-bg-color); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 6000; opacity: 1; transition: opacity 1s ease-out; overflow: hidden; }
 .welcome-screen.hidden { opacity: 0; pointer-events: none; }
-.welcome-screen::before, .welcome-screen::after { content: ''; position: absolute; top: 50%; left: 50%; width: 1px; height: 1px; border-radius: 50%; box-shadow: 0 0 100px 100px rgba(255, 122, 0, 0.1); animation: radar-pulse 4s linear infinite; }
+.welcome-screen::before, .welcome-screen::after { content: ''; position: absolute; top: 50%; left: 50%; width: 1px; height: 1px; border-radius: 50%; box-shadow: 0 0 100px 100px rgba(255, 122, 0, 0.15); animation: radar-pulse 4s linear infinite; }
 .welcome-screen::after { animation-delay: 2s; }
 .welcome-content { z-index: 2; text-align: center; }
-/* ... (Other intro styles) ... */
+.animated-title { display: flex; justify-content: center; font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 700; }
+.animated-title span { display: inline-block; animation: reveal-char 0.8s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: calc(0.1s * var(--char-index)); }
+.welcome-message { font-family: 'VT323', monospace; font-size: clamp(1.2rem, 3vw, 1.5rem); min-height: 1.2em; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; animation: blink-caret .75s step-end infinite; max-width: 90vw; }
+.skip-button { background: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color); font-size: 1.5rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 40px; visibility: hidden; border-radius: 50%; width: 60px; height: 60px; display: inline-flex; justify-content: center; align-items: center; }
+.skip-button.visible { opacity: 1; visibility: visible; }
+.skip-button:hover { background-color: var(--accent-color-primary); border-color: var(--accent-color-primary); transform: scale(1.1); }
 
 /* --- Progress Bar & Back to Top Button --- */
 .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 0%; z-index: 7000; transition: width 0.1s linear; }
 .back-to-top-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background-color: #FF7A00; color: #fff; border: none; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; visibility: hidden; transform: translateY(100px); transition: all 0.4s ease; }
 .back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .back-to-top-btn:hover { background-color: #fff; color: #FF7A00; transform: scale(1.1); }
+
+/* --- Redesigned Post Card --- */
+.post-card { background: var(--sidebar-bg-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.post-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px solid transparent; border-radius: 8px; transition: border-color 0.4s ease; pointer-events: none; }
+.post-card:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.post-card:hover::before { border-color: var(--accent-color-primary); }
+.post-card a.post-card-link { text-decoration: none; display: flex; flex-direction: column; height: 100%; color: var(--text-color); }
+.post-card-content { padding: 30px; flex-grow: 1; }
+.post-card h3 { font-size: 1.5em; margin-bottom: 10px; transition: color 0.2s ease; }
+.post-card:hover h3 { color: var(--accent-color-primary); }
+.post-card-meta { color: #888; font-size: 0.8em; margin-bottom: 15px; }
+.post-card-description { color: var(--text-color-light); }
+.post-card-footer { border-top: 1px solid var(--border-color); padding: 15px 30px; margin-top: auto; background-color: var(--accent-color-secondary); transition: background-color 0.3s; }
+.post-card:hover .post-card-footer { background-color: transparent; }
+.read-more { font-weight: bold; display: flex; align-items: center; gap: 8px; color: var(--accent-color-primary); }
+.read-more i { transition: transform 0.3s ease; }
+.post-card:hover .read-more i { transform: translateX(5px); }
