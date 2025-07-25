@@ -1,19 +1,19 @@
 /* TÜM @KEYFRAMES ANİMASYONLARI - NİHAİ SÜRÜM */
 
 @keyframes breath { 
-    from { 
-        text-shadow: 0 0 10px rgba(255, 122, 0, 0.4), 0 0 20px rgba(255, 122, 0, 0.2);
-        transform: scale(1); 
-    } 
-    to { 
-        text-shadow: 0 0 20px rgba(255, 122, 0, 0.8), 0 0 40px rgba(255, 122, 0, 0.5);
-        transform: scale(1.03); 
-    } 
+    from { text-shadow: 0 0 10px rgba(255, 122, 0, 0.4), 0 0 20px rgba(255, 122, 0, 0.2); transform: scale(1); } 
+    to { text-shadow: 0 0 20px rgba(255, 122, 0, 0.8), 0 0 40px rgba(255, 122, 0, 0.5); transform: scale(1.03); } 
 }
 
 @keyframes blink-caret { 
     from, to { border-color: transparent } 
     50% { border-color: var(--accent-color-primary); } 
+}
+
+/* Fine-tuned Slogan Animation */
+@keyframes fade-slogan { 
+    0%, 45%, 100% { opacity: 0; } 
+    5%, 40% { opacity: 1; }
 }
 
 @keyframes move-gradient { 
@@ -22,14 +22,14 @@
     100% { background-position: 0% 50%; } 
 }
 
-/* YENİ RADAR ANİMASYONU */
+/* Radar animation for Intro Screen */
 @keyframes radar-pulse {
     0% {
         transform: scale(0);
-        opacity: 0.8;
+        opacity: 0.5;
     }
     100% {
-        transform: scale(8);
+        transform: scale(6);
         opacity: 0;
     }
 }
