@@ -1,118 +1,56 @@
 /* ANA YERLEŞİM VE SIDEBAR - NİHAİ SÜRÜM */
 
 /* --- ANA YAPI --- */
-.main-layout { 
-    display: flex;
-    opacity: 1;
-    transition: opacity 1s ease-in; 
-}
-.main-layout.hidden { 
-    opacity: 0;
-    pointer-events: none; 
-}
-.content-wrapper { 
-    flex-grow: 1; 
-    padding: clamp(20px, 4vw, 40px); 
-    margin-left: var(--sidebar-width-collapsed);
-    transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-main { 
-    max-width: 960px; 
-    margin: 0 auto;
-}
-body.sidebar-open { 
-    overflow: hidden; 
-}
-
+.main-layout { display: flex; opacity: 1; transition: opacity 1s ease-in; }
+.main-layout.hidden { opacity: 0; pointer-events: none; }
+.content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+main { max-width: 960px; margin: 0 auto; }
+body.sidebar-open { overflow: hidden; }
 
 /* --- SIDEBAR İSKELETİ --- */
 .sidebar {
     width: var(--sidebar-width-collapsed);
     background-color: var(--sidebar-bg-color);
     border-right: 1px solid var(--border-color);
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    height: 100vh;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-    overflow: hidden; /* İçerik taşmasını engelle */
+    position: fixed; top: 0; left: 0; height: 100vh; z-index: 1000;
+    display: flex; flex-direction: column;
+    overflow: hidden;
     transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.sidebar-header, .sidebar-nav, .sidebar-bottom, .sidebar-footer {
-    width: 100%;
-    padding: 0 10px;
-}
-.sidebar-header {
-    min-height: 60px;
-    padding-top: 5px;
-}
-.sidebar-nav {
-    flex-grow: 1; /* Navigasyonun kalan alanı doldurmasını sağlar */
-    margin-top: 25px;
-}
-.sidebar-bottom {
-    flex-shrink: 0; /* Küçülmesini engeller */
-}
-.sidebar-footer {
-    padding: 15px 10px;
-    flex-shrink: 0;
-}
-
+.sidebar-header { flex-shrink: 0; padding: 20px 0; }
+.sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; }
+.sidebar-nav { margin-top: 15px; }
+.sidebar-footer { flex-shrink: 0; padding: 20px 0; }
 
 /* --- PC GÖRÜNÜMÜ: FARE İLE AÇILMA MANTIĞI --- */
 @media (min-width: 769px) {
     .sidebar:hover {
         width: var(--sidebar-width-expanded);
-        overflow-y: auto; /* Açılınca gerekirse kaydırma çubuğu çıksın */
     }
     .sidebar:hover + .content-wrapper {
         margin-left: var(--sidebar-width-expanded);
     }
 }
 
-/* --- MOBİL GÖRÜNÜM: JS İLE KONTROL EDİLEN KAYARAK AÇILMA --- */
+/* --- MOBİL GÖRÜNÜM: JS İLE KONTROL --- */
 @media (max-width: 768px) {
     body { padding-top: var(--mobile-header-height); }
-
     .sidebar {
-        width: 85%;
-        max-width: 300px;
+        width: 85%; max-width: 300px;
         transform: translateX(-100%);
         transition: transform 0.3s ease-in-out;
-        overflow-y: auto; /* Mobilde her zaman kaydırılabilir olsun */
+        overflow-y: auto;
     }
-    .sidebar.open {
-        transform: translateX(0);
-    }
-    .content-wrapper {
-        margin-left: 0;
-    }
+    .sidebar.open { transform: translateX(0); }
+    .content-wrapper { margin-left: 0; }
     #mobile-menu-toggle {
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: var(--mobile-header-height);
+        display: flex; position: fixed; top: 0; left: 0;
+        width: 100%; height: var(--mobile-header-height);
         background-color: var(--sidebar-bg-color);
-        align-items: center;
-        padding: 0 20px;
-        z-index: 999; /* Sidebar'ın altında kalsın */
+        align-items: center; padding: 0 20px; z-index: 999;
         border-bottom: 1px solid var(--border-color);
     }
-    #mobile-menu-toggle .fa-bars {
-        font-size: 1.5rem;
-        color: var(--text-color);
-        cursor: pointer;
-    }
-    .mobile-logo-container {
-        margin-left: auto;
-    }
-    .sidebar-logo.mobile-logo {
-        max-height: 40px;
-    }
+    #mobile-menu-toggle .fa-bars { font-size: 1.5rem; color: var(--accent-color-primary); cursor: pointer; }
+    .mobile-logo-container { margin-left: auto; }
+    .sidebar-logo.mobile-logo { max-height: 40px; }
 }
