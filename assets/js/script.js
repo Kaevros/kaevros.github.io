@@ -1,9 +1,11 @@
 // /assets/js/script.js - NİHAİ, TÜM FONKSİYONLARI İÇEREN SÜRÜM
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Önce temayı uygula
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
+    // Giriş animasyonunu sadece ana sayfada çalıştır
     if (document.body.classList.contains('home')) {
         if (!sessionStorage.getItem('hasVisited')) {
             setupWelcomeScreen();
@@ -17,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Tüm bileşenleri başlat
     setupSidebar();
     enhanceCodeBlocks();
     setActiveSidebarLink();
@@ -67,8 +70,6 @@ function setupWelcomeScreen() {
     function startMessageCycle() {
         if (!welcomeMessage) return;
         welcomeMessage.style.opacity = '1';
-        // When the typewriter effect finishes, only show the skip button.
-        // The automatic timeout to enter the blog is removed.
         typeWriterEffect(welcomeMessage, messages[0], () => {
              if (skipButton) skipButton.classList.add('visible');
         });
@@ -84,7 +85,7 @@ function setupWelcomeScreen() {
         skipButton.addEventListener('click', enterBlog);
     }
 
-    setTimeout(startMessageCycle, 1500);
+    setTimeout(startMessageCycle, 2000); // Animasyonlu başlığın görünmesi için biraz bekle
 }
 
 function skipWelcomeScreen() {
@@ -151,16 +152,11 @@ function enhanceCodeBlocks() {
 function setActiveSidebarLink() {
     const currentPath = window.location.pathname.endsWith('/') || window.location.pathname === '' ? '/index.html' : window.location.pathname;
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        // Remove existing active class from all links first
         link.classList.remove('active');
-        
         const linkHref = link.getAttribute('href');
-
-        // Check for exact match or homepage case
         if (linkHref === currentPath) {
             link.classList.add('active');
         } 
-        // Special case for posts page: if we are on a post detail, highlight "Yazılar"
         else if (currentPath.startsWith('/posts/') && linkHref === '/posts.html') {
             link.classList.add('active');
         }
@@ -177,10 +173,6 @@ function setupReplayButton() {
     if (replayButton) {
         replayButton.addEventListener('click', replayIntro);
     }
-    const logoLink = document.getElementById('logo-link');
-    const mobileLogoLink = document.getElementById('mobile-logo-link');
-    if(logoLink) logoLink.addEventListener('click', (e) => { e.preventDefault(); replayIntro(); });
-    if(mobileLogoLink) mobileLogoLink.addEventListener('click', (e) => { e.preventDefault(); replayIntro(); });
 }
 
 function setupReadingProgressBar() {

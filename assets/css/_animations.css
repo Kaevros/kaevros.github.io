@@ -10,10 +10,9 @@
     50% { border-color: var(--accent-color-primary); } 
 }
 
-/* Fine-tuned Slogan Animation */
 @keyframes fade-slogan { 
-    0%, 45%, 100% { opacity: 0; } 
-    5%, 40% { opacity: 1; }
+    0%, 45%, 100% { opacity: 0; transform: translateY(5px); } 
+    5%, 40% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes move-gradient { 
@@ -22,14 +21,19 @@
     100% { background-position: 0% 50%; } 
 }
 
-/* Radar animation for Intro Screen */
 @keyframes radar-pulse {
+    0% { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(6); opacity: 0; }
+}
+
+/* "Kaevros" başlığı için harf animasyonu */
+@keyframes reveal-char {
     0% {
-        transform: scale(0);
-        opacity: 0.5;
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
     }
     100% {
-        transform: scale(6);
-        opacity: 0;
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }

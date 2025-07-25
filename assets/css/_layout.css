@@ -1,13 +1,11 @@
 /* ANA YERLEŞİM VE SIDEBAR - NİHAİ SÜRÜM */
 
-/* --- Main Layout --- */
 .main-layout { display: flex; opacity: 1; transition: opacity 1s ease-in; }
 .main-layout.hidden { opacity: 0; pointer-events: none; }
 .content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
 main { max-width: 960px; margin: 0 auto; }
 body.sidebar-open { overflow: hidden; }
 
-/* --- Sidebar Skeleton --- */
 .sidebar {
     width: var(--sidebar-width-collapsed);
     background-color: var(--sidebar-bg-color);
@@ -21,18 +19,15 @@ body.sidebar-open { overflow: hidden; }
 .sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; align-items: center; }
 .sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; margin-top: auto; }
 
-/* --- Desktop Hover Logic --- */
 @media (min-width: 769px) {
     .sidebar:hover {
         width: var(--sidebar-width-expanded);
-        overflow-y: auto;
     }
     .sidebar:hover + .content-wrapper {
         margin-left: var(--sidebar-width-expanded);
     }
 }
 
-/* --- Mobile Sliding Logic --- */
 @media (max-width: 768px) {
     body { padding-top: var(--mobile-header-height); }
     .sidebar {

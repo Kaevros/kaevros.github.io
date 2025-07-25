@@ -1,4 +1,4 @@
-// build.js - TÜM UI/UX İSTEKLERİNİ İÇEREN NİHAİ VERSİYON
+// build.js - TÜM YAPISAL GÜNCELLEMELERİ İÇEREN NİHAİ VERSİYON
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -9,24 +9,24 @@ const readingTime = require('reading-time');
 const RSS = require('rss');
 
 const outputDir = path.join(__dirname, '_site');
-const siteBaseUrl = 'https://kaevros.github.io'; // Replace with your actual domain if you have one
+const siteBaseUrl = 'https://kaevros.github.io';
 
 function createPageTemplate(meta, mainContent, bodyClass = '') {
-    const pageTitle = meta.title ? `${meta.title} - Mustafa Günay` : 'Mustafa Günay - Kişisel Blog';
+    const pageTitle = meta.title ? `${meta.title} - Kaevros` : 'Kaevros - Kişisel Blog';
     const pageDescription = meta.description || 'Siber güvenlik, network, yazılım ve teknoloji üzerine kişisel notlar ve teknik yazılar.';
     const pageImage = meta.image ? `${siteBaseUrl}${meta.image}` : `${siteBaseUrl}/assets/images/logo.svg`;
     const pageUrl = `${siteBaseUrl}${meta.url || ''}`;
-    const pageKeywords = meta.keywords || 'siber güvenlik, blog, mustafa günay, kaevros, teknoloji, network, yazılım';
+    const pageKeywords = meta.keywords || 'siber güvenlik, blog, kaevros, teknoloji, network, yazılım';
     
-    const metaTagsHTML = `<meta name="description" content="${pageDescription}"><meta name="keywords" content="${pageKeywords}"><meta name="author" content="Mustafa Günay"><meta property="og:type" content="website"><meta property="og:title" content="${meta.title || 'Mustafa Günay - Kişisel Blog'}"><meta property="og:description" content="${pageDescription}"><meta property="og:image" content="${pageImage}"><meta property="og:url" content="${pageUrl}"><meta property="og:site_name" content="Mustafa Günay - Kişisel Blog"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${meta.title || 'Mustafa Günay - Kişisel Blog'}"><meta name="twitter:description" content="${pageDescription}"><meta name="twitter:image" content="${pageImage}">`;
-    const rssLinkHTML = `<link rel="alternate" type="application/rss+xml" title="Mustafa Günay - Kişisel Blog RSS Feed" href="/feed.xml">`;
+    const metaTagsHTML = `<meta name="description" content="${pageDescription}"><meta name="keywords" content="${pageKeywords}"><meta name="author" content="Kaevros"><meta property="og:type" content="website"><meta property="og:title" content="${meta.title || 'Kaevros - Kişisel Blog'}"><meta property="og:description" content="${pageDescription}"><meta property="og:image" content="${pageImage}"><meta property="og:url" content="${pageUrl}"><meta property="og:site_name" content="Kaevros - Kişisel Blog"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${meta.title || 'Kaevros - Kişisel Blog'}"><meta name="twitter:description" content="${pageDescription}"><meta name="twitter:image" content="${pageImage}">`;
+    const rssLinkHTML = `<link rel="alternate" type="application/rss+xml" title="Kaevros - Kişisel Blog RSS Feed" href="/feed.xml">`;
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     
     const sidebarHTML = `
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="/index.html" aria-label="Ana Sayfa" id="logo-link" class="logo-container">
-                <img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo">
+                <img src="/assets/images/logo.svg" alt="Kaevros Logo" class="sidebar-logo">
             </a>
             <button class="close-sidebar-btn" id="close-sidebar-btn" aria-label="Menüyü kapat"><i class="fas fa-times"></i></button>
         </div>
@@ -56,17 +56,22 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
                 <button class="replay-animation-btn" id="replay-animation-btn" title="Giriş animasyonunu tekrar oynat"><i class="fas fa-power-off"></i></button>
                 <button class="theme-toggle-btn" id="theme-toggle-btn" title="Temayı değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
             </div>
-            <p class="copyright">&copy; ${new Date().getFullYear()} Mustafa Günay</p>
+            <p class="copyright">&copy; ${new Date().getFullYear()} Kaevros</p>
         </div>
     </aside>`;
     
     const searchModalHTML = `<div id="search-modal" class="search-modal-overlay"><div class="search-modal-content"><div class="search-modal-header"><input type="text" id="search-modal-input" placeholder="Aranacak kelimeyi yazın..."><button id="search-modal-close" class="search-modal-close-btn">&times;</button></div><ul id="search-results-list"></ul></div></div>`;
-    const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><div class="welcome-content"><h1 class="animated-title" id="blog-title">Mustafa Günay</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç">GEÇ</button></div></div>` : '';
+    
+    // Animate "Kaevros" by splitting it into letters
+    const animatedTitleHTML = 'Kaevros'.split('').map((char, index) => `<span style="--char-index: ${index};">${char}</span>`).join('');
+    
+    const welcomeScreenHTML = bodyClass.includes('home') ? `<div class="welcome-screen" id="welcome-screen"><div class="welcome-content"><h1 class="animated-title" id="blog-title">${animatedTitleHTML}</h1><p class="welcome-message" id="welcome-message"></p><button class="skip-button" id="skip-button" aria-label="Girişi geç"><i class="fas fa-chevron-right"></i></button></div></div>` : '';
+    
     const mainLayoutClass = bodyClass.includes('home') ? 'main-layout hidden' : 'main-layout';
     const backToTopButtonHTML = `<button id="back-to-top" class="back-to-top-btn" title="Yukarı dön"><i class="fas fa-arrow-up"></i></button>`;
     const progressBarHTML = `<div class="progress-bar" id="progress-bar"></div>`;
 
-    return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${progressBarHTML}${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Mustafa Günay Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}${backToTopButtonHTML}<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
+    return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${pageTitle}</title>${metaTagsHTML}${rssLinkHTML}${faviconHTML}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /><link rel="stylesheet" href="/assets/css/style.css"></head><body class="${bodyClass}">${progressBarHTML}${welcomeScreenHTML}<div class="${mainLayoutClass}">${sidebarHTML}<div class="mobile-menu-toggle" id="mobile-menu-toggle"><i class="fas fa-bars"></i><div class="logo-container mobile-logo-container"><a href="/index.html" id="mobile-logo-link"><img src="/assets/images/logo.svg" alt="Kaevros Logo" class="sidebar-logo mobile-logo"></a></div></div><div class="content-wrapper"><main id="main-content">${mainContent}</main></div></div>${searchModalHTML}${backToTopButtonHTML}<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script src="/assets/js/script.js"></script></body></html>`;
 }
 
 async function buildSite() {
@@ -84,7 +89,7 @@ async function buildSite() {
             const fileContent = await fs.readFile(path.join(staticPagesDir, pageFile), 'utf8');
             const { data: meta, content: mainContent } = matter(fileContent);
             if (!meta.url) meta.url = `/${pageFile}`;
-            const bodyClass = pageFile === 'index.html' ? 'home' : ''; 
+            const bodyClass = pageFile === 'index.html' ? 'home' : '';
             await fs.writeFile(path.join(outputDir, pageFile), createPageTemplate(meta, mainContent, bodyClass));
         }
     }
@@ -131,7 +136,7 @@ async function buildSite() {
     }
     
     const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle animated-gradient-text">Dijital Dünyanın Kodları Arasında Güvenliği İnşa Etmek.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up"><div class="cta-content"><h3>Daha Derine İnmeye Hazır Mısın?</h3><p>Teknoloji ve siber güvenlik dünyasındaki tüm yazılarıma göz atın.</p><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
-    await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Ana Sayfa', url: '/index.html' }, indexContent, 'home'));
+    await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Ana Sayfa', url: '/index.html' }, 'home'));
 
     const postsPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down" class="animated-gradient-text orange-heavy">Tüm Yazılar</h2></div><div class="posts-grid">${allPosts.map((post, i) => createPostCard(post, i)).join('')}</div></section>`;
     await fs.writeFile(path.join(outputDir, 'posts.html'), createPageTemplate({ title: 'Tüm Yazılar', url: '/posts.html' }, postsPageContent));
