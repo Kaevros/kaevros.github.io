@@ -31,6 +31,7 @@
     background-image: linear-gradient(90deg, #dddddd, var(--accent-color-primary), #dddddd);
 }
 
+
 /* --- ORTALANMIŞ VE STİLLENDİRİLMİŞ BAŞLIKLAR --- */
 .styled-header {
     padding-bottom: 20px;
@@ -42,20 +43,18 @@
     text-align: center;
 }
 
-.styled-header h1, .styled-header h2, .section-title {
+.styled-header h2, .section-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+    font-size: clamp(1.8rem, 4vw, 2.5em);
     font-weight: 700;
     line-height: 1.2;
     text-transform: uppercase;
     color: var(--text-color);
-    position: relative;
-    display: inline-block;
-    padding-bottom: 15px;
 }
 
-.styled-header h1 { font-size: clamp(2rem, 5vw, 3.5em); }
-.styled-header h2, .section-title { font-size: clamp(1.8rem, 4vw, 2.5em); }
-
-.styled-header h1::after, .styled-header h2::after, .section-title::after {
+.styled-header h2::after, .section-title::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -64,29 +63,84 @@
     width: 0%;
     height: 3px;
     background: var(--accent-color-primary);
-    box-shadow: 0 0 10px var(--accent-color-primary);
     transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.aos-animate .styled-header h2::after, .aos-animate .section-title::after {
+.aos-animate .styled-header h2::after, 
+.aos-animate .section-title::after {
     width: 60px;
 }
 
 .styled-header p.page-intro {
-    padding: 0;
-    margin-top: 20px;
-    text-align: center;
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px auto 0;
+    color: var(--text-color-light);
 }
 
 /* --- YAZI LİSTELERİ VE ÇAĞRI BÖLÜMLERİ --- */
-.posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+.posts-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 30px; 
+}
 
-.cta-section { text-align: center; background-color: var(--sidebar-bg-color); padding: 60px 20px; border-radius: 8px; margin-top: 40px; border: 1px solid var(--border-color); overflow: hidden; position: relative; transition: background-color 0.3s ease, border-color 0.3s ease; }
-.cta-section p { font-size: clamp(1.5rem, 3.5vw, 1.8em); margin-bottom: 25px; font-weight: bold; color: var(--text-color); position: relative; z-index: 1; }
-.cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; position: relative; z-index: 1; }
+.cta-section {
+    text-align: center;
+    background-color: var(--sidebar-bg-color);
+    padding: 60px 20px;
+    border-radius: 8px;
+    margin-top: 60px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+}
+
+.cta-content { 
+    position: relative; 
+    z-index: 2; 
+}
+
+.cta-section::before, .cta-section::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    box-shadow: 0 0 100px 100px rgba(255, 122, 0, 0.1);
+    animation: radar-pulse 4s linear infinite;
+}
+
+.cta-section::after {
+    animation-delay: 2s;
+}
+
+.cta-section h3 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    margin-bottom: 25px;
+    color: var(--text-color-light);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--accent-color-primary);
+    color: #fff;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 122, 0, 0.3);
+}
 
 /* --- YAZI DETAY SAYFASI --- */
 .post-header { border-bottom: none; }
@@ -105,15 +159,15 @@
 /* --- İLETİŞİM SAYFASI --- */
 .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px; }
 .contact-card { background-color: var(--sidebar-bg-color); color: var(--text-color); text-decoration: none; padding: 30px 20px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); transition: all 0.3s ease-out; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.contact-card:hover { transform: translateY(-10px); background-color: var(--accent-color-secondary); box-shadow: 0 10px 25px rgba(232, 74, 39, 0.2); }
+.contact-card:hover { transform: translateY(-10px); background-color: var(--accent-color-secondary); box-shadow: 0 10px 25px rgba(255, 122, 0, 0.2); }
 .contact-card i { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; display: block; transition: transform 0.3s ease; }
 .contact-card:hover i { transform: scale(1.1); }
 .contact-card span { font-size: 1.2rem; font-weight: bold; }
 
-/* --- HİZMETLER SAYFASI (GÜNCELLENMİŞ ANİMASYONLARLA) --- */
+/* --- HİZMETLER SAYFASI --- */
 .services-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
 .service-card { background-color: var(--sidebar-bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
-.service-card:hover { transform: translateY(-12px) scale(1.02); border-color: rgba(232, 74, 39, 0.5); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 15px rgba(232, 74, 39, 0.3); }
+.service-card:hover { transform: translateY(-12px) scale(1.02); border-color: rgba(255, 122, 0, 0.5); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 122, 0, 0.3); }
 .service-card .service-icon { font-size: 3rem; color: var(--accent-color-primary); margin-bottom: 20px; transition: transform 0.3s ease; }
 .service-card:hover .service-icon { transform: scale(1.15) rotate(-5deg); }
 .service-card h3 { font-size: clamp(1.4rem, 3vw, 1.6em); margin-bottom: 15px; color: var(--text-color); }

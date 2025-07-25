@@ -18,9 +18,8 @@ body.sidebar-open { overflow: hidden; }
     transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar-header { flex-shrink: 0; padding: 20px 0; }
-.sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; }
-.sidebar-nav { margin-top: 15px; }
-.sidebar-footer { flex-shrink: 0; padding: 20px 0; }
+.sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; align-items: center; }
+.sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; }
 
 /* --- PC GÖRÜNÜMÜ: FARE İLE AÇILMA MANTIĞI --- */
 @media (min-width: 769px) {

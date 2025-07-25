@@ -2,11 +2,11 @@
 
 @keyframes breath { 
     from { 
-        text-shadow: 0 0 10px rgba(232, 74, 39, 0.4), 0 0 20px rgba(232, 74, 39, 0.2);
+        text-shadow: 0 0 10px rgba(255, 122, 0, 0.4), 0 0 20px rgba(255, 122, 0, 0.2);
         transform: scale(1); 
     } 
     to { 
-        text-shadow: 0 0 20px rgba(232, 74, 39, 0.8), 0 0 40px rgba(232, 74, 39, 0.5);
+        text-shadow: 0 0 20px rgba(255, 122, 0, 0.8), 0 0 40px rgba(255, 122, 0, 0.5);
         transform: scale(1.03); 
     } 
 }
@@ -16,24 +16,20 @@
     50% { border-color: var(--accent-color-primary); } 
 }
 
-/* KISALTILMIŞ SLOGAN ANİMASYON SÜRESİ */
-@keyframes fade-slogan { 
-    0%, 45%, 100% { opacity: 0; } 
-    5%, 40% { opacity: 1; }
-}
-
-@keyframes moveGrid { 
-    from { transform: translate(0, 0); } 
-    to { transform: translate(-50px, -50px); } 
-}
-
-@keyframes rotate { 
-    from { transform: rotate(0deg); } 
-    to { transform: rotate(360deg); } 
-}
-
 @keyframes move-gradient { 
     0% { background-position: 0% 50%; } 
     50% { background-position: 100% 50%; } 
     100% { background-position: 0% 50%; } 
+}
+
+/* YENİ RADAR ANİMASYONU */
+@keyframes radar-pulse {
+    0% {
+        transform: scale(0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(8);
+        opacity: 0;
+    }
 }
