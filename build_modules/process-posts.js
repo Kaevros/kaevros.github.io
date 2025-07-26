@@ -29,14 +29,7 @@ async function processPosts(outputDir) {
         const stats = readingTime(content);
         const postPath = `posts/${path.basename(postFile, '.md')}.html`;
         
-        const postData = {
-            ...data,
-            date: new Date(data.date),
-            path: postPath,
-            content: content,
-            htmlContent: marked(content),
-            readingTime: stats.text
-        };
+        const postData = { ...data, date: new Date(data.date), path: postPath, content: content, htmlContent: marked(content), readingTime: stats.text };
         allPosts.push(postData);
 
         if (data.tags && Array.isArray(data.tags)) {

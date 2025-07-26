@@ -1,16 +1,16 @@
 {
   "name": "kaevros-blog",
-  "version": "2.2.0",
-  "description": "Blog build script",
+  "version": "3.0.0",
+  "description": "Kişisel Teknik Blog - Build Script",
   "main": "build.js",
   "scripts": {
     "build": "node build.js"
   },
   "dependencies": {
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "gray-matter": "^4.0.3",
     "lunr": "^2.3.9",
-    "marked": "^9.0.0",
+    "marked": "^9.1.2",
     "reading-time": "^1.5.0",
     "rss": "^1.2.2",
     "sharp": "^0.33.4"

@@ -20,7 +20,6 @@ export function replayIntro() {
     window.location.href = '/index.html';
 }
 
-// BU FONKSİYON BURAYA EKLENDİ VE EXPORT EDİLDİ
 export function setupReplayButton() {
     const replayButton = document.getElementById('replay-animation-btn');
     if (replayButton) {
