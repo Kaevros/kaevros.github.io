@@ -23,7 +23,7 @@ export function setupSidebar() {
                 sloganEn.classList.add('active');
             }
             showEn = !showEn;
-        }, 2200);
+        }, 3500);
     }
     function stopSloganAnimation() {
         clearInterval(sloganInterval);
