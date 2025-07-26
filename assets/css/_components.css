@@ -2,31 +2,31 @@
 .search-modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(20,20,20,0.65);
-  backdrop-filter: blur(6px);
+  background: rgba(20, 20, 20, 0.75); /* Increase opacity for focus */
+  backdrop-filter: blur(10px); /* Stronger blur effect */
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.45s cubic-bezier(0.4,0,0.2,1), visibility 0.45s, backdrop-filter 0.45s;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s, backdrop-filter 0.5s;
 }
 .search-modal-overlay.active {
   opacity: 1;
   visibility: visible;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(15px); /* Enhanced blur */
 }
 .search-modal-content {
-  background: #232323;
-  border-radius: 18px;
-  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.35);
-  width: 95vw;
-  max-width: 480px;
-  padding: 0 0 18px 0;
-  transform: scale(0.92) translateY(30px);
+  background: #1e1e1e; /* Darker background for focus */
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+  width: 90vw;
+  max-width: 500px;
+  padding: 20px;
+  transform: scale(0.9) translateY(20px);
   opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.45s cubic-bezier(0.4,0,0.2,1);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .search-modal-overlay.active .search-modal-content {
   transform: scale(1) translateY(0);
@@ -43,12 +43,12 @@
   background: #181818;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  font-size: 1.15em;
+  border-radius: 10px;
+  font-size: 1.2em;
   padding: 14px 18px;
   outline: none;
-  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
-  box-shadow: 0 2px 10px 0 rgba(241,77,31,0.04);
+  transition: box-shadow 0.3s, background 0.3s, color 0.3s;
+  box-shadow: 0 2px 10px rgba(241, 77, 31, 0.1);
 }
 .search-modal-header input[type="search"]:focus {
   background: #232323;
@@ -59,45 +59,45 @@
   background: none;
   border: none;
   color: #fff;
-  font-size: 2.1em;
+  font-size: 2.2em;
   cursor: pointer;
   padding: 0 8px;
-  opacity: 0.7;
-  transition: opacity 0.2s;
+  opacity: 0.8;
+  transition: opacity 0.3s;
 }
 .search-modal-close:hover {
   opacity: 1;
 }
 .search-modal-results {
-  padding: 0 28px 0 28px;
-  margin-top: 8px;
-  max-height: 320px;
+  padding: 0 20px;
+  margin-top: 10px;
+  max-height: 350px;
   overflow-y: auto;
 }
 .search-result-item {
   background: #181818;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 12px;
-  padding: 16px 18px 12px 18px;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition: background 0.3s, box-shadow 0.3s;
   border: 1.5px solid transparent;
 }
 .search-result-item:hover {
   background: #232323;
   border-color: var(--accent-color-primary);
-  box-shadow: 0 4px 18px 0 rgba(255,122,0,0.10);
+  box-shadow: 0 4px 18px rgba(255, 122, 0, 0.15);
 }
 .search-result-title {
   color: var(--accent-color-primary);
-  font-size: 1.08em;
+  font-size: 1.1em;
   font-weight: 700;
   margin-bottom: 4px;
 }
 .search-result-summary {
   color: #b0b0b0;
-  font-size: 0.98em;
+  font-size: 1em;
   font-weight: 400;
 }
 /* TÜM BİLEŞENLERİN STİLLERİ */
@@ -214,71 +214,69 @@
 .sidebar-nav .nav-item a {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 12px 20px;
-    margin: 6px 0;
+    justify-content: center; /* Center icons */
+    padding: 12px 18px; /* Adjust padding */
+    margin: 8px 0; /* Adjust spacing */
     color: var(--text-color-light);
-    white-space: nowrap;
-    position: relative;
     text-decoration: none;
-    border-radius: 12px;
+    border-radius: 12px; /* Softer corners */
     transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    z-index: 1;
-    background: none; /* Remove background for a cleaner look */
-    border: none; /* Remove border */
-    box-shadow: none; /* Remove shadow */
-}
-.sidebar-nav .nav-item a.active {
-    color: #fff;
-    background: linear-gradient(90deg, var(--accent-color-primary) 60%, var(--accent-color-secondary) 100%);
-    box-shadow: 0 2px 16px 0 rgba(255,122,0,0.13), 0 0 0 2px var(--accent-color-primary);
-    border: 1.5px solid var(--accent-color-primary);
-    z-index: 2;
-}
-.sidebar-nav .nav-item a:not(.active):hover {
-    color: var(--text-color);
-    background-color: var(--accent-color-secondary);
-}
-.sidebar-nav .nav-item a .icon {
-    font-size: 1.5rem; /* Adjust icon size */
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s, filter 0.3s;
-    opacity: 0.9;
-    margin-right: 8px; /* Reduce spacing */
-}
-.sidebar-nav .nav-item a .nav-text {
-    font-size: 1.2rem; /* Increase text size */
-    font-weight: 600; /* Make text more prominent */
-    opacity: 0.85;
-    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    font-family: 'Oxanium', sans-serif;
-    letter-spacing: 0.4px;
+    background: linear-gradient(90deg, var(--accent-color-primary) 50%, var(--accent-color-secondary) 100%); /* Modern gradient */
 }
 .sidebar-nav .nav-item a:hover {
-    transform: scale(1.05); /* Add subtle hover effect */
-    color: var(--accent-color-primary); /* Keep orange color */
+    transform: scale(1.08); /* Subtle hover effect */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Add depth */
 }
 .sidebar-nav .nav-item a .icon {
-    transform: scale(1.08); /* Subtle scaling for icons */
-    filter: none; /* Remove filter for cleaner look */
+    font-size: 1.8rem; /* Adjust icon size */
+    margin-right: 0; /* Remove spacing */
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 .sidebar-nav .nav-item a .nav-text {
-    display: none; /* Hide text when sidebar is collapsed */
+    font-size: 1.2rem; /* Slightly larger text */
+    font-weight: 600; /* Make text more prominent */
+    opacity: 0.85;
+    display: none; /* Hide text when collapsed */
+}
+.sidebar:not(:hover) .sidebar-nav .nav-item a .icon {
+    opacity: 1; /* Ensure icons are visible */
+    transform: scale(1.1); /* Subtle scaling */
 }
 .sidebar:hover .sidebar-nav .nav-item a .nav-text {
     display: block; /* Show text on hover */
-    opacity: 1; /* Ensure visibility */
     transform: translateX(0); /* Smooth transition */
 }
-.sidebar-bottom-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; opacity: 0; transition: opacity 0.3s ease; }
-.sidebar:hover .sidebar-bottom-actions { opacity: 1; transition-delay: 0.15s; }
-.replay-animation-btn, .theme-toggle-btn { background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color-light); border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; }
-.replay-animation-btn:hover, .theme-toggle-btn:hover { color: var(--accent-color-primary); border-color: var(--accent-color-primary); transform: scale(1.1); }
+.sidebar-bottom-actions {
+    display: flex;
+    justify-content: space-around; /* Spread buttons evenly */
+    gap: 12px; /* Adjust gap */
+    margin-bottom: 12px; /* Adjust margin */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.sidebar:hover .sidebar-bottom-actions {
+    opacity: 1;
+    transition-delay: 0.1s; /* Faster reveal */
+}
+.replay-animation-btn, .theme-toggle-btn {
+    background-color: var(--accent-color-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-color-light);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+.replay-animation-btn:hover, .theme-toggle-btn:hover {
+    color: var(--accent-color-primary);
+    border-color: var(--accent-color-primary);
+    transform: scale(1.1);
+}
 .theme-toggle-btn .fa-sun { display: none; }
 .theme-toggle-btn .fa-moon { display: block; }
 html[data-theme="light"] .theme-toggle-btn .fa-sun { display: block; }
@@ -391,9 +389,17 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .welcome-screen::before, .welcome-screen::after { content: ''; position: absolute; top: 50%; left: 50%; width: 1px; height: 1px; border-radius: 50%; box-shadow: 0 0 100px 100px rgba(255, 122, 0, 0.2); animation: radar-pulse 4s linear infinite; }
 .welcome-screen::after { animation-delay: 2s; }
 .welcome-content { z-index: 2; text-align: center; }
-.animated-title { display: flex; justify-content: center; font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 700; }
+.animated-title { display: flex; justify-content: center; font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 700; background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary)); -webkit-background-clip: text; background-clip: text; /* Added for compatibility */ -webkit-text-fill-color: transparent; }
 .animated-title span { display: inline-block; animation: reveal-char 0.8s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: calc(0.1s * var(--char-index)); }
-.welcome-message { font-family: 'VT323', monospace; font-size: clamp(1rem, 3vw, 1.5rem); min-height: 1.2em; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; animation: blink-caret .75s step-end infinite; max-width: 90vw; }
+.welcome-message { font-family: 'VT323', monospace; font-size: clamp(1rem, 3vw, 1.5rem); min-height: 1.2em; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; animation: blink-caret .75s step-end infinite, typewriter 4s steps(40, end); max-width: 90vw; }
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--accent-color-primary); }
+}
 .skip-button { background: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color); font-size: 1.5rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 40px; visibility: hidden; border-radius: 50%; width: 60px; height: 60px; display: inline-flex; justify-content: center; align-items: center; }
 .skip-button.visible { opacity: 1; visibility: visible; }
 .skip-button:hover { background-color: var(--accent-color-primary); border-color: var(--accent-color-primary); color: #fff; transform: scale(1.1); }
@@ -401,4 +407,51 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .back-to-top-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background-color: #FF7A00; color: #fff; border: none; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; visibility: hidden; transform: translateY(100px); transition: all 0.4s ease; }
 .back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .back-to-top-btn:hover { background-color: #fff; color: #FF7A00; transform: scale(1.1); }
-/* Post card efektleri build.js ve _pages.css ile uyumlu olacak şekilde sadeleştirildi. */
+/* Post card styles optimized for build.js */
+.post-card {
+  background: var(--card-bg-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.post-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Hata sayfası için görsel iyileştirme */
+.error-page-container {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #ff7a00, #ff9d40);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.error-code {
+  font-size: 6rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.error-title {
+  font-size: 2rem;
+  margin-top: 20px;
+}
+.error-message {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+.error-actions .cta-button {
+  background: var(--accent-color-primary);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+.error-actions .cta-button:hover {
+  background: var(--accent-color-secondary);
+}

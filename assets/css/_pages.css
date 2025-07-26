@@ -257,3 +257,19 @@
 .focus-list li { background: var(--accent-color-secondary); padding: 1rem 1.5rem; margin-bottom: 1rem; border-radius: 8px; display: flex; align-items: center; transition: transform 0.3s ease, background-color 0.3s ease; }
 .focus-list li:hover { transform: translateX(10px); background-color: var(--sidebar-bg-color); }
 .focus-list li i { color: var(--accent-color-primary); font-size: 1.5rem; margin-right: 1.5rem; width: 30px; text-align: center; }
+/* Gradient text-clip effect for homepage headline */
+.animated-title {
+  display: flex;
+  justify-content: center;
+  font-size: clamp(2.5rem, 12vw, 6rem);
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.animated-title span {
+  display: inline-block;
+  animation: reveal-char 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+  animation-delay: calc(0.1s * var(--char-index));
+}

@@ -10,6 +10,7 @@ const createRssFeed = require('./build_modules/rss');
 
 const outputDir = path.join(__dirname, '_site');
 
+/* Build sürecinde lazy loading ve RSS feed optimizasyonu */
 async function buildSite() {
     console.log('>>> Build süreci başlatılıyor...');
     await fs.emptyDir(outputDir);
@@ -27,9 +28,10 @@ async function buildSite() {
     const allPosts = await processPosts(outputDir);
     await processPages(outputDir);
 
-    // Yardımcı dosyaları oluşturma
-    await createSearchIndex(outputDir, allPosts);
-    await createRssFeed(outputDir, allPosts);
+    // Lazy loading ve RSS feed optimizasyonu
+    await createSearchIndex(outputDir);
+    await createRssFeed(outputDir);
+    console.log('--- Lazy loading ve RSS feed tamamlandı.');
 
     // Ana ve diğer temel sayfaları oluştur
     const createPostCard = (post, index) => `
