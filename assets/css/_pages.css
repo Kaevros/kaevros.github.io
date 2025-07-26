@@ -26,6 +26,12 @@
 .hero-main-title {
     font-size: clamp(2.2rem, 6vw, 4rem);
     font-weight: 800;
+    background: linear-gradient(90deg, var(--accent-color-primary), #ff9d40 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight: 900;
     margin-bottom: 18px;
     margin-top: 0;
     letter-spacing: -1px;
@@ -217,7 +223,18 @@
 }
 .animated-gradient-text { background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: move-gradient 8s ease-in-out infinite; }
 .styled-header { padding-bottom: 20px; margin-bottom: 40px; text-align: center; }
-.styled-header h2, .section-title { position: relative; display: inline-block; padding-bottom: 15px; font-size: clamp(1.8rem, 4vw, 2.5em); }
+.styled-header h2, .section-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+    font-size: clamp(1.8rem, 4vw, 2.5em);
+    background: linear-gradient(90deg, var(--accent-color-primary), #ff9d40 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight: 900;
+}
 .styled-header h2::after, .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0%; height: 3px; background: var(--accent-color-primary); }
 .aos-animate .styled-header h2::after, .aos-animate .section-title::after { width: 60px; transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
 .cta-section { text-align: center; background-color: var(--sidebar-bg-color); padding: 60px 20px; border-radius: 8px; margin-top: 60px; border: 1px solid var(--border-color); overflow: hidden; position: relative; }
