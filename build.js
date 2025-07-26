@@ -32,9 +32,38 @@ async function buildSite() {
     await createRssFeed(outputDir, allPosts);
 
     // Ana ve diğer temel sayfaları oluştur
-    const createPostCard = (post, index) => `<div class="post-card" data-aos="fade-up" data-aos-delay="${index * 50}"><a href="/${post.path}" class="post-card-link"><div class="post-card-content"><h3>${post.title}</h3><p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p><p class="post-card-description">${post.description || ''}</p></div><div class="post-card-footer"><span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span></div></a></div>`;
-    
-    const indexContent = `<section class="hero-section" data-aos="fade-in"><p class="hero-subtitle animated-gradient-text">Dijital Dünyanın Kodları Arasında Güvenliği İnşa Etmek.</p></section><section class="latest-posts-section"><div class="styled-header"><h2 class="section-title">Son Keşifler</h2></div><div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div></section><section class="cta-section" data-aos="fade-up"><div class="cta-content"><h3>Daha Derine İnmeye Hazır Mısın?</h3><p>Teknoloji ve siber güvenlik dünyasındaki tüm yazılarıma göz atın.</p><a href="/posts.html" class="cta-button">Tüm Yazıları Gör</a></div></section>`;
+    const createPostCard = (post, index) => `
+      <div class="post-card fancy-card" data-aos="fade-up" data-aos-delay="${index * 60}">
+        <a href="/${post.path}" class="post-card-link">
+          <div class="post-card-content">
+            <h3 class="fancy-title">${post.title}</h3>
+            <p class="post-card-meta">${post.date.toLocaleDateString('tr-TR', { month: 'long', day: 'numeric' })} • ${post.readingTime}</p>
+            <p class="post-card-description">${post.description || ''}</p>
+          </div>
+          <div class="post-card-footer"><span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span></div>
+        </a>
+      </div>`;
+
+    const indexContent = `
+      <section class="hero-section" data-aos="fade-in">
+        <div class="hero-bg-animated">
+          <svg class="hero-svg-bg" viewBox="0 0 1440 320"><defs><linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F14D1F"/><stop offset="100%" stop-color="#ff9d40"/></linearGradient></defs><path fill="url(#heroGrad)" fill-opacity="0.18" d="M0,160L60,154.7C120,149,240,139,360,154.7C480,171,600,213,720,197.3C840,181,960,107,1080,101.3C1200,96,1320,160,1380,192L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>
+        </div>
+        <h1 class="hero-main-title animated-gradient-text">Dijital Dünyanın Kodları Arasında <span class="highlight">Güvenliği</span> İnşa Et.</h1>
+        <p class="hero-subtitle">Siber güvenlik, network ve teknolojiye dair en güncel içerikler, rehberler ve analizler burada.</p>
+      </section>
+      <section class="latest-posts-section">
+        <div class="styled-header"><h2 class="section-title">Son Keşifler</h2></div>
+        <div class="posts-grid">${allPosts.slice(0, 3).map((post, i) => createPostCard(post, i)).join('')}</div>
+      </section>
+      <section class="cta-section" data-aos="fade-up">
+        <div class="cta-content">
+          <h3>Daha Derine İnmeye Hazır Mısın?</h3>
+          <p>Teknoloji ve siber güvenlik dünyasındaki tüm yazılarıma göz atın.</p>
+          <a href="/posts.html" class="cta-button cta-animated">Tüm Yazıları Gör</a>
+        </div>
+      </section>
+    `;
     await fs.writeFile(path.join(outputDir, 'index.html'), createPageTemplate({ title: 'Ana Sayfa', url: '/index.html' }, indexContent, 'home'));
 
     const postsPageContent = `<section class="content-page"><div class="styled-header"><h2 data-aos="fade-down" class="animated-gradient-text orange-heavy">Tüm Yazılar</h2></div><div class="posts-grid">${allPosts.map((post, i) => createPostCard(post, i)).join('')}</div></section>`;

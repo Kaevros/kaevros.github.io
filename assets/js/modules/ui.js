@@ -4,18 +4,44 @@ export function setupSidebar() {
     const sidebar = document.getElementById('sidebar');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const sloganEn = document.querySelector('.sidebar-slogan .slogan-en');
+    const sloganTr = document.querySelector('.sidebar-slogan .slogan-tr');
 
-    if (!sidebar || !mobileMenuToggle || !closeSidebarBtn) return;
+    if (!sidebar || !mobileMenuToggle || !closeSidebarBtn || !sloganEn || !sloganTr) return;
+
+    let sloganInterval = null;
+    function startSloganAnimation() {
+        let showEn = true;
+        sloganEn.classList.add('active');
+        sloganTr.classList.remove('active');
+        sloganInterval = setInterval(() => {
+            if (showEn) {
+                sloganEn.classList.remove('active');
+                sloganTr.classList.add('active');
+            } else {
+                sloganTr.classList.remove('active');
+                sloganEn.classList.add('active');
+            }
+            showEn = !showEn;
+        }, 2200);
+    }
+    function stopSloganAnimation() {
+        clearInterval(sloganInterval);
+        sloganEn.classList.remove('active');
+        sloganTr.classList.remove('active');
+    }
 
     mobileMenuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         sidebar.classList.add('open');
         document.body.classList.add('sidebar-open');
+        startSloganAnimation();
     });
 
     const closeMenu = () => {
         sidebar.classList.remove('open');
         document.body.classList.remove('sidebar-open');
+        stopSloganAnimation();
     };
 
     closeSidebarBtn.addEventListener('click', closeMenu);
@@ -24,6 +50,14 @@ export function setupSidebar() {
         if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
             closeMenu();
         }
+    });
+
+    // Masaüstü için hover ile açıldığında da animasyon başlasın
+    sidebar.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 768) startSloganAnimation();
+    });
+    sidebar.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 768) stopSloganAnimation();
     });
 }
 
