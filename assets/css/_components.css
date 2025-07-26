@@ -12,7 +12,9 @@
 .sidebar-logo {
     max-width: 38px;
     max-height: 38px;
-    transition: max-width 0.4s cubic-bezier(0.25, 1, 0.5, 1), max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: max-width 0.4s cubic-bezier(0.25, 1, 0.5, 1), max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s, filter 0.3s;
+    z-index: 10;
+    position: relative;
 }
 .sidebar:hover .sidebar-logo {
     max-width: 90px;
@@ -104,11 +106,48 @@
 }
 .sidebar-nav { width: 100%; }
 .sidebar-nav ul { list-style: none; }
-.sidebar-nav .nav-item a { display: flex; align-items: center; padding: 10px; margin: 5px 0; color: var(--text-color-light); white-space: nowrap; position: relative; text-decoration: none; border-radius: 8px; transition: color 0.3s ease, background-color 0.3s ease; }
-.sidebar-nav .nav-item a.active { color: #fff; background-color: var(--accent-color-primary); }
-.sidebar-nav .nav-item a:not(.active):hover { color: var(--text-color); background-color: var(--accent-color-secondary); }
-.sidebar-nav .nav-item a .icon { font-size: 1.6rem; min-width: calc(var(--sidebar-width-collapsed) - 20px); text-align: center; transition: transform 0.3s ease; }
-.sidebar-nav .nav-item a:hover .icon { transform: scale(1.1); }
+.sidebar-nav .nav-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 5px 0;
+    color: var(--text-color-light);
+    white-space: nowrap;
+    position: relative;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s, border 0.3s;
+    z-index: 1;
+}
+.sidebar:not(:hover) .sidebar-nav .nav-item a {
+    justify-content: center;
+}
+.sidebar-nav .nav-item a.active {
+    color: #fff;
+    background: linear-gradient(90deg, var(--accent-color-primary) 60%, var(--accent-color-secondary) 100%);
+    box-shadow: 0 2px 16px 0 rgba(255,122,0,0.13), 0 0 0 2px var(--accent-color-primary);
+    border: 1.5px solid var(--accent-color-primary);
+    z-index: 2;
+}
+.sidebar-nav .nav-item a:not(.active):hover {
+    color: var(--text-color);
+    background-color: var(--accent-color-secondary);
+}
+.sidebar-nav .nav-item a .icon {
+    font-size: 1.6rem;
+    min-width: calc(var(--sidebar-width-collapsed) - 20px);
+    text-align: center;
+    transition: transform 0.3s ease, opacity 0.3s, filter 0.3s;
+    opacity: 0.7;
+}
+.sidebar-nav .nav-item a.active .icon {
+    filter: drop-shadow(0 0 8px var(--accent-color-primary));
+    opacity: 1;
+}
+.sidebar-nav .nav-item a:hover .icon {
+    transform: scale(1.1);
+}
 .sidebar-nav .nav-item a .nav-text {
     margin-left: 15px;
     font-size: 1rem;
