@@ -5,6 +5,7 @@ export function setupWelcomeScreen() {
     if (!welcomeScreen) return;
     
     welcomeScreen.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
     const welcomeMessage = document.getElementById('welcome-message');
     const skipButton = document.getElementById('skip-button');
     const messages = ["Sistemler insanlar tarafından yapılır ve insanlar kusurludur."];
@@ -53,7 +54,10 @@ export function skipWelcomeScreen() {
         welcomeScreen.classList.add('hidden');
         welcomeScreen.addEventListener('transitionend', () => {
             welcomeScreen.style.display = 'none';
+            document.body.style.overflow = '';
         }, { once: true });
+    } else {
+        document.body.style.overflow = '';
     }
     if (mainLayout) {
         mainLayout.classList.remove('hidden');
