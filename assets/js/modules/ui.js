@@ -118,8 +118,13 @@ export function setupSearch() {
         }
         const results = idx.search(query + '*');
         resultsList.innerHTML = results.length > 0 ?
-            results.map(result => `<li><a href="/${result.ref}"><h3>${searchDocs[result.ref].title}</h3><p>${searchDocs[result.ref].description || ''}</p></a></li>`).join('') :
-            '<li class="no-results">Sonuç bulunamadı.</li>';
+            results.map(result => `
+                <div class="search-result-item" tabindex="0" onclick="window.location='/'+${JSON.stringify(result.ref)}">
+                    <div class="search-result-title">${searchDocs[result.ref].title}</div>
+                    <div class="search-result-summary">${searchDocs[result.ref].description || ''}</div>
+                </div>
+            `).join('') :
+            '<div class="no-results">Sonuç bulunamadı.</div>';
     });
 }
 
