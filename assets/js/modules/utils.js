@@ -20,6 +20,7 @@ export function replayIntro() {
     window.location.href = '/index.html';
 }
 
+// EKSİK OLAN VE YENİ EKLENEN FONKSİYON
 export function setupReplayButton() {
     const replayButton = document.getElementById('replay-animation-btn');
     if (replayButton) {
