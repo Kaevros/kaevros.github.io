@@ -124,21 +124,24 @@
 }
 .sidebar-slogan {
     font-family: 'VT323', monospace;
-    font-size: 1rem;
-    color: #777;
+    font-size: 1.1rem;
+    color: #888;
     text-align: center;
     height: 1.2em;
     position: relative;
     width: 100%;
     white-space: nowrap;
-    margin: 15px 0;
+    margin: 18px 0 20px 0;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
     overflow: hidden;
+    text-shadow: 0 0 1px rgba(255,255,255,0.1);
+    transform: translateY(-5px);
 }
 .sidebar:hover .sidebar-slogan {
     opacity: 1;
-    transition-delay: 0.12s;
+    transform: translateY(0);
+    transition-delay: 0.15s;
 }
 .sidebar-slogan .slogan-en,
 .sidebar-slogan .slogan-tr {
@@ -156,13 +159,13 @@
 }
 .search-container {
     width: 100%;
-    padding: 0 15px;
-    margin-bottom: 25px;
+    padding: 0 16px;
+    margin-bottom: 22px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s, transform 0.25s;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     position: relative;
-    transform: translateY(0);
+    transform: translateY(-8px);
 }
 .sidebar:hover .search-container {
     opacity: 1;
@@ -211,16 +214,18 @@
 .sidebar-nav .nav-item a {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
-    margin: 5px 0;
+    justify-content: flex-start;
+    padding: 12px 16px;
+    margin: 4px 0;
     color: var(--text-color-light);
     white-space: nowrap;
     position: relative;
     text-decoration: none;
-    border-radius: 8px;
-    transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s, border 0.3s;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     z-index: 1;
+    background: transparent;
+    border: 1.5px solid transparent;
 }
 .sidebar:not(:hover) .sidebar-nav .nav-item a {
     justify-content: center;
@@ -258,15 +263,18 @@
 }
 .sidebar-nav .nav-item a .nav-text {
     margin-left: 15px;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
     opacity: 0;
-    transition: opacity 0.18s, transform 0.18s;
-    transform: translateX(0);
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    transform: translateX(-10px);
+    font-family: 'Oxanium', sans-serif;
+    letter-spacing: 0.3px;
 }
 .sidebar:hover .sidebar-nav .nav-item a .nav-text {
     opacity: 1;
     transform: translateX(0);
-    transition-delay: 0.09s;
+    transition-delay: 0.12s;
 }
 .sidebar-bottom-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; opacity: 0; transition: opacity 0.3s ease; }
 .sidebar:hover .sidebar-bottom-actions { opacity: 1; transition-delay: 0.15s; }
