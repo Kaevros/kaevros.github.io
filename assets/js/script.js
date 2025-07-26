@@ -2,7 +2,8 @@
 
 import { setupWelcomeScreen, skipWelcomeScreen } from './modules/animations.js';
 import { setupSidebar, setupSearch, setupThemeToggle, setupBackToTopButton, enhanceCodeBlocks } from './modules/ui.js';
-import { setActiveSidebarLink, replayIntro, setupReadingProgressBar } from './modules/utils.js';
+// setupReplayButton buraya eklendi ve doğru yerden import ediliyor
+import { setActiveSidebarLink, setupReadingProgressBar, setupReplayButton } from './modules/utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Önce temayı uygula
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSidebar();
     enhanceCodeBlocks();
     setActiveSidebarLink();
-    setupReplayButton();
+    setupReplayButton(); // Bu satır artık hata vermeyecek
     setupReadingProgressBar();
     setupSearch();
     setupThemeToggle();
