@@ -74,10 +74,38 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
         padding: 12px 25px;
     }
 }
-.search-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 5000; visibility: hidden; opacity: 0; transition: opacity 0.4s ease, backdrop-filter 0.4s ease; backdrop-filter: blur(0px); display: flex; align-items: center; justify-content: center; }
-.search-modal-overlay.active { visibility: visible; opacity: 1; backdrop-filter: blur(5px); }
-.search-modal-content { background-color: var(--sidebar-bg-color); width: 90%; max-width: 700px; border-radius: 8px; transform: scale(0.95) translateY(-20px); opacity: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease; }
-.search-modal-overlay.active .search-modal-content { transform: scale(1) translateY(0); opacity: 1; }
+.search-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.55);
+    z-index: 5000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.4s cubic-bezier(0.4,0,0.2,1);
+    backdrop-filter: blur(0px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-modal-overlay.active {
+    visibility: visible;
+    opacity: 1;
+    backdrop-filter: blur(8px);
+}
+.search-modal-content {
+    background-color: var(--sidebar-bg-color);
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px 0 rgba(0,0,0,0.25);
+    transform: scale(0.95) translateY(-20px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.search-modal-overlay.active .search-modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
 .tag { background-color: transparent; color: #fff; text-decoration: none; font-size: 0.8em; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-color); transition: all 0.3s ease; }
 .tag:hover { background-color: var(--accent-color-primary); border-color: var(--accent-color-primary); transform: scale(1.05); }
 .share-buttons a { display: inline-flex; align-items: center; justify-content: center; color: var(--text-color-light); text-decoration: none; font-size: 1.2rem; margin: 0 8px; border: 1px solid var(--border-color); width: 50px; height: 50px; border-radius: 50%; transition: all 0.2s ease; }
