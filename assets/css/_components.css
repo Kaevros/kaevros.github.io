@@ -18,15 +18,75 @@
     max-width: 90px;
     max-height: 90px;
 }
-.sidebar-slogan { font-family: 'VT323', monospace; font-size: 1rem; color: #777; text-align: center; height: 1.2em; position: relative; width: 100%; white-space: nowrap; margin: 15px 0; opacity: 0; transition: opacity 0.3s ease; }
-.sidebar:hover .sidebar-slogan { opacity: 1; transition-delay: 0.15s; }
-.search-container { width: 100%; padding: 0 15px; margin-bottom: 25px; opacity: 0; transition: opacity 0.3s ease; position: relative; }
-.sidebar:hover .search-container { opacity: 1; transition-delay: 0.15s; }
-.search-container input { width: 100%; height: 40px; background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding-left: 40px; color: var(--text-color); font-family: 'Oxanium', sans-serif; transition: border-color 0.2s; cursor: pointer; }
-.sidebar:not(:hover) .search-container input { background: transparent; border-color: transparent; color: transparent; cursor: default; }
-.search-container input:focus, .search-container:hover input { outline: none; border-color: var(--accent-color-primary); }
-.search-container i { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--text-color-light); pointer-events: none; transition: color 0.3s; }
-.search-container:hover i { color: var(--accent-color-primary); }
+.sidebar-slogan {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+    height: 1.2em;
+    position: relative;
+    width: 100%;
+    white-space: nowrap;
+    margin: 15px 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.sidebar:hover .sidebar-slogan {
+    opacity: 1;
+    transition-delay: 0.12s;
+}
+.search-container {
+    width: 100%;
+    padding: 0 15px;
+    margin-bottom: 25px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    position: relative;
+    transform: translateY(0);
+}
+.sidebar:hover .search-container {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.13s;
+    transform: translateY(0);
+}
+.search-container input {
+    width: 100%;
+    height: 40px;
+    background-color: var(--accent-color-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding-left: 40px;
+    color: var(--text-color);
+    font-family: 'Oxanium', sans-serif;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.sidebar:not(:hover) .search-container input {
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+    cursor: default;
+}
+.search-container input:focus, .search-container:hover input {
+    outline: none;
+    border-color: var(--accent-color-primary);
+    background: var(--accent-color-secondary);
+    color: var(--text-color);
+}
+.search-container i {
+    position: absolute;
+    left: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-light);
+    pointer-events: none;
+    transition: color 0.3s;
+}
+.search-container:hover i, .search-container input:focus + i {
+    color: var(--accent-color-primary);
+}
 .sidebar-nav { width: 100%; }
 .sidebar-nav ul { list-style: none; }
 .sidebar-nav .nav-item a { display: flex; align-items: center; padding: 10px; margin: 5px 0; color: var(--text-color-light); white-space: nowrap; position: relative; text-decoration: none; border-radius: 8px; transition: color 0.3s ease, background-color 0.3s ease; }
@@ -34,8 +94,18 @@
 .sidebar-nav .nav-item a:not(.active):hover { color: var(--text-color); background-color: var(--accent-color-secondary); }
 .sidebar-nav .nav-item a .icon { font-size: 1.6rem; min-width: calc(var(--sidebar-width-collapsed) - 20px); text-align: center; transition: transform 0.3s ease; }
 .sidebar-nav .nav-item a:hover .icon { transform: scale(1.1); }
-.sidebar-nav .nav-item a .nav-text { margin-left: 15px; font-size: 1rem; opacity: 0; transition: opacity 0.2s ease; transform: translateX(-5px); }
-.sidebar:hover .sidebar-nav .nav-item a .nav-text { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+.sidebar-nav .nav-item a .nav-text {
+    margin-left: 15px;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.18s, transform 0.18s;
+    transform: translateX(0);
+}
+.sidebar:hover .sidebar-nav .nav-item a .nav-text {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: 0.09s;
+}
 .sidebar-bottom-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; opacity: 0; transition: opacity 0.3s ease; }
 .sidebar:hover .sidebar-bottom-actions { opacity: 1; transition-delay: 0.15s; }
 .replay-animation-btn, .theme-toggle-btn { background-color: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color-light); border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; }
@@ -58,17 +128,17 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
         font-size: 1.8rem;
         cursor: pointer;
     }
-    .sidebar.open .sidebar-slogan,
-    .sidebar.open .search-container,
-    .sidebar.open .sidebar-bottom-actions,
-    .sidebar.open .copyright,
-    .sidebar.open .nav-text {
-        opacity: 1;
-        transform: translateX(0);
-    }
     .sidebar-logo {
         max-width: 90px;
         max-height: 90px;
+    }
+    .sidebar-slogan,
+    .search-container,
+    .sidebar-bottom-actions,
+    .copyright,
+    .nav-text {
+        opacity: 1 !important;
+        transform: none !important;
     }
     .sidebar-nav .nav-item a {
         padding: 12px 25px;
@@ -125,18 +195,4 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .back-to-top-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background-color: #FF7A00; color: #fff; border: none; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; visibility: hidden; transform: translateY(100px); transition: all 0.4s ease; }
 .back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .back-to-top-btn:hover { background-color: #fff; color: #FF7A00; transform: scale(1.1); }
-.post-card { background: var(--sidebar-bg-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.post-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px solid transparent; border-radius: 8px; transition: border-color 0.4s ease; pointer-events: none; z-index: 2; }
-.post-card:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
-.post-card:hover::before { border-color: var(--accent-color-primary); }
-.post-card a.post-card-link { text-decoration: none; display: flex; flex-direction: column; height: 100%; color: var(--text-color); }
-.post-card-content { padding: 30px; flex-grow: 1; }
-.post-card h3 { font-size: 1.5em; margin-bottom: 10px; transition: color 0.2s ease; }
-.post-card:hover h3 { color: var(--accent-color-primary); }
-.post-card-meta { color: #888; font-size: 0.8em; margin-bottom: 15px; }
-.post-card-description { color: var(--text-color-light); }
-.post-card-footer { border-top: 1px solid var(--border-color); padding: 15px 30px; margin-top: auto; background-color: var(--accent-color-secondary); transition: background-color 0.3s; }
-.post-card:hover .post-card-footer { background-color: transparent; }
-.read-more { font-weight: bold; display: flex; align-items: center; gap: 8px; color: var(--accent-color-primary); }
-.read-more i { transition: transform 0.3s ease; }
-.post-card:hover .read-more i { transform: translateX(5px); }
+/* Post card efektleri build.js ve _pages.css ile uyumlu olacak şekilde sadeleştirildi. */
