@@ -455,3 +455,4 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .error-actions .cta-button:hover {
   background: var(--accent-color-secondary);
 }
+
