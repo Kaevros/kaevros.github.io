@@ -202,6 +202,10 @@
     color: var(--accent-color-primary);
     transform: translateX(4px);
 }
+.sidebar-nav .nav-item a:focus {
+    outline: 2px solid var(--accent-color-primary);
+    outline-offset: 2px;
+}
 .sidebar-nav .nav-item a .icon {
     font-size: 1.4rem;
     margin-right: 16px;
@@ -294,12 +298,13 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
         position: absolute;
         top: 15px;
         right: 15px;
-        background: none;
+        background: var(--accent-color-secondary);
         border: none;
         color: var(--text-color);
         font-size: 1.8rem;
         cursor: pointer;
         opacity: 0.8;
+        border-radius: 50%;
         transition: opacity 0.2s, transform 0.2s;
     }
     .close-sidebar-btn:hover {
@@ -322,16 +327,11 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
         padding: 14px 20px;
         margin: 4px 12px;
         background: var(--accent-color-secondary);
+        transition: background 0.2s ease, transform 0.2s ease;
     }
-    .sidebar-nav .nav-item a .icon {
-        font-size: 1.3rem;
-        margin-right: 12px;
-        color: var(--accent-color-primary);
-    }
-    .sidebar-nav .nav-item a .nav-text {
-        font-size: 1rem;
-        opacity: 1;
-        transform: none;
+    .sidebar-nav .nav-item a:active {
+        background: var(--accent-color-primary);
+        transform: scale(0.98);
     }
 }
 .search-modal-overlay {
