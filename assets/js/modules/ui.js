@@ -7,8 +7,15 @@ export function setupSidebar() {
     const sloganEn = document.querySelector('.sidebar-slogan .slogan-en');
     const sloganTr = document.querySelector('.sidebar-slogan .slogan-tr');
 
-    // Sidebar is required; other controls are optional
     if (!sidebar) return;
+
+    // Start collapsed on desktop
+    function setCollapsed(val) {
+        if (val) sidebar.classList.add('collapsed'); else sidebar.classList.remove('collapsed');
+    }
+
+    // initialize: collapsed on desktop, open on mobile
+    if (window.innerWidth > 768) setCollapsed(true); else setCollapsed(false);
 
     let sloganInterval = null;
     function startSloganAnimation() {
@@ -34,12 +41,28 @@ export function setupSidebar() {
         sloganInterval = null;
     }
 
-    // If mobileMenuToggle exists, use it to open the sidebar on mobile
+    // Desktop hover behavior: expand/collapse
+    sidebar.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 768) {
+            setCollapsed(false);
+            startSloganAnimation();
+        }
+    });
+    sidebar.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 768) {
+            setCollapsed(true);
+            stopSloganAnimation();
+        }
+    });
+
+    // Mobile toggle behavior
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            sidebar.classList.add('open');
-            document.body.classList.add('sidebar-open');
+            sidebar.classList.toggle('open');
+            document.body.classList.toggle('sidebar-open');
+            // ensure collapsed removed when opened via mobile
+            setCollapsed(false);
             startSloganAnimation();
         });
     }
@@ -47,34 +70,19 @@ export function setupSidebar() {
     const closeMenu = () => {
         sidebar.classList.remove('open');
         document.body.classList.remove('sidebar-open');
+        // collapse on close if desktop
+        if (window.innerWidth > 768) setCollapsed(true);
         stopSloganAnimation();
     };
 
-    // Close button optional
-    if (closeSidebarBtn) {
-        closeSidebarBtn.addEventListener('click', closeMenu);
-    }
+    if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
 
-    // Click outside to close (works whether mobileMenuToggle exists or not)
     document.addEventListener('click', (event) => {
         const clickedOutside = sidebar.classList.contains('open') && !sidebar.contains(event.target) && !(mobileMenuToggle && mobileMenuToggle.contains(event.target));
-        if (clickedOutside) {
-            closeMenu();
-        }
+        if (clickedOutside) closeMenu();
     });
 
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu();
-    });
-
-    // Desktop hover starts/stops slogan animation if slogans exist
-    sidebar.addEventListener('mouseenter', () => {
-        if (window.innerWidth > 768) startSloganAnimation();
-    });
-    sidebar.addEventListener('mouseleave', () => {
-        if (window.innerWidth > 768) stopSloganAnimation();
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu(); });
 }
 
 export function enhanceCodeBlocks() {

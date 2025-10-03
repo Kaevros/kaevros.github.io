@@ -630,4 +630,41 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
   background: var(--accent-color-secondary);
 }
 .animated-title { display: flex; justify-content: center; font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 700; background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary)); -webkit-background-clip: text; background-clip: text; /* Added for compatibility */ -webkit-text-fill-color: transparent; }
+/* Collapsed sidebar explicit styles */
+.sidebar.collapsed {
+    width: 64px; /* fixed collapsed width */
+}
+.sidebar.collapsed .sidebar-content,
+.sidebar.collapsed .sidebar-footer,
+.sidebar.collapsed .sidebar-header {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+.sidebar.collapsed .sidebar-logo {
+    transform: none;
+    max-width: 40px;
+    max-height: 40px;
+}
+.sidebar.collapsed .sidebar-nav .nav-item a {
+    justify-content: center;
+    padding: 8px 0;
+}
+.sidebar.collapsed .sidebar-nav .nav-item a .icon {
+    font-size: 1.4rem;
+    margin: 0;
+}
+.sidebar.collapsed .sidebar-nav .nav-item a .nav-text {
+    display: none;
+}
+.sidebar.collapsed .sidebar-bottom-actions {
+    opacity: 0;
+}
+.sidebar {
+    width: 260px; /* default expanded width */
+    transition: width 0.25s ease, box-shadow 0.25s ease;
+}
+.sidebar .sidebar-nav .nav-item a .icon {
+    width: 28px; /* fixed icon column */
+    text-align: center;
+}
 
