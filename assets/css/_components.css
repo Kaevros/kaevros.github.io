@@ -202,10 +202,13 @@
     color: var(--accent-color-primary);
     transform: translateX(4px);
 }
+
+/* Add focus styles for accessibility */
 .sidebar-nav .nav-item a:focus {
     outline: 2px solid var(--accent-color-primary);
     outline-offset: 2px;
 }
+
 .sidebar-nav .nav-item a .icon {
     font-size: 1.4rem;
     margin-right: 16px;
@@ -332,6 +335,84 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
     .sidebar-nav .nav-item a:active {
         background: var(--accent-color-primary);
         transform: scale(0.98);
+    }
+}
+
+/* Comprehensive Sidebar Improvements */
+
+/* Desktop Sidebar Improvements */
+.sidebar-logo {
+    max-width: 42px;
+    max-height: 42px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    z-index: 10;
+    position: relative;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+.sidebar:hover .sidebar-logo {
+    transform: scale(2);
+    filter: drop-shadow(0 4px 8px rgba(241,77,31,0.2));
+}
+
+.sidebar-nav .nav-item a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 14px;
+    margin: 4px 8px;
+    color: var(--text-color-light);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    background: var(--sidebar-bg-color);
+    border: 1.5px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+.sidebar-nav .nav-item a:hover {
+    background: var(--accent-color-secondary);
+    border-color: var(--accent-color-primary);
+    box-shadow: 0 4px 20px rgba(241,77,31,0.2);
+    color: var(--accent-color-primary);
+    transform: translateX(4px);
+}
+
+/* Add focus styles for accessibility */
+.sidebar-nav .nav-item a:focus {
+    outline: 2px solid var(--accent-color-primary);
+    outline-offset: 2px;
+}
+
+/* Mobile Sidebar Improvements */
+@media (max-width: 768px) {
+    .sidebar-nav .nav-item a {
+        padding: 14px 20px;
+        margin: 4px 12px;
+        background: var(--accent-color-secondary);
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .sidebar-nav .nav-item a:active {
+        background: var(--accent-color-primary);
+        transform: scale(0.98);
+    }
+
+    .close-sidebar-btn {
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--accent-color-secondary);
+        border: none;
+        color: var(--text-color);
+        font-size: 1.8rem;
+        cursor: pointer;
+        opacity: 0.8;
+        border-radius: 50%;
+        transition: opacity 0.2s, transform 0.2s;
+    }
+    .close-sidebar-btn:hover {
+        opacity: 1;
+        transform: scale(1.1);
     }
 }
 .search-modal-overlay {
