@@ -79,14 +79,13 @@
 .sidebar-logo {
     max-width: 42px;
     max-height: 42px;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.3s ease, filter 0.3s ease;
     z-index: 10;
     position: relative;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 .sidebar:hover .sidebar-logo {
-    max-width: 85px;
-    max-height: 85px;
+    transform: scale(2);
     filter: drop-shadow(0 4px 8px rgba(241,77,31,0.2));
 }
 .sidebar-slogan {
@@ -100,7 +99,7 @@
     white-space: nowrap;
     margin: 18px 0 20px 0;
     opacity: 0;
-    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
     overflow: hidden;
     text-shadow: 0 0 1px rgba(255,255,255,0.1);
     transform: translateY(-5px);
@@ -108,7 +107,6 @@
 .sidebar:hover .sidebar-slogan {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: 0.15s;
 }
 .sidebar-slogan .slogan-en,
 .sidebar-slogan .slogan-tr {
@@ -191,7 +189,7 @@
     color: var(--text-color-light);
     text-decoration: none;
     border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    transition: background 0.3s ease, transform 0.3s ease;
     background: var(--sidebar-bg-color);
     border: 1.5px solid transparent;
     position: relative;
@@ -207,10 +205,14 @@
 .sidebar-nav .nav-item a .icon {
     font-size: 1.4rem;
     margin-right: 16px;
-    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    transition: color 0.3s ease, transform 0.3s ease;
     min-width: 26px;
     text-align: center;
     color: var(--text-color-light);
+}
+.sidebar-nav .nav-item a:hover .icon {
+    color: var(--accent-color-primary);
+    transform: scale(1.2);
 }
 .sidebar-nav .nav-item a .nav-text {
     font-size: 1rem;
@@ -237,6 +239,7 @@
     margin: 4px 6px;
     background: transparent;
 }
+.sidebar-bottom-actions {
     display: flex;
     justify-content: space-around; /* Spread buttons evenly */
     gap: 12px; /* Adjust gap */
@@ -322,7 +325,7 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
     }
     .sidebar-nav .nav-item a .icon {
         font-size: 1.3rem;
-        margin-right: 16px;
+        margin-right: 12px;
         color: var(--accent-color-primary);
     }
     .sidebar-nav .nav-item a .nav-text {
