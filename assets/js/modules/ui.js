@@ -99,7 +99,10 @@ export function setupSearch() {
     const searchModalInput = document.getElementById('search-modal-input');
     const searchModalClose = document.getElementById('search-modal-close');
     const resultsList = document.getElementById('search-results-list');
-    if (!searchTrigger || !searchModal) return;
+    const sidebarSearch = document.getElementById('sidebar-search');
+    // if there's no dedicated trigger in the markup, allow the sidebar search input to open the modal
+    if (!searchTrigger && !sidebarSearch) return;
+    if (!searchModal) return;
 
     let idx, searchDocs;
     let dataFetched = false;
@@ -118,8 +121,10 @@ export function setupSearch() {
     const openSearch = () => {
         initializeSearch();
         searchModal.classList.add('active');
+        // prevent body scroll while modal is open
         document.body.style.overflow = 'hidden';
-        setTimeout(() => { if (searchModalInput) searchModalInput.focus(); }, 300);
+        // focus modal input after the modal animation completes
+        setTimeout(() => { if (searchModalInput) searchModalInput.focus(); }, 320);
     };
 
     const closeSearch = () => {
@@ -130,6 +135,15 @@ export function setupSearch() {
     };
 
     if (searchTrigger) searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+    // support sidebar search input as a trigger
+    if (sidebarSearch) {
+        sidebarSearch.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+        sidebarSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault(); openSearch();
+            }
+        });
+    }
     if (searchModalClose) searchModalClose.addEventListener('click', closeSearch);
     if (searchModal) searchModal.addEventListener('click', (e) => { if (e.target === searchModal) closeSearch(); });
     document.addEventListener('keydown', (e) => { if (e.key === "Escape" && searchModal && searchModal.classList.contains('active')) closeSearch(); });
