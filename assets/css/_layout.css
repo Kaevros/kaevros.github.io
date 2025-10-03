@@ -17,10 +17,9 @@ body.sidebar-open { overflow: hidden; }
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 2px 0 24px 0 rgba(0,0,0,0.12);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* softened shadow and removed backdrop-filter to avoid costly repaints */
+    box-shadow: 1px 0 12px 0 rgba(0,0,0,0.08);
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar-header { flex-shrink: 0; padding: 20px 0; }
 .sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; align-items: center; }

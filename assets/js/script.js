@@ -30,6 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
     setupThemeToggle();
     setupBackToTopButton();
     
-    if (typeof GLightbox !== 'undefined') GLightbox({ selector: '.glightbox' });
-    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true, offset: 50 });
+    // Defer heavy third-party inits until main layout is visible to reduce first-load jank
+    function initThirdPartyIfReady(attempts = 0) {
+        const mainLayout = document.querySelector('.main-layout');
+        const visible = mainLayout && !mainLayout.classList.contains('hidden');
+        if (visible || attempts > 60) {
+            if (typeof GLightbox !== 'undefined') GLightbox({ selector: '.glightbox' });
+            if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true, offset: 50 });
+            return;
+        }
+        // wait next frame and try again (up to ~1 second)
+        window.requestAnimationFrame(() => initThirdPartyIfReady(attempts + 1));
+    }
+    initThirdPartyIfReady();
 });
