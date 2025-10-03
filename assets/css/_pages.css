@@ -246,7 +246,15 @@
 .post-content blockquote { border-left: 3px solid var(--accent-color-primary); padding-left: 25px; margin: 40px 0; color: #a0a0a0; font-style: italic; font-size: 1.2em; }
 .post-end-separator { height: 1px; width: 80%; max-width: 200px; background: var(--border-color); margin: 50px auto 30px; }
 .about-hero { padding: 4rem 2rem; text-align: center; border-bottom: 1px solid var(--border-color); margin-bottom: 3rem; }
-.about-hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 1rem; }
+.about-hero h1 { 
+    font-size: clamp(2.5rem, 6vw, 4rem); 
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, var(--accent-color-primary), #ff9d40 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
 .about-hero .hero-subtitle { font-size: 1.2rem; color: var(--text-color-light); max-width: 600px; margin: 0 auto; }
 .about-content .content-block { max-width: 750px; margin: 0 auto 3rem auto; }
 .about-content h2 { font-size: clamp(1.8rem, 4vw, 2.2rem); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color); display: inline-block; }
