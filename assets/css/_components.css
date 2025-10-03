@@ -79,14 +79,14 @@
 .sidebar-logo {
     max-width: 42px;
     max-height: 42px;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     z-index: 10;
     position: relative;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .sidebar:hover .sidebar-logo {
-    transform: scale(2);
-    filter: drop-shadow(0 4px 8px rgba(241,77,31,0.2));
+    transform: scale(1.8);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 .sidebar-slogan {
     font-family: 'VT323', monospace;
@@ -184,21 +184,21 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 14px;
+    padding: 12px 16px;
     margin: 4px 8px;
     color: var(--text-color-light);
     text-decoration: none;
-    border-radius: 12px;
+    border-radius: 8px;
     transition: background 0.3s ease, transform 0.3s ease;
     background: var(--sidebar-bg-color);
-    border: 1.5px solid transparent;
+    border: 1px solid transparent;
     position: relative;
     overflow: hidden;
 }
 .sidebar-nav .nav-item a:hover {
     background: var(--accent-color-secondary);
     border-color: var(--accent-color-primary);
-    box-shadow: 0 4px 20px rgba(241,77,31,0.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     color: var(--accent-color-primary);
     transform: translateX(4px);
 }
@@ -344,35 +344,35 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .sidebar-logo {
     max-width: 42px;
     max-height: 42px;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     z-index: 10;
     position: relative;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .sidebar:hover .sidebar-logo {
-    transform: scale(2);
-    filter: drop-shadow(0 4px 8px rgba(241,77,31,0.2));
+    transform: scale(1.8);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .sidebar-nav .nav-item a {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 14px;
+    padding: 12px 16px;
     margin: 4px 8px;
     color: var(--text-color-light);
     text-decoration: none;
-    border-radius: 12px;
+    border-radius: 8px;
     transition: background 0.3s ease, transform 0.3s ease;
     background: var(--sidebar-bg-color);
-    border: 1.5px solid transparent;
+    border: 1px solid transparent;
     position: relative;
     overflow: hidden;
 }
 .sidebar-nav .nav-item a:hover {
     background: var(--accent-color-secondary);
     border-color: var(--accent-color-primary);
-    box-shadow: 0 4px 20px rgba(241,77,31,0.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     color: var(--accent-color-primary);
     transform: translateX(4px);
 }
