@@ -25,20 +25,18 @@
 }
 .hero-main-title {
     font-size: clamp(2.2rem, 6vw, 4rem);
-    font-weight: 800;
+    font-weight: 900;
     background: linear-gradient(90deg, var(--accent-color-primary), #ff9d40 80%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
-    font-weight: 900;
     margin-bottom: 18px;
     margin-top: 0;
     letter-spacing: -1px;
     z-index: 1;
     position: relative;
     line-height: 1.1;
-    background: none;
 }
 .hero-main-title .highlight {
     color: var(--accent-color-primary);

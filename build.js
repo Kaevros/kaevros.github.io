@@ -28,9 +28,9 @@ async function buildSite() {
     const allPosts = await processPosts(outputDir);
     await processPages(outputDir);
 
-    // Lazy loading ve RSS feed optimizasyonu
-    await createSearchIndex(outputDir);
-    await createRssFeed(outputDir);
+  // Lazy loading ve RSS feed optimizasyonu
+  await createSearchIndex(outputDir, allPosts);
+  await createRssFeed(outputDir, allPosts);
     console.log('--- Lazy loading ve RSS feed tamamlandı.');
 
     // Ana ve diğer temel sayfaları oluştur
