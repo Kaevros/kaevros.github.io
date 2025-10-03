@@ -7,10 +7,12 @@ export function setupSidebar() {
     const sloganEn = document.querySelector('.sidebar-slogan .slogan-en');
     const sloganTr = document.querySelector('.sidebar-slogan .slogan-tr');
 
-    if (!sidebar || !mobileMenuToggle || !closeSidebarBtn || !sloganEn || !sloganTr) return;
+    // Sidebar is required; other controls are optional
+    if (!sidebar) return;
 
     let sloganInterval = null;
     function startSloganAnimation() {
+        if (!sloganEn || !sloganTr) return;
         let showEn = true;
         sloganEn.classList.add('active');
         sloganTr.classList.remove('active');
@@ -26,17 +28,21 @@ export function setupSidebar() {
         }, 3500);
     }
     function stopSloganAnimation() {
-        clearInterval(sloganInterval);
-        sloganEn.classList.remove('active');
-        sloganTr.classList.remove('active');
+        if (sloganInterval) clearInterval(sloganInterval);
+        if (sloganEn) sloganEn.classList.remove('active');
+        if (sloganTr) sloganTr.classList.remove('active');
+        sloganInterval = null;
     }
 
-    mobileMenuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        sidebar.classList.add('open');
-        document.body.classList.add('sidebar-open');
-        startSloganAnimation();
-    });
+    // If mobileMenuToggle exists, use it to open the sidebar on mobile
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.add('open');
+            document.body.classList.add('sidebar-open');
+            startSloganAnimation();
+        });
+    }
 
     const closeMenu = () => {
         sidebar.classList.remove('open');
@@ -44,15 +50,25 @@ export function setupSidebar() {
         stopSloganAnimation();
     };
 
-    closeSidebarBtn.addEventListener('click', closeMenu);
+    // Close button optional
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', closeMenu);
+    }
 
+    // Click outside to close (works whether mobileMenuToggle exists or not)
     document.addEventListener('click', (event) => {
-        if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+        const clickedOutside = sidebar.classList.contains('open') && !sidebar.contains(event.target) && !(mobileMenuToggle && mobileMenuToggle.contains(event.target));
+        if (clickedOutside) {
             closeMenu();
         }
     });
 
-    // Masaüstü için hover ile açıldığında da animasyon başlasın
+    // Escape key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu();
+    });
+
+    // Desktop hover starts/stops slogan animation if slogans exist
     sidebar.addEventListener('mouseenter', () => {
         if (window.innerWidth > 768) startSloganAnimation();
     });
@@ -95,22 +111,23 @@ export function setupSearch() {
         initializeSearch();
         searchModal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => searchModalInput.focus(), 300);
+        setTimeout(() => { if (searchModalInput) searchModalInput.focus(); }, 300);
     };
 
     const closeSearch = () => {
         searchModal.classList.remove('active');
         document.body.style.overflow = '';
-        searchModalInput.value = '';
-        resultsList.innerHTML = '';
+        if (searchModalInput) searchModalInput.value = '';
+        if (resultsList) resultsList.innerHTML = '';
     };
 
-    searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
-    searchModalClose.addEventListener('click', closeSearch);
-    searchModal.addEventListener('click', (e) => { if (e.target === searchModal) closeSearch(); });
-    document.addEventListener('keydown', (e) => { if (e.key === "Escape" && searchModal.classList.contains('active')) closeSearch(); });
+    if (searchTrigger) searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+    if (searchModalClose) searchModalClose.addEventListener('click', closeSearch);
+    if (searchModal) searchModal.addEventListener('click', (e) => { if (e.target === searchModal) closeSearch(); });
+    document.addEventListener('keydown', (e) => { if (e.key === "Escape" && searchModal && searchModal.classList.contains('active')) closeSearch(); });
 
     function renderResults(results) {
+        if (!resultsList) return;
         resultsList.innerHTML = '';
         if (!results || results.length === 0) {
             resultsList.innerHTML = '<div class="no-results">Sonuç bulunamadı.</div>';
@@ -123,11 +140,11 @@ export function setupSearch() {
 
             const title = document.createElement('div');
             title.className = 'search-result-title';
-            title.textContent = searchDocs[r.ref].title || 'Başlık yok';
+            title.textContent = (searchDocs && searchDocs[r.ref] && searchDocs[r.ref].title) ? searchDocs[r.ref].title : 'Başlık yok';
 
             const summary = document.createElement('div');
             summary.className = 'search-result-summary';
-            summary.textContent = searchDocs[r.ref].description || '';
+            summary.textContent = (searchDocs && searchDocs[r.ref] && searchDocs[r.ref].description) ? searchDocs[r.ref].description : '';
 
             item.appendChild(title);
             item.appendChild(summary);
@@ -146,15 +163,17 @@ export function setupSearch() {
         });
     }
 
-    searchModalInput.addEventListener('input', (e) => {
-        const query = e.target.value;
-        if (query.length < 2 || !idx) {
-            resultsList.innerHTML = '';
-            return;
-        }
-        const results = idx.search(query + '*');
-        renderResults(results);
-    });
+    if (searchModalInput) {
+        searchModalInput.addEventListener('input', (e) => {
+            const query = e.target.value;
+            if (query.length < 2 || !idx) {
+                if (resultsList) resultsList.innerHTML = '';
+                return;
+            }
+            const results = idx.search(query + '*');
+            renderResults(results);
+        });
+    }
 }
 
 export function setupThemeToggle() {
