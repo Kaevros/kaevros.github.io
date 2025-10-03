@@ -3,48 +3,113 @@
 export function setupWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
     if (!welcomeScreen) return;
-    
-    welcomeScreen.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+
     const welcomeMessage = document.getElementById('welcome-message');
     const skipButton = document.getElementById('skip-button');
     const messages = ["Sistemler insanlar tarafından yapılır ve insanlar kusurludur."];
-    let typingInterval;
+    let rafId = null;
+    let startTime = null;
+    let charIndex = 0;
+    let currentText = '';
 
-    function typeWriterEffect(element, text, onComplete) {
-        if (!element) return;
-        element.textContent = '';
-        let i = 0;
-        typingInterval = setInterval(() => {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
-                i++;
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const msPerChar = 65; // hız; küçük ise daha hızlı
+
+    function typeWriterEffect(el, text, onComplete) {
+        if (!el) {
+            if (onComplete) onComplete();
+            return;
+        }
+        el.textContent = '';
+        currentText = text;
+        charIndex = 0;
+        startTime = null;
+
+        if (prefersReduced) {
+            el.textContent = text;
+            if (onComplete) onComplete();
+            return;
+        }
+
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const shouldShow = Math.min(text.length, Math.floor(elapsed / msPerChar));
+            if (shouldShow > charIndex) {
+                charIndex = shouldShow;
+                el.textContent = text.slice(0, charIndex);
+            }
+            if (charIndex < text.length) {
+                rafId = requestAnimationFrame(step);
             } else {
-                clearInterval(typingInterval);
+                rafId = null;
                 if (onComplete) onComplete();
             }
-        }, 85);
+        }
+        rafId = requestAnimationFrame(step);
     }
 
-    function startMessageCycle() {
-        if (!welcomeMessage) return;
-        welcomeMessage.style.opacity = '1';
-        typeWriterEffect(welcomeMessage, messages[0], () => {
-             if (skipButton) skipButton.classList.add('visible');
-        });
+    function cancelTyping() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+        if (welcomeMessage && currentText) {
+            welcomeMessage.textContent = currentText;
+        }
+    }
+
+    function showWelcome() {
+        welcomeScreen.classList.remove('hidden');
+        welcomeScreen.classList.add('visible');
+        document.documentElement.setAttribute('data-page-state', 'welcome');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+            if (welcomeMessage) {
+                typeWriterEffect(welcomeMessage, messages[0], () => {
+                    if (skipButton) skipButton.classList.add('visible');
+                });
+            }
+        }, 220);
     }
 
     function enterBlog() {
-        if (typingInterval) clearInterval(typingInterval);
+        cancelTyping();
         sessionStorage.setItem('hasVisited', 'true');
-        skipWelcomeScreen();
+        welcomeScreen.classList.remove('visible');
+        welcomeScreen.classList.add('hidden');
+        document.documentElement.removeAttribute('data-page-state');
+        document.body.style.overflow = '';
+        const mainLayout = document.querySelector('.main-layout');
+        if (mainLayout) mainLayout.classList.remove('hidden');
     }
 
     if (skipButton) {
         skipButton.addEventListener('click', enterBlog);
+        // Klavye ile erişilebilirlik
+        skipButton.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                enterBlog();
+            }
+        });
     }
 
-    setTimeout(startMessageCycle, 2000);
+    // Escape tuşu ile atla
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && welcomeScreen.classList.contains('visible')) {
+            enterBlog();
+        }
+    });
+
+    // Başlatma: ziyaret edilmişse pas geç, değilse göster
+    if (!sessionStorage.getItem('hasVisited')) {
+        // küçük gecikme ile göster
+        setTimeout(showWelcome, 300);
+    } else {
+        const mainLayout = document.querySelector('.main-layout');
+        if (mainLayout) mainLayout.classList.remove('hidden');
+    }
 }
 
 export function skipWelcomeScreen() {
@@ -52,8 +117,9 @@ export function skipWelcomeScreen() {
     const mainLayout = document.querySelector('.main-layout');
     if (welcomeScreen) {
         welcomeScreen.classList.add('hidden');
+        welcomeScreen.classList.remove('visible');
         welcomeScreen.addEventListener('transitionend', () => {
-            welcomeScreen.style.display = 'none';
+            // tamamen gizlendiğinde overflow'u temizle
             document.body.style.overflow = '';
         }, { once: true });
     } else {

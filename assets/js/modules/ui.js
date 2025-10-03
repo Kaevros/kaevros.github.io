@@ -110,6 +110,42 @@ export function setupSearch() {
     searchModal.addEventListener('click', (e) => { if (e.target === searchModal) closeSearch(); });
     document.addEventListener('keydown', (e) => { if (e.key === "Escape" && searchModal.classList.contains('active')) closeSearch(); });
 
+    function renderResults(results) {
+        resultsList.innerHTML = '';
+        if (!results || results.length === 0) {
+            resultsList.innerHTML = '<div class="no-results">Sonuç bulunamadı.</div>';
+            return;
+        }
+        results.forEach(r => {
+            const item = document.createElement('div');
+            item.className = 'search-result-item';
+            item.tabIndex = 0;
+
+            const title = document.createElement('div');
+            title.className = 'search-result-title';
+            title.textContent = searchDocs[r.ref].title || 'Başlık yok';
+
+            const summary = document.createElement('div');
+            summary.className = 'search-result-summary';
+            summary.textContent = searchDocs[r.ref].description || '';
+
+            item.appendChild(title);
+            item.appendChild(summary);
+
+            item.addEventListener('click', () => {
+                window.location.href = '/' + r.ref;
+            });
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = '/' + r.ref;
+                }
+            });
+
+            resultsList.appendChild(item);
+        });
+    }
+
     searchModalInput.addEventListener('input', (e) => {
         const query = e.target.value;
         if (query.length < 2 || !idx) {
@@ -117,14 +153,7 @@ export function setupSearch() {
             return;
         }
         const results = idx.search(query + '*');
-        resultsList.innerHTML = results.length > 0 ?
-            results.map(result => `
-                <div class="search-result-item" tabindex="0" onclick="window.location='/'+${JSON.stringify(result.ref)}">
-                    <div class="search-result-title">${searchDocs[result.ref].title}</div>
-                    <div class="search-result-summary">${searchDocs[result.ref].description || ''}</div>
-                </div>
-            `).join('') :
-            '<div class="no-results">Sonuç bulunamadı.</div>';
+        renderResults(results);
     });
 }
 

@@ -18,15 +18,19 @@
   backdrop-filter: blur(15px); /* Enhanced blur */
 }
 .search-modal-content {
-  background: #1e1e1e; /* Darker background for focus */
-  border-radius: 20px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5); /* Stronger shadow */
-  width: 90vw;
-  max-width: 500px;
-  padding: 20px;
-  transform: scale(0.9) translateY(20px);
+  /* Consolidated modal content styles (consistent, accessible) */
+  background-color: var(--sidebar-bg-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+  width: 90%;
+  max-width: 700px; /* allow wider search on large screens */
+  padding: 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: scale(0.95) translateY(-12px);
   opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.45s cubic-bezier(0.4,0,0.2,1);
 }
 .search-modal-overlay.active .search-modal-content {
   transform: scale(1) translateY(0);
@@ -384,24 +388,49 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .tag:hover { background-color: var(--accent-color-primary); border-color: var(--accent-color-primary); transform: scale(1.05); }
 .share-buttons a { display: inline-flex; align-items: center; justify-content: center; color: var(--text-color-light); text-decoration: none; font-size: 1.2rem; margin: 0 8px; border: 1px solid var(--border-color); width: 50px; height: 50px; border-radius: 50%; transition: all 0.2s ease; }
 .share-buttons a:hover { background-color: var(--accent-color-primary); color: #fff; border-color: var(--accent-color-primary); transform: scale(1.1); }
-.welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--main-bg-color); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 6000; opacity: 1; transition: opacity 1s ease-out; overflow: hidden; }
-.welcome-screen.hidden { opacity: 0; pointer-events: none; }
-.welcome-screen::before, .welcome-screen::after { content: ''; position: absolute; top: 50%; left: 50%; width: 1px; height: 1px; border-radius: 50%; box-shadow: 0 0 100px 100px rgba(255, 122, 0, 0.2); animation: radar-pulse 4s linear infinite; }
-.welcome-screen::after { animation-delay: 2s; }
-.welcome-content { z-index: 2; text-align: center; }
-.animated-title { display: flex; justify-content: center; font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 700; background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary)); -webkit-background-clip: text; background-clip: text; /* Added for compatibility */ -webkit-text-fill-color: transparent; }
-.animated-title span { display: inline-block; animation: reveal-char 0.8s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: calc(0.1s * var(--char-index)); }
-.welcome-message { font-family: 'VT323', monospace; font-size: clamp(1rem, 3vw, 1.5rem); min-height: 1.2em; border-right: .15em solid var(--accent-color-primary); white-space: nowrap; overflow: hidden; animation: blink-caret .75s step-end infinite, typewriter 4s steps(40, end); max-width: 90vw; }
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
+.welcome-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background-color: var(--main-bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 6000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
 }
-@keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: var(--accent-color-primary); }
+.welcome-screen.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+.welcome-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+}
+.welcome-screen::before, .welcome-screen::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; width: 1px; height: 1px;
+    border-radius: 50%;
+    box-shadow: 0 0 100px 100px rgba(255, 122, 0, 0.18);
+    animation: radar-pulse 4s linear infinite;
+}
+.welcome-screen::after { animation-delay: 2s; }
+@media (prefers-reduced-motion: reduce) {
+    .welcome-screen, .welcome-screen::before, .welcome-screen::after, .animated-title span {
+        animation: none !important;
+        transition: none !important;
+    }
 }
 .skip-button { background: var(--accent-color-secondary); border: 1px solid var(--border-color); color: var(--text-color); font-size: 1.5rem; cursor: pointer; opacity: 0; transition: all 0.3s ease; margin-top: 40px; visibility: hidden; border-radius: 50%; width: 60px; height: 60px; display: inline-flex; justify-content: center; align-items: center; }
-.skip-button.visible { opacity: 1; visibility: visible; }
+.skip-button.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.skip-button:focus { outline: 3px solid rgba(255,122,0,0.18); box-shadow: 0 4px 18px rgba(255,122,0,0.12); }
 .skip-button:hover { background-color: var(--accent-color-primary); border-color: var(--accent-color-primary); color: #fff; transform: scale(1.1); }
 .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 0%; z-index: 7000; transition: width 0.1s linear; }
 .back-to-top-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background-color: #FF7A00; color: #fff; border: none; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; visibility: hidden; transform: translateY(100px); transition: all 0.4s ease; }
@@ -434,6 +463,7 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
   font-weight: bold;
   background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .error-title {
@@ -455,4 +485,5 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .error-actions .cta-button:hover {
   background: var(--accent-color-secondary);
 }
+.animated-title { display: flex; justify-content: center; font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 700; background: linear-gradient(90deg, var(--accent-color-primary), var(--accent-color-secondary)); -webkit-background-clip: text; background-clip: text; /* Added for compatibility */ -webkit-text-fill-color: transparent; }
 
