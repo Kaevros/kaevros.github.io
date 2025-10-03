@@ -63,7 +63,8 @@ export function setupWelcomeScreen() {
         welcomeScreen.classList.remove('hidden');
         welcomeScreen.classList.add('visible');
         document.documentElement.setAttribute('data-page-state', 'welcome');
-        document.body.style.overflow = 'hidden';
+    // avoid toggling body overflow too early to prevent layout reflow on first scroll
+    // we set overflow hidden only after the welcome screen is fully visible
         setTimeout(() => {
             if (welcomeMessage) {
                 typeWriterEffect(welcomeMessage, messages[0], () => {
@@ -79,7 +80,7 @@ export function setupWelcomeScreen() {
         welcomeScreen.classList.remove('visible');
         welcomeScreen.classList.add('hidden');
         document.documentElement.removeAttribute('data-page-state');
-        document.body.style.overflow = '';
+    // restore overflow after welcome screen hides (transitionend handler below ensures it's safe)
         const mainLayout = document.querySelector('.main-layout');
         if (mainLayout) mainLayout.classList.remove('hidden');
     }
@@ -108,7 +109,7 @@ export function setupWelcomeScreen() {
         setTimeout(showWelcome, 300);
     } else {
         const mainLayout = document.querySelector('.main-layout');
-        if (mainLayout) mainLayout.classList.remove('hidden');
+    if (mainLayout) mainLayout.classList.remove('hidden');
     }
 }
 
