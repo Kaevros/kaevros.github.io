@@ -28,7 +28,7 @@ html[data-theme="light"] {
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable both-edges; }
 body { font-family: 'Oxanium', sans-serif; background-color: var(--main-bg-color); color: var(--text-color); line-height: 1.7; overflow-x: clip; font-size: clamp(1rem, 1.6vw, 1.1rem); transition: background-color 0.3s ease, color 0.3s ease; }
 a { color: var(--accent-color-primary); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--link-hover-color); }

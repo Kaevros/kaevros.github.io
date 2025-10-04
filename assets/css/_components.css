@@ -38,6 +38,14 @@
   opacity: 1;
 }
 .search-modal-header { display: flex; align-items: center; gap: 10px; padding: 4px 4px 8px 4px; }
+.search-modal-header { position: relative; }
+.search-modal-header::before {
+    content: "\f002"; /* fa-magnifying-glass */
+    font-family: "Font Awesome 6 Free"; font-weight: 900;
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--text-color-light); opacity: 0.8; pointer-events: none;
+}
+.search-modal-content:focus-within .search-modal-header::before { color: var(--accent-color-primary); opacity: 1; }
 .search-modal-header input[type="search"], .search-modal-content input[type="search"], .search-modal-content input#search-modal-input {
     flex: 1;
     background: rgba(255,255,255,0.05);
@@ -582,7 +590,7 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
 .skip-button.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .skip-button:focus { outline: 3px solid rgba(255,122,0,0.18); box-shadow: 0 4px 18px rgba(255,122,0,0.12); }
 .skip-button:hover { background-color: var(--accent-color-primary); border-color: var(--accent-color-primary); color: #fff; transform: scale(1.1); }
-.progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 0%; z-index: 7000; transition: width 0.1s linear; }
+.progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color-primary); width: 100%; transform-origin: 0 0; transform: scaleX(0); z-index: 7000; will-change: transform; }
 .back-to-top-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background-color: #FF7A00; color: #fff; border: none; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; visibility: hidden; transform: translateY(100px); transition: all 0.4s ease; }
 .back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .back-to-top-btn:hover { background-color: #fff; color: #FF7A00; transform: scale(1.1); }

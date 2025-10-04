@@ -43,6 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
         window.requestAnimationFrame(() => initThirdPartyIfReady(attempts + 1));
     }
     initThirdPartyIfReady();
+    // Start hero background animation after layout visible to avoid first-paint jank
+    function enableHeroAnim(attempts=0){
+        const mainLayout = document.querySelector('.main-layout');
+        const hero = document.querySelector('.hero-section');
+        const visible = mainLayout && !mainLayout.classList.contains('hidden');
+        if ((visible && hero) || attempts>60){
+            if (hero) hero.classList.add('hero-animate');
+            return;
+        }
+        requestAnimationFrame(()=>enableHeroAnim(attempts+1));
+    }
+    enableHeroAnim();
     // PWA: register service worker (non-blocking)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
