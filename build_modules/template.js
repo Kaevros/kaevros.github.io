@@ -17,7 +17,26 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
     const pageUrl = `${siteBaseUrl}${meta.url || ''}`;
     const pageKeywords = meta.keywords || 'siber güvenlik, blog, kaevros, teknoloji, network, yazılım';
     
-    const metaTagsHTML = `<meta name="description" content="${pageDescription}"><meta name="keywords" content="${pageKeywords}"><meta name="author" content="Kaevros"><meta property="og:type" content="website"><meta property="og:title" content="${meta.title || 'Kaevros - Kişisel Blog'}"><meta property="og:description" content="${pageDescription}"><meta property="og:image" content="${pageImage}"><meta property="og:url" content="${pageUrl}"><meta property="og:site_name" content="Kaevros - Kişisel Blog"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${meta.title || 'Kaevros - Kişisel Blog'}"><meta name="twitter:description" content="${pageDescription}"><meta name="twitter:image" content="${pageImage}">`;
+    const canonicalLink = `<link rel="canonical" href="${pageUrl}" />`;
+    const metaTagsHTML = `${canonicalLink}<meta name="description" content="${pageDescription}"><meta name="keywords" content="${pageKeywords}"><meta name="author" content="Kaevros"><meta property="og:type" content="website"><meta property="og:title" content="${meta.title || 'Kaevros - Kişisel Blog'}"><meta property="og:description" content="${pageDescription}"><meta property="og:image" content="${pageImage}"><meta property="og:url" content="${pageUrl}"><meta property="og:site_name" content="Kaevros - Kişisel Blog"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${meta.title || 'Kaevros - Kişisel Blog'}"><meta name="twitter:description" content="${pageDescription}"><meta name="twitter:image" content="${pageImage}">`;
+    const ldOrg = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Kaevros - Kişisel Blog',
+        url: siteBaseUrl,
+        inLanguage: 'tr-TR'
+    };
+    const ldPost = meta.date ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: meta.title,
+        description: pageDescription,
+        image: pageImage,
+        datePublished: meta.date,
+        dateModified: meta.date,
+        author: { '@type': 'Person', name: 'Kaevros' },
+        mainEntityOfPage: pageUrl
+    } : null;
     const rssLinkHTML = `<link rel="alternate" type="application/rss+xml" title="Kaevros - Kişisel Blog RSS Feed" href="/feed.xml">`;
     const faviconHTML = `<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="manifest" href="/assets/icons/site.webmanifest"><link rel="shortcut icon" href="/favicon.ico">`;
     
@@ -25,7 +44,7 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
         .replace('{{PAGE_TITLE}}', pageTitle)
         .replace('{{META_TAGS}}', metaTagsHTML)
         .replace('{{RSS_LINK_TAG}}', rssLinkHTML)
-        .replace('{{FAVICON_TAGS}}', faviconHTML);
+    .replace('{{FAVICON_TAGS}}', `${faviconHTML}<script type="application/ld+json">${JSON.stringify(ldOrg)}</script>${ldPost ? `<script type="application/ld+json">${JSON.stringify(ldPost)}</script>` : ''}`);
         
     const sidebar = sidebarTemplate.replace('{{CURRENT_YEAR}}', new Date().getFullYear());
     

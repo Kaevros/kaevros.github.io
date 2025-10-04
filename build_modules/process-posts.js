@@ -9,7 +9,33 @@ const createPageTemplate = require('./template');
 
 const siteBaseUrl = 'https://kaevros.github.io';
 
-async function processPosts(outputDir) {
+function rewriteImagesWithPicture(html, manifest) {
+    if (!manifest) return html;
+    return html.replace(/<img([^>]*?)src=["']([^"']+)["']([^>]*)>/gi, (match, pre, src, post) => {
+        try {
+            const key = src;
+            const entry = manifest[key];
+            if (!entry || !entry.formats) return match;
+            const avif = (entry.formats.avif || []).sort((a,b)=>a.w-b.w);
+            const webp = (entry.formats.webp || []).sort((a,b)=>a.w-b.w);
+            if (avif.length === 0 && webp.length === 0) return match;
+            const sizes = '(max-width: 768px) 92vw, 720px';
+            const avifSrcset = avif.map(v => `${v.url} ${v.w}w`).join(', ');
+            const webpSrcset = webp.map(v => `${v.url} ${v.w}w`).join(', ');
+            const imgTag = `<img${pre.replace(/\sloading=(["']).*?\1/,'').replace(/\sdecoding=(["']).*?\1/,'')} src="${src}" ${post} loading="lazy" decoding="async">`;
+            const picture = [
+                '<picture>',
+                avif.length ? `<source type="image/avif" srcset="${avifSrcset}" sizes="${sizes}">` : '',
+                webp.length ? `<source type="image/webp" srcset="${webpSrcset}" sizes="${sizes}">` : '',
+                imgTag,
+                '</picture>'
+            ].join('');
+            return picture;
+        } catch { return match; }
+    });
+}
+
+async function processPosts(outputDir, imagesManifest) {
     await fs.ensureDir(path.join(outputDir, 'posts'));
     await fs.ensureDir(path.join(outputDir, 'tags'));
     
@@ -29,7 +55,9 @@ async function processPosts(outputDir) {
         const stats = readingTime(content);
         const postPath = `posts/${path.basename(postFile, '.md')}.html`;
         
-        const postData = { ...data, date: new Date(data.date), path: postPath, content: content, htmlContent: marked(content), readingTime: stats.text };
+    const htmlContentRaw = marked(content);
+    const htmlContent = rewriteImagesWithPicture(htmlContentRaw, imagesManifest);
+    const postData = { ...data, date: new Date(data.date), path: postPath, content: content, htmlContent, readingTime: stats.text };
         allPosts.push(postData);
 
         if (data.tags && Array.isArray(data.tags)) {
@@ -43,7 +71,7 @@ async function processPosts(outputDir) {
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     for (const post of allPosts) {
-        const postMeta = { title: post.title, description: post.description, image: post.image, url: `/${post.path}`, keywords: post.tags ? post.tags.join(', ') : '' };
+    const postMeta = { title: post.title, description: post.description, image: post.image, url: `/${post.path}`, keywords: post.tags ? post.tags.join(', ') : '', date: post.date.toISOString() };
         const shareLinks = `<div class="share-buttons"><a href="https://twitter.com/intent/tweet?url=${siteBaseUrl}/${post.path}&text=${encodeURIComponent(post.title)}" target="_blank" aria-label="X'te paylaş"><i class="fab fa-twitter"></i></a><a href="https://www.linkedin.com/shareArticle?mini=true&url=${siteBaseUrl}/${post.path}" target="_blank" aria-label="LinkedIn'de paylaş"><i class="fab fa-linkedin"></i></a><a href="https://wa.me/?text=${encodeURIComponent(post.title)}%20${siteBaseUrl}/${post.path}" target="_blank" aria-label="WhatsApp'ta paylaş"><i class="fab fa-whatsapp"></i></a><a href="https://t.me/share/url?url=${siteBaseUrl}/${post.path}&text=${encodeURIComponent(post.title)}" target="_blank" aria-label="Telegram'da paylaş"><i class="fab fa-telegram"></i></a></div>`;
         const tagLinks = (post.tags || []).map(tag => `<a href="/tags/${tag.toLowerCase().replace(/[ \/]/g, '-')}.html" class="tag">${tag}</a>`).join('');
         const postPageContent = `<article class="post-detail"><header class="post-header styled-header"><h1 data-aos="fade-down" class="animated-gradient-text">${post.title}</h1><div class="post-meta" data-aos="fade-up" data-aos-delay="100"><span>${post.date.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</span> • <span><i class="fas fa-clock"></i> ${post.readingTime}</span></div><div class="tag-list" data-aos="fade-up" data-aos-delay="200">${tagLinks}</div></header><section class="post-content" data-aos="fade-up" data-aos-delay="300">${post.htmlContent}</section><footer><div class="post-end-separator"></div>${shareLinks}</footer></article>`;

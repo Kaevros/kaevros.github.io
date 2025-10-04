@@ -7,6 +7,11 @@ const processPosts = require('./build_modules/process-posts');
 const processPages = require('./build_modules/process-pages');
 const createSearchIndex = require('./build_modules/search');
 const createRssFeed = require('./build_modules/rss');
+const createSitemap = require('./build_modules/sitemap');
+const createRobots = require('./build_modules/robots');
+const createServiceWorker = require('./build_modules/pwa');
+const processImages = require('./build_modules/images');
+const minifyOutputHtml = require('./build_modules/minify');
 
 const outputDir = path.join(__dirname, '_site');
 
@@ -25,12 +30,17 @@ async function buildSite() {
     console.log('--- Assets klasörü kopyalandı.');
 
     // İçerik işleme
-    const allPosts = await processPosts(outputDir);
+  // Process images first so manifest is ready
+  const imagesManifest = await processImages(outputDir);
+  const allPosts = await processPosts(outputDir, imagesManifest);
     await processPages(outputDir);
 
   // Lazy loading ve RSS feed optimizasyonu
   await createSearchIndex(outputDir, allPosts);
   await createRssFeed(outputDir, allPosts);
+  await createSitemap(outputDir);
+  await createRobots(outputDir);
+  await createServiceWorker(outputDir);
     console.log('--- Lazy loading ve RSS feed tamamlandı.');
 
     // Ana ve diğer temel sayfaları oluştur
@@ -75,7 +85,9 @@ async function buildSite() {
     const notFoundContent = `<div class="error-page-container"><h1 class="error-code animated-gradient-text">404</h1><h2 class="error-title">SAYFA BULUNAMADI</h2><p class="error-message">Aradığın sayfa ya hiç var olmadı ya da bir bit-flip kurbanı oldu. Endişelenme, en iyi sistemlerde bile olur.</p><div class="error-actions"><a href="/index.html" class="cta-button">Ana Sayfaya Dön</a></div><div class="error-recent-posts"><h3>Belki bunlardan birini arıyordun?</h3><ul>${recentPostsFor404}</ul></div></div>`;
     await fs.writeFile(path.join(outputDir, '404.html'), createPageTemplate({ title: '404 - Sayfa Bulunamadı', url: '/404.html' }, notFoundContent, 'error-page'));
     
-    console.log('>>> Build süreci başarıyla tamamlandı!');
+  // Minify HTML at the very end
+  await minifyOutputHtml(outputDir);
+  console.log('>>> Build süreci başarıyla tamamlandı!');
 }
 
 buildSite().catch(err => {
