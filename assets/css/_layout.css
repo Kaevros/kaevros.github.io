@@ -30,9 +30,8 @@ body.sidebar-open { overflow: hidden; }
         width: var(--sidebar-width-expanded);
         box-shadow: 4px 0 32px 0 rgba(0,0,0,0.18);
     }
-    .sidebar:hover + .content-wrapper {
-        margin-left: var(--sidebar-width-expanded);
-    }
+    /* Overlay: content-wrapper stays put; sidebar overlays above content */
+    .content-wrapper { margin-left: var(--sidebar-width-collapsed); }
 }
 
 @media (max-width: 768px) {

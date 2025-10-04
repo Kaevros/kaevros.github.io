@@ -46,15 +46,12 @@ export function setupSidebar() {
         if (window.innerWidth > 768) {
             setCollapsed(false);
             startSloganAnimation();
-            // visually hide scrollbar while expanded to avoid showing the bar
-            document.body.classList.add('hide-scrollbar');
         }
     });
     sidebar.addEventListener('mouseleave', () => {
         if (window.innerWidth > 768) {
             setCollapsed(true);
             stopSloganAnimation();
-            document.body.classList.remove('hide-scrollbar');
         }
     });
 
@@ -67,7 +64,6 @@ export function setupSidebar() {
             // ensure collapsed removed when opened via mobile
             setCollapsed(false);
             startSloganAnimation();
-            // do not hide scrollbar on mobile; overlay menu covers content
         });
     }
 
@@ -77,7 +73,6 @@ export function setupSidebar() {
         // collapse on close if desktop
         if (window.innerWidth > 768) setCollapsed(true);
         stopSloganAnimation();
-    document.body.classList.remove('hide-scrollbar');
     };
 
     if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
