@@ -1,0 +1,56 @@
+{
+  "/assets/images/posts/network-layers.png": {
+    "original": "/assets/images/posts/network-layers.png",
+    "width": 1024,
+    "height": 1024,
+    "formats": {
+      "avif": [
+        {
+          "w": 480,
+          "url": "/assets/images/posts/network-layers-480.avif"
+        },
+        {
+          "w": 768,
+          "url": "/assets/images/posts/network-layers-768.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 480,
+          "url": "/assets/images/posts/network-layers-480.webp"
+        },
+        {
+          "w": 768,
+          "url": "/assets/images/posts/network-layers-768.webp"
+        }
+      ]
+    }
+  },
+  "/assets/images/posts/osi-model-diagram.png": {
+    "original": "/assets/images/posts/osi-model-diagram.png",
+    "width": 1024,
+    "height": 1536,
+    "formats": {
+      "avif": [
+        {
+          "w": 480,
+          "url": "/assets/images/posts/osi-model-diagram-480.avif"
+        },
+        {
+          "w": 768,
+          "url": "/assets/images/posts/osi-model-diagram-768.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 480,
+          "url": "/assets/images/posts/osi-model-diagram-480.webp"
+        },
+        {
+          "w": 768,
+          "url": "/assets/images/posts/osi-model-diagram-768.webp"
+        }
+      ]
+    }
+  }
+}

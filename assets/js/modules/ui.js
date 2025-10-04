@@ -106,6 +106,8 @@ export function setupSearch() {
 
     let idx, searchDocs;
     let dataFetched = false;
+    let lastFocused = null;
+    let trapHandlersBound = false;
 
     async function initializeSearch() {
         if (dataFetched) return;
@@ -124,6 +126,12 @@ export function setupSearch() {
         // prevent body scroll while modal is open
         document.body.style.overflow = 'hidden';
         // focus modal input after the modal animation completes
+        lastFocused = document.activeElement;
+        // Focus trap bindings
+        if (!trapHandlersBound) {
+            trapHandlersBound = true;
+            searchModal.addEventListener('keydown', onTrapKeydown);
+        }
         setTimeout(() => { if (searchModalInput) searchModalInput.focus(); }, 320);
     };
 
@@ -132,6 +140,14 @@ export function setupSearch() {
         document.body.style.overflow = '';
         if (searchModalInput) searchModalInput.value = '';
         if (resultsList) resultsList.innerHTML = '';
+        // release focus trap and restore focus
+        if (trapHandlersBound) {
+            searchModal.removeEventListener('keydown', onTrapKeydown);
+            trapHandlersBound = false;
+        }
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus();
+        }
     };
 
     if (searchTrigger) searchTrigger.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
@@ -185,16 +201,39 @@ export function setupSearch() {
         });
     }
 
+    // Debounced input
+    function debounce(fn, wait=150) { let t; return (...args) => { clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; }
+    const onInput = debounce((e) => {
+        const query = e.target.value;
+        if (query.length < 2 || !idx) {
+            if (resultsList) resultsList.innerHTML = '';
+            return;
+        }
+        const results = idx.search(query + '*');
+        renderResults(results);
+    }, 180);
     if (searchModalInput) {
-        searchModalInput.addEventListener('input', (e) => {
-            const query = e.target.value;
-            if (query.length < 2 || !idx) {
-                if (resultsList) resultsList.innerHTML = '';
-                return;
-            }
-            const results = idx.search(query + '*');
-            renderResults(results);
-        });
+        searchModalInput.addEventListener('input', onInput);
+    }
+
+    // Prefetch index on idle
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => initializeSearch());
+    } else {
+        setTimeout(() => initializeSearch(), 800);
+    }
+
+    function onTrapKeydown(e) {
+        if (e.key !== 'Tab') return;
+        const focusable = searchModal.querySelectorAll('input, button, [href], [tabindex]:not([tabindex="-1"])');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault(); first.focus();
+        }
     }
 }
 
