@@ -171,7 +171,7 @@ export function setupSearch() {
             resultsList.innerHTML = '<div class="no-results">Sonuç bulunamadı.</div>';
             return;
         }
-        results.forEach(r => {
+    results.forEach(r => {
             const item = document.createElement('div');
             item.className = 'search-result-item';
             item.tabIndex = 0;
@@ -199,6 +199,9 @@ export function setupSearch() {
 
             resultsList.appendChild(item);
         });
+    // set first active by default
+    const items = [...resultsList.querySelectorAll('.search-result-item')];
+    if (items.length) items[0].classList.add('active');
     }
 
     // Debounced input
@@ -214,6 +217,28 @@ export function setupSearch() {
     }, 180);
     if (searchModalInput) {
         searchModalInput.addEventListener('input', onInput);
+        searchModalInput.addEventListener('keydown', (e) => {
+            const items = [...(resultsList ? resultsList.querySelectorAll('.search-result-item') : [])];
+            if (!items.length) return;
+            const idxActive = items.findIndex(el => el.classList.contains('active'));
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const next = idxActive < items.length - 1 ? idxActive + 1 : 0;
+                items.forEach(el => el.classList.remove('active'));
+                items[next].classList.add('active');
+                items[next].scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prev = idxActive > 0 ? idxActive - 1 : items.length - 1;
+                items.forEach(el => el.classList.remove('active'));
+                items[prev].classList.add('active');
+                items[prev].scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                const current = idxActive >= 0 ? items[idxActive] : items[0];
+                if (current) current.click();
+            }
+        });
     }
 
     // Prefetch index on idle
