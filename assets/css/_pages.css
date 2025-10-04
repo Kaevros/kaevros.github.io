@@ -2,7 +2,7 @@
 /* --- HERO SECTION --- */
 .hero-section {
     text-align: center;
-    padding: clamp(72px, 16vw, 110px) 20px 48px 20px;
+    padding: calc(clamp(72px, 16vw, 110px) + var(--safe-inset-top)) 20px 48px 20px;
     position: relative;
     overflow: hidden;
 }
@@ -289,7 +289,7 @@
   animation-delay: calc(0.1s * var(--char-index));
 }
 @media (max-width: 480px) {
-    .hero-section { padding: 64px 16px 36px 16px; }
+    .hero-section { padding: calc(56px + var(--safe-inset-top)) 16px 28px 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
     .hero-animate .hero-svg-bg { animation: none; }

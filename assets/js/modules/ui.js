@@ -66,6 +66,7 @@ export function setupSidebar() {
                 if (sidebarBackdrop) { sidebarBackdrop.hidden = false; sidebarBackdrop.classList.add('active'); sidebarBackdrop.setAttribute('aria-hidden','false'); }
                 setCollapsed(false);
                 startSloganAnimation();
+                // keep focus on toggle for accessibility, do not steal focus
             } else {
                 sidebar.classList.remove('open');
                 document.body.classList.remove('sidebar-open');

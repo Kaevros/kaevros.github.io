@@ -356,16 +356,17 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
     .close-sidebar-btn {
         display: block;
         position: absolute;
-        top: 15px;
-        right: 15px;
+        top: calc(12px + var(--safe-inset-top));
+        right: calc(12px + var(--safe-inset-right));
         background: var(--accent-color-secondary);
         border: none;
         color: var(--text-color);
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         cursor: pointer;
         opacity: 0.8;
         border-radius: 50%;
         transition: opacity 0.2s, transform 0.2s;
+        width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
     }
     .close-sidebar-btn:hover {
         opacity: 1;
@@ -400,6 +401,25 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
     .sidebar-nav .nav-item a .nav-text { display: inline; opacity: 1; transform: none; }
     .sidebar:not(:hover) .sidebar-nav .nav-item a { justify-content: flex-start; padding: 14px 20px; }
     .sidebar:not(:hover) .sidebar-nav .nav-item a .icon { margin-right: 12px; font-size: 1.2rem; color: var(--text-color-light); }
+
+    /* Ensure open state always shows text and left-aligned items on mobile */
+    .sidebar.open .sidebar-nav .nav-item a { justify-content: flex-start; padding: 14px 20px; margin: 4px 12px; }
+    .sidebar.open .sidebar-nav .nav-item a .icon { margin-right: 12px; font-size: 1.2rem; color: var(--text-color-light); }
+    .sidebar.open .sidebar-nav .nav-item a .nav-text { display: inline !important; opacity: 1 !important; transform: none !important; }
+    .sidebar.open .search-container,
+    .sidebar.open .sidebar-bottom-actions,
+    .sidebar.open .sidebar-slogan,
+    .sidebar.open .copyright { opacity: 1 !important; transform: none !important; }
+    .sidebar.open .search-container input { background: var(--accent-color-secondary); border-color: var(--border-color); color: var(--text-color); cursor: text; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+}
+
+/* Extra small devices (<= 320px) tweaks */
+@media (max-width: 320px) {
+    .sidebar { min-width: 200px; }
+    .sidebar.open .sidebar-nav .nav-item a { padding: 12px 16px; }
+    .sidebar-nav .nav-item a { padding: 12px 16px; }
+    .sidebar-nav .nav-item a .icon { margin-right: 10px; font-size: 1.1rem; }
+    .sidebar-nav .nav-item a .nav-text { font-size: 0.95rem; }
 }
 
 /* Reduce heavy blur on mobile and when user prefers reduced motion */

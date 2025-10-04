@@ -36,7 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const visible = mainLayout && !mainLayout.classList.contains('hidden');
         if (visible || attempts > 60) {
             if (typeof GLightbox !== 'undefined') GLightbox({ selector: '.glightbox' });
-            if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true, offset: 50 });
+            // Respect reduced motion and avoid heavy work on very small screens
+            const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isVerySmall = window.innerWidth <= 360;
+            if (typeof AOS !== 'undefined' && !prefersReduced && !isVerySmall) {
+                AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out' });
+            }
             return;
         }
         // wait next frame and try again (up to ~1 second)
