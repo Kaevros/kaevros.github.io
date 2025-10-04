@@ -36,8 +36,8 @@ export function setupReadingProgressBar() {
             window.requestAnimationFrame(() => {
                 const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                 const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-                progressBar.style.width = `${scrollPercent}%`;
+                const ratio = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+                progressBar.style.transform = `scaleX(${ratio})`;
                 ticking = false;
             });
             ticking = true;

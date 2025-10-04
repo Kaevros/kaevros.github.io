@@ -171,9 +171,11 @@ export function setupSearch() {
             resultsList.innerHTML = '<div class="no-results">Sonuç bulunamadı.</div>';
             return;
         }
-    results.forEach(r => {
+        results.forEach(r => {
             const item = document.createElement('div');
             item.className = 'search-result-item';
+            item.setAttribute('role','option');
+            item.setAttribute('aria-selected','false');
             item.tabIndex = 0;
 
             const title = document.createElement('div');
@@ -190,6 +192,10 @@ export function setupSearch() {
             item.addEventListener('click', () => {
                 window.location.href = '/' + r.ref;
             });
+            item.addEventListener('mouseenter', () => {
+                [...resultsList.querySelectorAll('.search-result-item')].forEach(el=>{ el.classList.remove('active'); el.setAttribute('aria-selected','false'); });
+                item.classList.add('active'); item.setAttribute('aria-selected','true');
+            });
             item.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -201,7 +207,7 @@ export function setupSearch() {
         });
     // set first active by default
     const items = [...resultsList.querySelectorAll('.search-result-item')];
-    if (items.length) items[0].classList.add('active');
+    if (items.length) { items[0].classList.add('active'); items[0].setAttribute('aria-selected','true'); }
     }
 
     // Debounced input
@@ -224,14 +230,14 @@ export function setupSearch() {
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 const next = idxActive < items.length - 1 ? idxActive + 1 : 0;
-                items.forEach(el => el.classList.remove('active'));
-                items[next].classList.add('active');
+                items.forEach(el => { el.classList.remove('active'); el.setAttribute('aria-selected','false'); });
+                items[next].classList.add('active'); items[next].setAttribute('aria-selected','true');
                 items[next].scrollIntoView({ block: 'nearest' });
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 const prev = idxActive > 0 ? idxActive - 1 : items.length - 1;
-                items.forEach(el => el.classList.remove('active'));
-                items[prev].classList.add('active');
+                items.forEach(el => { el.classList.remove('active'); el.setAttribute('aria-selected','false'); });
+                items[prev].classList.add('active'); items[prev].setAttribute('aria-selected','true');
                 items[prev].scrollIntoView({ block: 'nearest' });
             } else if (e.key === 'Enter') {
                 e.preventDefault();
