@@ -26,6 +26,7 @@ body.sidebar-open { overflow: hidden; }
 .sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; margin-top: auto; }
 
 @media (min-width: 769px) {
+    /* Avoid hover-expand if reduced motion or touch device emulation is present */
     .sidebar:hover {
         width: var(--sidebar-width-expanded);
         box-shadow: 4px 0 32px 0 rgba(0,0,0,0.18);
@@ -66,4 +67,30 @@ body.sidebar-open { overflow: hidden; }
     #mobile-menu-toggle .fa-bars { font-size: 1.5rem; color: var(--accent-color-primary); cursor: pointer; }
     .mobile-logo-container { margin-left: auto; }
     .sidebar-logo.mobile-logo { max-height: 40px; }
+
+    /* Disable hover effects on mobile to avoid accidental expands and repaints */
+    .sidebar:hover { width: 85vw; }
+}
+
+/* Mobile Backdrop for Sidebar */
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 900;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1), visibility 0.35s;
+}
+.sidebar-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .main-layout { transition: none; }
+    .content-wrapper { transition: none; }
+    .sidebar { transition: none; }
+    .sidebar-backdrop { transition: none; }
 }

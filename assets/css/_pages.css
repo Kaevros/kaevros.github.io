@@ -2,7 +2,7 @@
 /* --- HERO SECTION --- */
 .hero-section {
     text-align: center;
-    padding: 110px 20px 60px 20px;
+    padding: clamp(72px, 16vw, 110px) 20px 48px 20px;
     position: relative;
     overflow: hidden;
 }
@@ -33,7 +33,7 @@
 }
 .hero-animate .hero-svg-bg { animation: hero-drift 24s ease-in-out infinite; }
 .hero-main-title {
-    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-size: clamp(2rem, 8vw, 4rem);
     font-weight: 900;
     background: linear-gradient(90deg, var(--accent-color-primary), #ff9d40 80%);
     -webkit-background-clip: text;
@@ -53,7 +53,7 @@
     font-weight: 900;
 }
 .hero-subtitle {
-    font-size: 1.35rem;
+    font-size: clamp(1.05rem, 3.8vw, 1.35rem);
     color: var(--text-color-light);
     margin-top: 22px;
     margin-bottom: 0;
@@ -287,4 +287,10 @@
   display: inline-block;
   animation: reveal-char 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
   animation-delay: calc(0.1s * var(--char-index));
+}
+@media (max-width: 480px) {
+    .hero-section { padding: 64px 16px 36px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-animate .hero-svg-bg { animation: none; }
 }
