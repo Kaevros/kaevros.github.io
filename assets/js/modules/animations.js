@@ -80,7 +80,13 @@ export function setupWelcomeScreen() {
         welcomeScreen.classList.remove('visible');
         welcomeScreen.classList.add('hidden');
         document.documentElement.removeAttribute('data-page-state');
-    // restore overflow after welcome screen hides (transitionend handler below ensures it's safe)
+        // DOM'dan tamamen kaldırarak tüm animasyonları durdur
+        welcomeScreen.addEventListener('transitionend', () => {
+            if (welcomeScreen && welcomeScreen.parentNode) {
+                welcomeScreen.parentNode.removeChild(welcomeScreen);
+            }
+        }, { once: true });
+        // Ana yerleşimi göster
         const mainLayout = document.querySelector('.main-layout');
         if (mainLayout) mainLayout.classList.remove('hidden');
     }
@@ -119,9 +125,12 @@ export function skipWelcomeScreen() {
     if (welcomeScreen) {
         welcomeScreen.classList.add('hidden');
         welcomeScreen.classList.remove('visible');
+        // tamamen gizlendiğinde overflow'u temizle ve ekranı DOM'dan kaldır
         welcomeScreen.addEventListener('transitionend', () => {
-            // tamamen gizlendiğinde overflow'u temizle
             document.body.style.overflow = '';
+            if (welcomeScreen && welcomeScreen.parentNode) {
+                welcomeScreen.parentNode.removeChild(welcomeScreen);
+            }
         }, { once: true });
     } else {
         document.body.style.overflow = '';
