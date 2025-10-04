@@ -3,7 +3,7 @@
 .main-layout.hidden { opacity: 0; pointer-events: none; }
 .content-wrapper { flex-grow: 1; padding: clamp(20px, 4vw, 40px); margin-left: var(--sidebar-width-collapsed); transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 main { max-width: 960px; margin: 0 auto; }
-body.sidebar-open { overflow: hidden; }
+body.sidebar-open { overflow: hidden; overscroll-behavior: contain; }
 
 .sidebar {
     width: var(--sidebar-width-collapsed);
@@ -25,8 +25,8 @@ body.sidebar-open { overflow: hidden; }
 .sidebar-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; align-items: center; }
 .sidebar-footer { flex-shrink: 0; padding: 20px 0; width: 100%; margin-top: auto; }
 
-@media (min-width: 769px) {
-    /* Avoid hover-expand if reduced motion or touch device emulation is present */
+@media (min-width: 769px) and (hover: hover) and (pointer: fine) {
+    /* Hover-expand only on devices with real hover */
     .sidebar:hover {
         width: var(--sidebar-width-expanded);
         box-shadow: 4px 0 32px 0 rgba(0,0,0,0.18);
@@ -36,15 +36,18 @@ body.sidebar-open { overflow: hidden; }
 }
 
 @media (max-width: 768px) {
-    body { padding-top: var(--mobile-header-height); }
+    body { padding-top: calc(var(--mobile-header-height) + var(--safe-inset-top)); }
     .sidebar {
         width: 85vw;
         max-width: 320px;
         min-width: 220px;
+        height: 100vh; height: 100dvh;
         transform: translateX(-100%);
         transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         overflow-y: auto;
         box-shadow: 4px 0 32px 0 rgba(0,0,0,0.18);
+        padding-bottom: var(--safe-inset-bottom);
+        overscroll-behavior: contain;
     }
     .sidebar.open {
         transform: translateX(0);
@@ -63,8 +66,11 @@ body.sidebar-open { overflow: hidden; }
         padding: 0 20px;
         z-index: 999;
         border-bottom: 1px solid var(--border-color);
+        padding-top: max(0px, var(--safe-inset-top));
+        padding-left: max(20px, var(--safe-inset-left));
+        padding-right: max(20px, var(--safe-inset-right));
     }
-    #mobile-menu-toggle .fa-bars { font-size: 1.5rem; color: var(--accent-color-primary); cursor: pointer; }
+    #mobile-menu-toggle .fa-bars { font-size: 1.6rem; color: var(--accent-color-primary); cursor: pointer; }
     .mobile-logo-container { margin-left: auto; }
     .sidebar-logo.mobile-logo { max-height: 40px; }
 
