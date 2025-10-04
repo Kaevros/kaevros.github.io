@@ -3,6 +3,7 @@
 export function setupSidebar() {
     const sidebar = document.getElementById('sidebar');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
     const sloganEn = document.querySelector('.sidebar-slogan .slogan-en');
     const sloganTr = document.querySelector('.sidebar-slogan .slogan-tr');
@@ -14,7 +15,7 @@ export function setupSidebar() {
         if (val) sidebar.classList.add('collapsed'); else sidebar.classList.remove('collapsed');
     }
 
-    // initialize: collapsed on desktop, open on mobile
+    // initialize: collapsed on desktop, closed on mobile
     if (window.innerWidth > 768) setCollapsed(true); else setCollapsed(false);
 
     let sloganInterval = null;
@@ -57,20 +58,48 @@ export function setupSidebar() {
 
     // Mobile toggle behavior
     if (mobileMenuToggle) {
+        const toggleOpen = (open) => {
+            if (open) {
+                sidebar.classList.add('open');
+                document.body.classList.add('sidebar-open');
+                mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                if (sidebarBackdrop) { sidebarBackdrop.hidden = false; sidebarBackdrop.classList.add('active'); sidebarBackdrop.setAttribute('aria-hidden','false'); }
+                setCollapsed(false);
+                startSloganAnimation();
+            } else {
+                sidebar.classList.remove('open');
+                document.body.classList.remove('sidebar-open');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                if (sidebarBackdrop) { sidebarBackdrop.classList.remove('active'); sidebarBackdrop.setAttribute('aria-hidden','true'); setTimeout(()=>{ if (sidebarBackdrop) sidebarBackdrop.hidden = true; }, 300); }
+                if (window.innerWidth > 768) setCollapsed(true);
+                stopSloganAnimation();
+            }
+        };
+
         mobileMenuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            sidebar.classList.toggle('open');
-            document.body.classList.toggle('sidebar-open');
-            // ensure collapsed removed when opened via mobile
-            setCollapsed(false);
-            startSloganAnimation();
+            const willOpen = !sidebar.classList.contains('open');
+            toggleOpen(willOpen);
+        });
+        mobileMenuToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const willOpen = !sidebar.classList.contains('open');
+                toggleOpen(willOpen);
+            }
         });
     }
 
     const closeMenu = () => {
+        if (!sidebar.classList.contains('open')) return;
         sidebar.classList.remove('open');
         document.body.classList.remove('sidebar-open');
-        // collapse on close if desktop
+        if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded','false');
+        if (sidebarBackdrop) {
+            sidebarBackdrop.classList.remove('active');
+            sidebarBackdrop.setAttribute('aria-hidden','true');
+            setTimeout(()=>{ if (sidebarBackdrop) sidebarBackdrop.hidden = true; }, 300);
+        }
         if (window.innerWidth > 768) setCollapsed(true);
         stopSloganAnimation();
     };
@@ -81,8 +110,20 @@ export function setupSidebar() {
         const clickedOutside = sidebar.classList.contains('open') && !sidebar.contains(event.target) && !(mobileMenuToggle && mobileMenuToggle.contains(event.target));
         if (clickedOutside) closeMenu();
     });
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMenu);
 
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu(); });
+
+    // Handle resize: close mobile menu and reset states when crossing breakpoint
+    let lastIsMobile = window.innerWidth <= 768;
+    window.addEventListener('resize', () => {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile !== lastIsMobile) {
+            lastIsMobile = isMobile;
+            closeMenu();
+            setCollapsed(!isMobile);
+        }
+    });
 }
 
 export function enhanceCodeBlocks() {

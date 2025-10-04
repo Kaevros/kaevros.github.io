@@ -16,7 +16,7 @@
 .search-modal-overlay.active {
   opacity: 1;
   visibility: visible;
-  backdrop-filter: blur(16px) saturate(1.05);
+    backdrop-filter: blur(16px) saturate(1.05);
 }
 .search-modal-content {
     background: linear-gradient(180deg, rgba(30,30,30,0.9), rgba(20,20,20,0.92));
@@ -181,7 +181,7 @@
 }
 .search-container i {
     position: absolute;
-    left: 25px;
+    left: 18px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-color-light);
@@ -393,6 +393,19 @@ html[data-theme="light"] .theme-toggle-btn .fa-moon { display: none; }
         background: var(--accent-color-primary);
         transform: scale(0.98);
     }
+}
+
+/* On mobile, ensure nav text is visible regardless of hover */
+@media (max-width: 768px) {
+    .sidebar-nav .nav-item a .nav-text { display: inline; opacity: 1; transform: none; }
+    .sidebar:not(:hover) .sidebar-nav .nav-item a { justify-content: flex-start; padding: 14px 20px; }
+    .sidebar:not(:hover) .sidebar-nav .nav-item a .icon { margin-right: 12px; font-size: 1.2rem; color: var(--text-color-light); }
+}
+
+/* Reduce heavy blur on mobile and when user prefers reduced motion */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+    .search-modal-overlay { backdrop-filter: none; background: rgba(10,10,10,0.7); }
+    .search-modal-overlay.active { backdrop-filter: none; }
 }
 
 /* Comprehensive Sidebar Improvements */

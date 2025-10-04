@@ -62,14 +62,15 @@ function createPageTemplate(meta, mainContent, bodyClass = '') {
                 ${welcomeScreenHTML}
                 <div class="${mainLayoutClass}">
                     ${sidebar}
-                    <div class="mobile-menu-toggle" id="mobile-menu-toggle">
-                        <i class="fas fa-bars"></i>
+                    <div class="mobile-menu-toggle" id="mobile-menu-toggle" role="button" aria-controls="sidebar" aria-expanded="false" tabindex="0">
+                        <i class="fas fa-bars" aria-hidden="true"></i>
                         <div class="logo-container mobile-logo-container">
-                            <a href="/index.html" id="mobile-logo-link">
+                            <a href="/index.html" id="mobile-logo-link" aria-label="Ana Sayfa">
                                 <img src="/assets/images/logo.svg" alt="Kaevros Logo" class="sidebar-logo mobile-logo">
                             </a>
                         </div>
                     </div>
+                    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden aria-hidden="true"></div>
                     <div class="content-wrapper">
                         <main id="main-content">${mainContent}</main>
                     </div>
